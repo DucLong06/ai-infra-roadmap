@@ -1,39 +1,58 @@
-# AI Infrastructure Roadmap — from zero to DevOps → MLOps → NVIDIA GPU → AI Networking → Security → LLMOps → AI Data Center
+# AI Infrastructure Roadmap 
 
-**English** · [Tiếng Việt](README.vi.md)
+**English** · [Tiếng Việt](README_vi.md)
 
-![Role](https://img.shields.io/badge/Role-AI_Infra_%2F_MLOps_%2F_LLMOps-blue)
-![Free](https://img.shields.io/badge/Free_resources-mostly-green)
-![Lab](https://img.shields.io/badge/Lab-on--prem_GPU_%2B_VPS-purple)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](#-contributing)
+> **A note before you start:** I have not finished everything in this roadmap. I am putting it together to set my own goals and learn along the way. If you find mistakes or have better suggestions, please open an issue or a PR — I appreciate any help.
 
 > A learning roadmap for engineers going from DevOps/MLOps into **GPU hardware, AI networking, security, LLMOps and AI Data Centers (AIDC)**.
 > Written by a Vietnamese engineer walking this exact path. Resources are grouped by format — **YouTube, Udemy, LinkedIn Learning, NVIDIA DLI, official docs, open-access books** — so you can pick whatever fits how you learn. Every link was checked at the time of writing.
 
-**Who is this for?**
-- You can code (Python) and want to work on the **infrastructure under AI**, not on apps that call an API.
-- You have done some MLOps and feel you are **missing the hardware, network and security layers**.
-- You have, or will have, GPUs (on-prem or cloud) and want to **learn by doing**.
+
 
 ---
 
 ## Table of contents
 
-- [How to use this roadmap](#-how-to-use-this-roadmap)
-- [Roadmap overview](#-roadmap-overview)
-- [1. Foundations: Linux, Git, Python, networking basics, Docker](#1-foundations-linux-git-python-networking-basics-docker)
-- [2. DevOps & Platform Engineering](#2-devops--platform-engineering)
-- [3. MLOps](#3-mlops)
-- [4. GPU & NVIDIA hardware](#4-gpu--nvidia-hardware)
-- [5. AI Networking: interconnect, RDMA, NCCL](#5-ai-networking-interconnect-rdma-nccl)
-- [6. Security for AI platforms](#6-security-for-ai-platforms)
-- [7. LLMOps & large-scale inference](#7-llmops--large-scale-inference)
-- [8. AI Data Center (AIDC)](#8-ai-data-center-aidc)
-- [Certifications](#-certifications)
-- [Hands-on projects](#-hands-on-projects)
-- [Other roadmaps & curated lists](#-other-roadmaps--curated-lists)
-- [Acknowledgments](#-acknowledgments)
-- [Contributing](#-contributing)
+- [AI Infrastructure Roadmap](#ai-infrastructure-roadmap)
+  - [Table of contents](#table-of-contents)
+  - [📖 How to use this roadmap](#-how-to-use-this-roadmap)
+  - [🗺 Roadmap overview](#-roadmap-overview)
+  - [1. Foundations: Linux, Git, Python, networking basics, Docker](#1-foundations-linux-git-python-networking-basics-docker)
+    - [Linux \& command line](#linux--command-line)
+    - [Git](#git)
+    - [Python for infrastructure](#python-for-infrastructure)
+    - [Networking basics](#networking-basics)
+    - [Docker](#docker)
+  - [2. DevOps \& Platform Engineering](#2-devops--platform-engineering)
+    - [Kubernetes](#kubernetes)
+    - [Infrastructure as Code: Terraform, Ansible](#infrastructure-as-code-terraform-ansible)
+    - [CI/CD \& GitOps: Jenkins, GitLab CI, ArgoCD](#cicd--gitops-jenkins-gitlab-ci-argocd)
+    - [Observability: Prometheus, Grafana, OpenTelemetry](#observability-prometheus-grafana-opentelemetry)
+  - [3. MLOps](#3-mlops)
+    - [Principles \& system design](#principles--system-design)
+    - [Tools (official docs)](#tools-official-docs)
+    - [Structured course (Vietnamese)](#structured-course-vietnamese)
+  - [4. GPU \& NVIDIA hardware](#4-gpu--nvidia-hardware)
+    - [Video](#video)
+    - [Books \& docs](#books--docs)
+    - [Tools](#tools)
+  - [5. AI Networking: interconnect, RDMA, NCCL](#5-ai-networking-interconnect-rdma-nccl)
+    - [Video](#video-1)
+    - [Books \& docs](#books--docs-1)
+  - [6. Security for AI platforms](#6-security-for-ai-platforms)
+    - [Video](#video-2)
+    - [Books \& docs](#books--docs-2)
+  - [7. LLMOps \& large-scale inference](#7-llmops--large-scale-inference)
+    - [Video](#video-3)
+    - [Books \& docs](#books--docs-3)
+  - [8. AI Data Center (AIDC)](#8-ai-data-center-aidc)
+    - [Video](#video-4)
+    - [Books \& docs](#books--docs-4)
+  - [🎓 Certifications](#-certifications)
+  - [🧪 Hands-on projects](#-hands-on-projects)
+  - [🧭 Other roadmaps \& curated lists](#-other-roadmaps--curated-lists)
+  - [🙏 Acknowledgments](#-acknowledgments)
+  - [🤝 Contributing](#-contributing)
 
 ---
 
@@ -441,8 +460,6 @@ If you are the author of a listed resource and want the description changed or t
 
 - Open an **issue** for dead links, outdated material, or a better free source.
 - **PRs** adding a resource should state its *type* (🆓/💰, 🎥/📕/📄/🧪), *section*, and one line on *why it belongs*. Official sources (authors, vendors, universities) are preferred over aggregator blogs.
-- Only link to books that are **open access** or released free by the **author or publisher**. Do not link unauthorized PDF copies of commercial books, including those hosted on university course pages.
-
 ---
 
 *If this helped you, star the repo and share it. If you are on the same path, open an issue — I am still learning too.*

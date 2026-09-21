@@ -1,40 +1,59 @@
-# Lộ trình AI Infrastructure — từ số 0 đến DevOps → MLOps → GPU NVIDIA → AI Networking → Security → LLMOps → AI Data Center
+# Lộ trình AI Infrastructure
 
 [English](README.md) · **Tiếng Việt**
 
-![Role](https://img.shields.io/badge/Role-AI_Infra_%2F_MLOps_%2F_LLMOps-blue)
-![Free](https://img.shields.io/badge/Free_resources-mostly-green)
-![Lab](https://img.shields.io/badge/Lab-on--prem_GPU_%2B_VPS-purple)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](#-contributing)
+> **Lưu ý trước khi đọc:** tôi chưa học hết tất cả những gì trong roadmap này. Tôi đang cố gắng tổng hợp, đặt mục tiêu và học dần theo nó. Nếu có gì sai sót hoặc bạn có gợi ý tốt hơn, hãy mở issue hoặc PR để hỗ trợ tôi. Tôi cảm ơn mọi sự giúp đỡ.
 
 > Lộ trình học cho kỹ sư đi từ DevOps/MLOps lên **phần cứng GPU, AI networking, security, LLMOps và AI Data Center (AIDC)**.
 > Viết bởi một kỹ sư Việt Nam đang đi đúng con đường này. Tài liệu được nhóm theo định dạng — **YouTube, Udemy, LinkedIn Learning, NVIDIA DLI, docs chính thức, sách open-access** — để bạn chọn cách học phù hợp. Mọi link đều được kiểm tra tại thời điểm viết.
 > Thuật ngữ kỹ thuật giữ tiếng Anh.
 
-**Dành cho ai?**
-- Bạn biết code (Python) và muốn làm **hạ tầng bên dưới AI**, không phải app gọi API.
-- Bạn đã làm MLOps và thấy **thiếu tầng phần cứng, network và security**.
-- Bạn có (hoặc sắp có) GPU on-prem/cloud và muốn **học bằng cách làm**.
+
 
 ---
 
 ## Mục lục
 
-- [Cách dùng lộ trình](#-cách-dùng-lộ-trình)
-- [Tổng quan](#-tổng-quan)
-- [1. Nền tảng: Linux, Git, Python, network cơ bản, Docker](#1-nền-tảng-linux-git-python-network-cơ-bản-docker)
-- [2. DevOps & Platform Engineering](#2-devops--platform-engineering)
-- [3. MLOps](#3-mlops)
-- [4. GPU & phần cứng NVIDIA](#4-gpu--phần-cứng-nvidia)
-- [5. AI Networking: interconnect, RDMA, NCCL](#5-ai-networking-interconnect-rdma-nccl)
-- [6. Security cho AI platform](#6-security-cho-ai-platform)
-- [7. LLMOps & inference quy mô lớn](#7-llmops--inference-quy-mô-lớn)
-- [8. AI Data Center (AIDC)](#8-ai-data-center-aidc)
-- [Chứng chỉ](#-chứng-chỉ)
-- [Dự án thực hành](#-dự-án-thực-hành)
-- [Roadmap & danh mục khác](#-roadmap--danh-mục-khác)
-- [Lời cảm ơn](#-lời-cảm-ơn)
-- [Contributing](#-contributing)
+- [Lộ trình AI Infrastructure](#lộ-trình-ai-infrastructure)
+  - [Mục lục](#mục-lục)
+  - [📖 Cách dùng lộ trình](#-cách-dùng-lộ-trình)
+  - [🗺 Tổng quan](#-tổng-quan)
+  - [1. Nền tảng: Linux, Git, Python, network cơ bản, Docker](#1-nền-tảng-linux-git-python-network-cơ-bản-docker)
+    - [Linux \& command line](#linux--command-line)
+    - [Git](#git)
+    - [Python cho infra](#python-cho-infra)
+    - [Network cơ bản](#network-cơ-bản)
+    - [Docker](#docker)
+  - [2. DevOps \& Platform Engineering](#2-devops--platform-engineering)
+    - [Kubernetes](#kubernetes)
+    - [Infrastructure as Code: Terraform, Ansible](#infrastructure-as-code-terraform-ansible)
+    - [CI/CD \& GitOps: Jenkins, GitLab CI, ArgoCD](#cicd--gitops-jenkins-gitlab-ci-argocd)
+    - [Observability: Prometheus, Grafana, OpenTelemetry](#observability-prometheus-grafana-opentelemetry)
+  - [3. MLOps](#3-mlops)
+    - [Nguyên lý \& thiết kế hệ thống](#nguyên-lý--thiết-kế-hệ-thống)
+    - [Tool (docs chính thức)](#tool-docs-chính-thức)
+    - [Khoá học có hệ thống (tiếng Việt)](#khoá-học-có-hệ-thống-tiếng-việt)
+  - [4. GPU \& phần cứng NVIDIA](#4-gpu--phần-cứng-nvidia)
+    - [Video](#video)
+    - [Sách \& docs](#sách--docs)
+    - [Tool](#tool)
+  - [5. AI Networking: interconnect, RDMA, NCCL](#5-ai-networking-interconnect-rdma-nccl)
+    - [Video](#video-1)
+    - [Sách \& docs](#sách--docs-1)
+  - [6. Security cho AI platform](#6-security-cho-ai-platform)
+    - [Video](#video-2)
+    - [Sách \& docs](#sách--docs-2)
+  - [7. LLMOps \& inference quy mô lớn](#7-llmops--inference-quy-mô-lớn)
+    - [Video](#video-3)
+    - [Sách \& docs](#sách--docs-3)
+  - [8. AI Data Center (AIDC)](#8-ai-data-center-aidc)
+    - [Video](#video-4)
+    - [Sách \& docs](#sách--docs-4)
+  - [🎓 Chứng chỉ](#-chứng-chỉ)
+  - [🧪 Dự án thực hành](#-dự-án-thực-hành)
+  - [🧭 Roadmap \& danh mục khác](#-roadmap--danh-mục-khác)
+  - [🙏 Lời cảm ơn](#-lời-cảm-ơn)
+  - [🤝 Contributing](#-contributing)
 
 ---
 
@@ -442,7 +461,7 @@ Nếu bạn là tác giả của tài liệu được liệt kê và muốn ch�
 
 - Mở **issue** khi link chết, tài liệu lỗi thời, hoặc bạn biết nguồn free tốt hơn.
 - **PR** thêm tài liệu: ghi rõ *loại* (🆓/💰, 🎥/📕/📄/🧪), *mục*, và 1 dòng *vì sao đáng học*. Ưu tiên nguồn chính thống (tác giả, vendor, đại học) hơn blog tổng hợp.
-- Chỉ link tới sách **open access** hoặc do **chính tác giả/nhà xuất bản** phát miễn phí. Không link bản PDF sách thương mại đăng trái phép, kể cả trên trang khoá học đại học.
+
 
 ---
 
