@@ -16,6 +16,7 @@
 - [AI Infrastructure Roadmap](#ai-infrastructure-roadmap)
   - [Table of contents](#table-of-contents)
   - [📖 How to use this roadmap](#-how-to-use-this-roadmap)
+  - [🎯 Minimum path](#-minimum-path)
   - [🗺 Roadmap overview](#-roadmap-overview)
   - [1. Foundations: Linux, Git, Python, networking basics, Docker](#1-foundations-linux-git-python-networking-basics-docker)
     - [Linux \& command line](#linux--command-line)
@@ -45,6 +46,11 @@
   - [7. LLMOps \& large-scale inference](#7-llmops--large-scale-inference)
     - [Video](#video-3)
     - [Books \& docs](#books--docs-3)
+    - [Quantization \& low-precision formats](#quantization--low-precision-formats)
+    - [Evaluation: what did quantization cost you?](#evaluation-what-did-quantization-cost-you)
+    - [Speculative decoding](#speculative-decoding)
+    - [LLM serving metrics \& benchmarking](#llm-serving-metrics--benchmarking)
+    - [Looking ahead: disaggregated serving (prefill/decode split)](#looking-ahead-disaggregated-serving-prefilldecode-split)
   - [8. AI Data Center (AIDC)](#8-ai-data-center-aidc)
     - [Video](#video-4)
     - [Books \& docs](#books--docs-4)
@@ -62,6 +68,30 @@
 2. Each section has **Learn** (watch/read) → **Do** (labs) → **Milestone** (something you can show). No milestone, section not done.
 3. Legend: 🆓 free · 💰 paid · 🎥 video · 📕 book · 📄 docs/paper · 🧪 lab · ⭐ start here.
 4. Keep an English-language engineering journal after each lab. It becomes your portfolio.
+5. Short on time? Do the **Minimum path** below first. Everything else is a reference library.
+
+---
+
+## 🎯 Minimum path
+
+The full roadmap is deliberately wide, and it is easy to learn broad and shallow or to give up halfway. If your goal is *run and operate LLM inference on GPU hardware*, do these twelve in order and treat the rest as look-up material. Each one has a concrete output; do not move on without it.
+
+| # | Resource (section) | Output you should have |
+|---|---|---|
+| 1 | Kubernetes docs tutorials → Kubernetes The Hard Way (Section 2) | a cluster you built by hand |
+| 2 | Made With ML (Section 3) | one model served with monitoring |
+| 3 | PMPP lectures (Izzat El Hajj) + GPU MODE Lecture 8 "CUDA Performance Checklist" (Section 4) | a matmul kernel profiled with `ncu` and its roofline |
+| 4 | *AI Infrastructure* (Bojie Li) ch.3 workloads, ch.4 accelerator & memory hierarchy, ch.8 inference optimization (Sections 4, 7) | the memory budget of one model (weights + KV cache) computed by hand |
+| 5 | MIT 6.5940 Lectures 5–6 "Quantization I & II" + Lecture 13 "LLM Deployment Techniques" (Section 7) | can explain W8A8 vs W4A16 vs NVFP4 and why the group size differs |
+| 6 | How to Scale Your Model (Scaling Book), inference chapters (Section 7) | can derive TTFT and TPOT from bandwidth, batch size and model size |
+| 7 | vLLM docs: Optimization & Tuning, Conserving memory, Quantization, Metrics (Section 7) | a tuned `vllm serve` exporting Prometheus metrics |
+| 8 | DeepLearning.AI × Red Hat "Fast & Efficient LLM Inference with vLLM" (Section 7) | you quantized, served and benchmarked a model yourself |
+| 9 | lm-evaluation-harness against your quantized model (Section 7) | a number for what quantization cost you |
+| 10 | NVIDIA "LLM Inference Benchmarking" blog series + `vllm bench serve` (Section 7) | a throughput vs p99 TTFT/TPOT chart with goodput against an SLO |
+| 11 | NCCL user guide + nccl-tests over your NIC (Section 5) | measured `all_reduce` bus bandwidth and which transport NCCL picked |
+| 12 | Container Security (Liz Rice) + OWASP Top 10 for LLM (Section 6) | a one-page threat model for your serving stack |
+
+After these, Section 8 (AI Data Center) and the certifications are the natural next step.
 
 ---
 
@@ -217,8 +247,10 @@
 | freeCodeCamp — NCA-AIIO prep course (4 h) | 🆓🎥 | https://www.freecodecamp.org/news/pass-the-nvidia-certified-associate-ai-infrastructure-and-operations-certification-exam/ |
 | NVIDIA Developer (YouTube) & GTC on-demand | 🆓🎥 | https://www.youtube.com/@NVIDIADeveloper · https://www.nvidia.com/gtc/ |
 | OLCF CUDA Training Series (Oak Ridge) | 🆓🎥🧪 | https://www.olcf.ornl.gov/cuda-training-series/ |
-| MIT 6.5940 — TinyML & Efficient Deep Learning (Song Han) | 🆓🎥 | https://hanlab.mit.edu/courses/2024-fall-65940 |
+| MIT 6.5940 — TinyML & Efficient AI Computing (Song Han): Fall 2024 recordings; new run Fall 2026. The quantization lectures are listed in Section 7 | 🆓🎥🧪 | https://efficientml.ai · https://hanlab.mit.edu/courses/2024-fall-65940 · https://hanlab.mit.edu/courses/2026-fall-65940 |
 | CMU — Deep Learning Systems | 🆓🎥 | https://dlsyscourse.org/ |
+| Stanford CS336 — Language Modeling from Scratch: Lecture 5 GPUs, 6 kernels/Triton, 7–8 parallelism, 10 inference; Assignment 2 "Systems" (Triton kernels, FlashAttention, DDP, optimizer sharding) | 🆓🎥🧪 | https://cs336.stanford.edu/ · https://github.com/stanford-cs336 |
+| CMU 15-442/642 — Machine Learning Systems (Tianqi Chen): public assignments on Blackwell GEMM optimization and distributed training | 🆓📄🧪 | https://mlsyscourse.org/ · https://github.com/mlsyscourse |
 | NVIDIA DLI — Fundamentals of Accelerated Computing with CUDA C/C++ | 💰🎥🧪 | https://learn.nvidia.com/ |
 | Udemy — CUDA GPU Programming Beginner To Advanced | 💰🎥 | https://www.udemy.com/course/cuda-gpu-programming-beginner-to-advanced/ |
 | Udemy — Mastering Parallel programming with CUDA platform | 💰🎥 | https://www.udemy.com/course/mastering-parallel-programming-with-cuda-platform/ |
@@ -227,12 +259,14 @@
 ### Books & docs
 | Resource | Type | Link |
 |---|---|---|
-| ⭐ AI Infrastructure (Bojie Li) — open-source book, ch.4 accelerator architecture, ch.5 memory | 🆓📕 | https://bojieli.github.io/ai-infra-book/ |
+| ⭐ AI Infrastructure (Bojie Li) — open-source book, English edition: ch.3 workloads (§3.1.1 prefill and decode), ch.4 accelerator architecture (§4.2.4 low precision, §4.3 memory hierarchy, §4.3.1 GPU memory and unified memory), ch.5 operators & runtime (§5.3.3 FlashAttention: tiling and online softmax) | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ · https://github.com/bojieli/ai-infra-book/tree/main/book-en |
 | Programming Massively Parallel Processors, 4th ed. (Hwu, Kirk, El Hajj) | 💰📕 | https://shop.elsevier.com/books/programming-massively-parallel-processors/hwu/978-0-323-91231-0 |
 | CUDA C++ Programming Guide | 🆓📄 | https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html |
 | An Even Easier Introduction to CUDA (NVIDIA blog) | 🆓📄 | https://developer.nvidia.com/blog/even-easier-introduction-cuda/ |
 | GPU Gems 1–3 | 🆓📕 | https://developer.nvidia.com/gpugems/gpugems/contributors |
 | NVIDIA Blackwell architecture | 🆓📄 | https://resources.nvidia.com/en-us-blackwell-architecture |
+| Horace He — Making Deep Learning Go Brrrr From First Principles (compute-bound vs memory-bound vs overhead-bound) | 🆓📄 | https://horace.io/brrr_intro.html |
+| Modal — GPU Glossary ("GPU documentation for humans": SM, warp, HBM, tensor cores, CUDA graphs) | 🆓📄 | https://modal.com/gpu-glossary |
 
 ### Tools
 | Tool | Link |
@@ -241,14 +275,20 @@
 | DCGM + dcgm-exporter | https://docs.nvidia.com/datacenter/dcgm/latest/index.html |
 | NVIDIA GPU Operator (driver, device plugin, MIG / time-slicing / MPS) | https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html |
 | Kueue (job queueing, GPU quotas) | https://kueue.sigs.k8s.io/ |
-| DGX Spark docs & playbooks | https://docs.nvidia.com/dgx/dgx-spark/ · https://build.nvidia.com/spark |
+| DGX Spark docs & playbooks (playbook sources on GitHub) | https://docs.nvidia.com/dgx/dgx-spark/ · https://build.nvidia.com/spark · https://github.com/NVIDIA/dgx-spark-playbooks |
 
 🧪 **Do**
 1. `nvidia-smi -q`, `nvidia-smi topo -m`, `lspci -tv` → draw the CPU–GPU–memory–NIC diagram of your machine.
 2. DCGM exporter → Grafana: SM active, DRAM active, tensor-core active.
 3. Write a matmul kernel, profile with `nsys`/`ncu`, compute arithmetic intensity, draw the roofline.
 4. Run vLLM with an 8B model, measure tokens/s at batch 1 → 32, explain it with the roofline.
-5. Compute by hand: 70B FP8 weights + KV cache at 32k context — does it fit your GPU?
+5. Compute by hand: 70B FP8 weights + KV cache at 32k context — does it fit your GPU? Cross-check with a calculator: https://elinx.github.io/llm-mem-calculator/ (handles GQA, MLA, MoE) or https://github.com/engineering87/sparkfit (DGX Spark specific).
+
+> ⚠️ **Unified memory is a different game (GB10 / DGX Spark, Grace Hopper, Grace Blackwell).** On a discrete GPU an over-allocation fails with a CUDA OOM and only your process dies. On GB10 the CPU and GPU share one 128 GB LPDDR5x pool with *no fixed carve-out* (DGX Spark Porting Guide), so allocations keep succeeding until the driver itself runs out — and then the whole machine can hang: no OOM-kill, no kernel panic, SSH gone, hard power cycle. The Linux OOM killer and cgroup limits cannot see pinned CUDA memory, so they do not save you. I learned this in practice; few documents say it. Rules that NVIDIA docs and the community converge on:
+> - `nvidia-smi` prints `Memory-Usage: Not Supported` on GB10; watch `/proc/meminfo` or `free -h` instead. `cudaMemGetInfo` under-reports free memory (NVIDIA Known Issues, KB 5728).
+> - Page cache counts against CUDA-visible memory (a community measurement: writing a 60 GB file dropped CUDA-free from ~103 to ~42 GiB while `MemAvailable` stayed at ~115 GiB). Run `sync; echo 3 > /proc/sys/vm/drop_caches` before every model load; every official Spark playbook does.
+> - Budget roughly 100 GiB usable per node, not 128; keep vLLM `--gpu-memory-utilization` at 0.85 or below; set `vm.swappiness=0` (or `swapoff -a`); run `earlyoom -m 10 -s 100,100` so SSH survives an over-allocation.
+> - Read: DGX Spark Porting Guide https://docs.nvidia.com/dgx/dgx-spark-porting-guide/index.html · Known Issues https://docs.nvidia.com/dgx/dgx-spark/known-issues.html · KB 5775 https://nvidia.custhelp.com/app/answers/detail/a_id/5775 · CUDA Programming Guide, Unified Memory https://docs.nvidia.com/cuda/cuda-programming-guide/04-special-topics/unified-memory.html · the open driver issue https://github.com/NVIDIA/open-gpu-kernel-modules/issues/1358 · vLLM issue https://github.com/vllm-project/vllm/issues/56824 · a hardened setup guide https://github.com/natolambert/dgx-spark-setup · Bojie Li ch.4 §4.3.1 GPU memory and unified memory.
 
 **Milestone**: a short blog post or repo doc with (1) a diagram of your machine's CPU–GPU–memory–NIC topology, (2) a roofline chart of your GPU built from your own Nsight measurements, and (3) measured vLLM tokens/s at several batch sizes with an explanation of where the bottleneck is. If you want a certificate at this stage, take **NCA-AIIO**.
 
@@ -262,7 +302,7 @@
 | Resource | Type | Link |
 |---|---|---|
 | ⭐ NVIDIA Networking Academy — InfiniBand, RoCE, Spectrum-X, Cumulus Linux | 🆓🎥 | https://academy.nvidia.com/ |
-| GPU MODE — Lecture 17: GPU Collective Communication (NCCL) | 🆓🎥 | https://github.com/gpu-mode/lectures |
+| GPU MODE — Lecture 17: GPU Collective Communication (NCCL, Dan Johnson); Lecture 67: NCCL & NVSHMEM (Jeff Hammond) | 🆓🎥 | https://github.com/gpu-mode/lectures |
 | CNCF (YouTube) — search "Kubernetes networking" KubeCon talks | 🆓🎥 | https://www.youtube.com/@cncf |
 | Udemy — InfiniBand Fundamentals for AI & HPC Data Centers | 💰🎥🧪 | https://www.udemy.com/course/infiniband-fundamentals/ |
 | Udemy — NCP-AIN practice tests | 💰🎥 | https://www.udemy.com/course/nvidia-ai-networking-ncp-ain/ · https://www.udemy.com/course/ai-networking-certification-prep-questions-ncp-ain/ |
@@ -271,16 +311,18 @@
 ### Books & docs
 | Resource | Type | Link |
 |---|---|---|
-| ⭐ AI Infrastructure (Bojie Li) — ch.6 scale-up / super-node, ch.7 data-center network | 🆓📕 | https://bojieli.github.io/ai-infra-book/ |
-| NCCL user guide + nccl-tests | 🆓📄🧪 | https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/index.html · https://github.com/NVIDIA/nccl-tests |
+| ⭐ AI Infrastructure (Bojie Li) — ch.6 supernodes (§6.2 six parallelism strategies, §6.4 collective communication cost), ch.7 data-center networks (§7.2 cross-node traffic, multi-NIC and multi-rail, §7.3 RDMA paths) | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
+| NCCL user guide + environment variables (`NCCL_IB_HCA`, `NCCL_SOCKET_IFNAME`, `NCCL_IB_GID_INDEX`, `NCCL_NET_GDR_LEVEL`) + nccl-tests | 🆓📄🧪 | https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/index.html · https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html · https://github.com/NVIDIA/nccl-tests |
+| vLLM docs — Parallelism and Scaling (multi-node TP/PP, Ray vs multiprocessing, `NCCL_DEBUG=TRACE` to confirm RDMA vs TCP) | 🆓📄 | https://docs.vllm.ai/en/stable/serving/parallelism_scaling/ |
+| DGX Spark playbooks — Connect two Sparks, NCCL on two Sparks, performance benchmarking guide (`ib_write_bw`, `vllm bench`) | 🆓📄🧪 | https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/connect-two-sparks/README.md · https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/nccl/README.md · https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/connect-two-sparks/assets/performance_benchmarking_guide.md |
 | Learning eBPF (Liz Rice) — free from Isovalent | 🆓📕 | https://isovalent.com/books/learning-ebpf/ |
 | ebpf.io | 🆓📄 | https://ebpf.io/ |
 | Cilium docs | 🆓📄 | https://docs.cilium.io/ |
 | Istio docs | 🆓📄 | https://istio.io/latest/docs/ |
 
-🧪 **Do** (needs two machines with high-speed NICs, e.g. two DGX Spark linked over QSFP)
+🧪 **Do** (needs two machines with high-speed NICs — I use two DGX Spark linked over one QSFP cable; writeup in Hands-on projects)
 1. `iperf3` (TCP) vs `ib_write_bw` (RDMA, perftest).
-2. Enable RoCE v2 + PFC/ECN; run `all_reduce_perf` with `NCCL_DEBUG=INFO`; read which transport NCCL picked.
+2. Enable RoCE v2 + PFC/ECN; run `all_reduce_perf` with `NCCL_DEBUG=INFO`; read which transport NCCL picked. Sanity numbers on two DGX Spark: `ib_write_bw` around 185–190 Gb/s, NCCL `all_reduce` bus bandwidth around 18–24 GB/s with MTU 9000. If you see about 3 GB/s, NCCL fell back to TCP: wrong interface, MTU 1500, or a NCCL build older than 2.28 that predates GB10.
 3. vLLM tensor-parallel across 2 nodes; compare RDMA vs forced Socket transport.
 4. Kubernetes + Cilium; trace one packet ingress → pod with Hubble; write a default-deny NetworkPolicy and open it step by step.
 
@@ -335,36 +377,138 @@
 
 ## 7. LLMOps & large-scale inference
 
-*Operating LLMs = MLOps + GPU memory as the scarcest resource + new evaluation (LLM-as-judge) + cost per token.*
+*Operating LLMs = MLOps + GPU memory as the scarcest resource + quantization as the lever that makes a model fit + new evaluation (eval harnesses, LLM-as-judge) + latency that is not one number (TTFT, TPOT) + cost per token.*
 
 ### Video
 | Resource | Type | Link |
 |---|---|---|
 | ⭐ GPU Optimization Workshop (MLOps.community) — talks from TensorRT-LLM (NVIDIA) and Triton (OpenAI) engineers | 🆓🎥 | https://github.com/mlops-discord/gpu-optimization-workshop |
-| GPU MODE — Lecture 22 (speculative decoding in vLLM), Lecture 35 (SGLang) | 🆓🎥 | https://github.com/gpu-mode/lectures |
-| NVIDIA DLI — Model Parallelism: Building and Deploying Large Neural Networks | 💰🎥🧪 | https://learn.nvidia.com/ |
+| GPU MODE — Lecture 22 (speculative decoding in vLLM), Lecture 35 (SGLang performance), Lecture 40 (FlashInfer) | 🆓🎥 | https://github.com/gpu-mode/lectures |
+| Stanford CS336 — Lecture 10 "Inference", Lecture 12 "Evaluation" (Spring 2025 recordings and code) | 🆓🎥 | https://cs336.stanford.edu/ · https://github.com/stanford-cs336/spring2025-lectures |
+| Andrej Karpathy — Let's reproduce GPT-2 (124M): what a training loop does at the systems level (DDP, mixed precision, `torch.compile`) | 🆓🎥🧪 | https://youtu.be/l8pRSuU81PU · https://github.com/karpathy/build-nanogpt |
+| DeepLearning.AI — Efficiently Serving LLMs (Travis Addair, Predibase): batching, continuous batching, quantization, multi-LoRA | 🆓🎥🧪 | https://www.deeplearning.ai/courses/efficiently-serving-llms |
+| NVIDIA DLI — Sizing LLM Inference Systems (free, self-paced) | 🆓🎥🧪 | https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+S-FX-18+V1 |
+| NVIDIA DLI — Model Parallelism: Building and Deploying Large Neural Networks | 💰🎥🧪 | https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+C-FX-07+V1 |
 | NVIDIA Developer (YouTube) — Dynamo, TensorRT-LLM sessions | 🆓🎥 | https://www.youtube.com/@NVIDIADeveloper |
 
 ### Books & docs
 | Resource | Type | Link |
 |---|---|---|
-| ⭐ How to Scale Your Model (Google/JAX "Scaling Book") | 🆓📕 | https://jax-ml.github.io/scaling-book/ |
+| ⭐ How to Scale Your Model (Google/JAX "Scaling Book") — read the roofline, sharding and inference chapters | 🆓📕 | https://jax-ml.github.io/scaling-book/ |
 | ⭐ The Ultra-Scale Playbook (Hugging Face) | 🆓📕 | https://huggingface.co/spaces/nanotron/ultrascale-playbook |
-| AI Infrastructure (Bojie Li) — ch.8–11 inference, distributed inference, training, scheduling | 🆓📕 | https://bojieli.github.io/ai-infra-book/ |
+| AI Infrastructure (Bojie Li) — ch.8 inference optimization (§8.1 request lifecycle and memory, §8.2 continuous batching, §8.3 KV cache, §8.4 compression and offloading, §8.5 speculative decoding), ch.9 distributed inference (§9.2 prefill–decode separation, §9.3–9.4 MoE and expert parallelism), ch.10 training systems, ch.11 scheduling | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 | AI Performance Engineering (Chris Fregly) — code repo | 🆓🧪 | https://github.com/cfregly/ai-performance-engineering |
-| vLLM docs | 🆓📄 | https://docs.vllm.ai/ |
+| vLLM docs — start with Optimization & Tuning, Conserving memory, Engine args | 🆓📄 | https://docs.vllm.ai/ · https://docs.vllm.ai/en/stable/configuration/optimization/ · https://docs.vllm.ai/en/latest/configuration/conserving_memory/ |
+| vLLM Zero to Hero (Red Hat AI) — run → optimize → benchmark → scale | 🆓🧪 | https://github.com/red-hat-ai-dev/vLLM-zero-to-hero-overview |
+| Aleksa Gordić — Inside vLLM: Anatomy of a High-Throughput LLM Inference System | 🆓📄 | https://www.aleksagordic.com/blog/vllm |
+| Lilian Weng — Large Transformer Model Inference Optimization | 🆓📄 | https://lilianweng.github.io/posts/2023-01-10-inference-optimization/ |
 | TensorRT-LLM docs | 🆓📄 | https://nvidia.github.io/TensorRT-LLM/ |
 | NVIDIA Dynamo docs | 🆓📄 | https://docs.nvidia.com/dynamo/latest/ |
 | gpu-perf-engineering-resources — paper list (FlashAttention-3, PagedAttention, FlashInfer, MLA) | 🆓📄 | https://github.com/JINO-ROHIT/gpu-perf-engineering-resources |
+| Blogs to follow: vLLM blog · LMSYS/SGLang blog · NVIDIA Technical Blog · Hao AI Lab | 🆓📄 | https://blog.vllm.ai/ · https://lmsys.org/blog/ · https://developer.nvidia.com/blog/ · https://haoailab.com/ |
+
+### Quantization & low-precision formats
+
+*This is the lever that makes a 320B-parameter MoE run on two 128 GB machines. FP8 → NVFP4 is not a flag, it is a trade you must measure (see Evaluation below). Song Han's group wrote AWQ and SmoothQuant, so his course is the primary source; no paid course beats it.*
+
+| Resource | Type | Link |
+|---|---|---|
+| ⭐ MIT 6.5940 — Lecture 5 "Quantization Part I", Lecture 6 "Quantization Part II", Lecture 13 "LLM Deployment Techniques" (Fall 2024 playlist; Lectures 3–4 cover pruning and sparsity) | 🆓🎥 | https://youtube.com/playlist?list=PL80kAHvQbh-qGtNc54A6KW4i4bkTPjiRF · https://efficientml.ai |
+| ⭐ MIT 6.5940 Lab 5 "Optimize LLM on Edge" — deploy Llama-2-7B with TinyChat (AWQ INT4) on your own machine, then compare with what you run on your GPU | 🆓🧪 | https://github.com/mit-han-lab/tinychat-tutorial · https://github.com/mit-han-lab/TinyChatEngine |
+| ⭐ DeepLearning.AI × Red Hat — Fast & Efficient LLM Inference with vLLM (Cedric Clyburn, ~1.5 h): quantize a Qwen model with LLM Compressor → serve with vLLM → benchmark with GuideLLM, evaluate with lm-eval and perplexity | 🆓🎥🧪 | https://www.deeplearning.ai/courses/fast-and-efficient-llm-inference-with-vllm/ · https://vllm.ai/blog/2026-06-03-deeplearning-ai-vllm-course |
+| DeepLearning.AI — Quantization Fundamentals with Hugging Face → Quantization in Depth (build a per-tensor/per-channel/per-group linear quantizer in PyTorch) | 🆓🎥🧪 | https://www.deeplearning.ai/short-courses/quantization-fundamentals-with-hugging-face/ · https://www.deeplearning.ai/courses/quantization-in-depth |
+| GPU MODE — Lecture 7: Advanced Quantization (Charles Hernandez), Lecture 30: Quantized Training, Lecture 84: Numerics and AI (Paulius Micikevicius, first author of the FP8 formats paper) | 🆓🎥 | https://github.com/gpu-mode/lectures · https://www.youtube.com/watch?v=1u9xUK3G4VM |
+| Maarten Grootendorst — A Visual Guide to Quantization | 🆓📄 | https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-quantization |
+| Papers behind the checkpoints you download: LLM.int8() · GPTQ · SmoothQuant (W8A8) · AWQ (W4A16, MLSys 2024 best paper) · QuaRot and SpinQuant (4-bit weights, activations and KV via rotations) · KIVI (KV-cache quantization) | 🆓📄 | https://arxiv.org/abs/2208.07339 · https://arxiv.org/abs/2210.17323 · https://arxiv.org/abs/2211.10438 · https://arxiv.org/abs/2306.00978 · https://arxiv.org/abs/2404.00456 · https://arxiv.org/abs/2405.16406 · https://arxiv.org/abs/2402.02750 |
+| Reference code: mit-han-lab/llm-awq · mit-han-lab/smoothquant · IST-DASLab/gptq · IST-DASLab/marlin (the INT4×FP16 kernel vLLM uses) | 🆓🧪 | https://github.com/mit-han-lab/llm-awq · https://github.com/mit-han-lab/smoothquant · https://github.com/IST-DASLab/gptq · https://github.com/IST-DASLab/marlin |
+| Formats: FP8 Formats for Deep Learning (E4M3/E5M2) · Microscaling paper · ⭐ OCP Microscaling (MX) Specification v1.0 (MXFP8/MXFP4: block size 32, E8M0 shared scale) · NVIDIA "Introducing NVFP4" (block size 16, E4M3 scale plus an FP32 tensor scale). This is why one `hf_quant_config.json` shows group size 32 for MXFP8 and 16 for NVFP4 | 🆓📄 | https://arxiv.org/abs/2209.05433 · https://arxiv.org/abs/2310.10537 · https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf · https://developer.nvidia.com/blog/introducing-nvfp4-for-efficient-and-accurate-low-precision-inference/ |
+| DeepSeek-V3 technical report — FP8 mixed-precision training at 671B parameters, the first large-scale proof that FP8 training works | 🆓📄 | https://arxiv.org/abs/2412.19437 |
+| ⭐ NVIDIA Model Optimizer (formerly TensorRT Model Optimizer) — the tool that produces `modelopt` NVFP4/MXFP8 checkpoints; PTQ/QAT for FP8, NVFP4, MXFP4, INT4-AWQ, W4A8; exports to TensorRT-LLM, vLLM, SGLang | 🆓🧪📄 | https://github.com/NVIDIA/Model-Optimizer · https://nvidia.github.io/Model-Optimizer · DGX Spark NVFP4 playbook: https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/nvfp4-quantization/README.md |
+| ⭐ LLM Compressor (vLLM project / Red Hat) — quantize your own model to W8A8 FP8/INT8, W4A16, NVFP4, MXFP4, FP8 KV cache; the output loads directly in vLLM | 🆓🧪📄 | https://github.com/vllm-project/llm-compressor · https://docs.vllm.ai/projects/llm-compressor/en/latest/ |
+| vLLM docs — Quantization (supported methods and hardware matrix) | 🆓📄 | https://docs.vllm.ai/en/latest/features/quantization/ · https://docs.vllm.ai/en/stable/features/quantization/supported_hardware.html |
+| TensorRT-LLM — "Speed up inference with SOTA quantization techniques" (accuracy and speed tables for FP8, INT8-SmoothQuant, INT4-AWQ, FP8 KV cache) | 🆓📄 | https://github.com/NVIDIA/TensorRT-LLM/blob/main/docs/source/blogs/quantization-in-TRT-LLM.md |
+| Hugging Face Transformers — Quantization overview (all backends) · bitsandbytes · torchao · llama.cpp GGUF quant types (`Q4_K_M`, `IQ*`, imatrix) | 🆓📄 | https://huggingface.co/docs/transformers/en/quantization/overview · https://huggingface.co/docs/bitsandbytes/main/en/index · https://github.com/pytorch/ao · https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md |
+| Red Hat Developer — LLM quantization guide: how to do it, and how it helps (2026) | 🆓📄 | https://developers.redhat.com/articles/2026/09/02/llm-quantization-guide-how-to-do-it--and-how-it-helps |
+
+> AutoAWQ and AutoGPTQ were archived in 2025. Use LLM Compressor, or GPTQModel (https://github.com/ModelCloud/GPTQModel) for GPTQ.
+
+### Evaluation: what did quantization cost you?
+
+*No eval, no idea. A 4-bit model that "looks fine" in chat can still lose measurable points on instruction following, math or long context. Measure before and after, with the same harness.*
+
+| Resource | Type | Link |
+|---|---|---|
+| ⭐ lm-evaluation-harness (EleutherAI) — the standard harness; `--model vllm`, or `--model local-completions` against any OpenAI-compatible endpoint | 🆓🧪 | https://github.com/EleutherAI/lm-evaluation-harness |
+| ⭐ The recipe: LLM Compressor W4A16 example, step "Evaluate accuracy" (`lm_eval --model vllm ... --tasks gsm8k`, plus the BOS-token pitfall) · vLLM's FP8 page ends with the same check | 🆓📄 | https://github.com/vllm-project/llm-compressor/blob/main/examples/quantization_w4a16/README.md · https://docs.vllm.ai/en/stable/features/quantization/llm_compressor/fp8/ |
+| ⭐ Red Hat / Neural Magic — "We ran over half a million evaluations on quantized LLMs" and the paper "Give Me BF16 or Give Me Death?": FP8 W8A8 is close to lossless, INT8 loses 1–3 %, W4A16 stays competitive; which scheme fits which workload | 🆓📄 | https://developers.redhat.com/articles/2024/10/17/we-ran-over-half-million-evaluations-quantized-llms · https://arxiv.org/abs/2411.02355 |
+| Perplexity and KL divergence: Hugging Face "Perplexity of fixed-length models" · llama.cpp `llama-perplexity --kl-divergence` (KL against the FP16 reference is a steadier quant-quality signal than perplexity alone) | 🆓📄🧪 | https://huggingface.co/docs/transformers/en/perplexity · https://github.com/ggml-org/llama.cpp/blob/master/tools/perplexity/README.md |
+| A quant-regression set: MMLU-Pro · GPQA Diamond · IFEval · LiveCodeBench · RULER (long context; catches FP8 KV-cache damage) | 🆓🧪 | https://github.com/TIGER-AI-Lab/MMLU-Pro · https://github.com/idavidrein/gpqa · https://github.com/google-research/google-research/tree/master/instruction_following_eval · https://github.com/LiveCodeBench/LiveCodeBench · https://github.com/NVIDIA/RULER |
+| Leaderboards: LiveBench (contamination-limited, monthly refresh) · Arena (formerly LMArena) · Arena-Hard-Auto · Artificial Analysis (quality and tokens/s side by side) | 🆓🧪 | https://livebench.ai/ · https://arena.ai/ · https://github.com/lmarena/arena-hard-auto · https://artificialanalysis.ai/ |
+| LLM-as-judge: "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" · Hamel Husain, "Your AI Product Needs Evals" and "Creating a LLM-as-a-Judge That Drives Business Results" · Prometheus 2 (open-weight judge you can self-host) | 🆓📄 | https://arxiv.org/abs/2306.05685 · https://hamel.dev/blog/posts/evals/ · https://hamel.dev/blog/posts/llm-judge/ · https://arxiv.org/abs/2405.01535 |
+| Hugging Face Evaluation Guidebook (Clémentine Fourrier) | 🆓📕 | https://github.com/huggingface/evaluation-guidebook |
+| DeepLearning.AI — Automated Testing for LLMOps (evals in CI on every change; gate your quantized-model rollouts the same way) | 🆓🎥🧪 | https://www.deeplearning.ai/courses/automated-testing-llmops |
+| Other stacks: lighteval (Hugging Face) · Inspect AI (UK AISI) · OpenCompass · NVIDIA NeMo Evaluator (runs lm-eval and friends in containers against any endpoint) · vLLM's own GSM8K accuracy gate in `tests/evals/gsm8k` | 🆓🧪 | https://github.com/huggingface/lighteval · https://github.com/UKGovernmentBEIS/inspect_ai · https://github.com/open-compass/opencompass · https://github.com/NVIDIA-NeMo/Evaluator · https://github.com/vllm-project/vllm/tree/main/tests/evals/gsm8k |
+
+> The Hugging Face Open LLM Leaderboard was retired in March 2025. Its final task set (IFEval, BBH, MATH level 5, GPQA, MuSR, MMLU-Pro) is still a sensible regression suite.
+
+### Speculative decoding
+
+*Drafts are cheap, verification is exact, and the number that matters is acceptance. `num_speculative_tokens: 5` at 29 % acceptance is a very different machine from the same setting at 85 %.*
+
+| Resource | Type | Link |
+|---|---|---|
+| ⭐ GPU MODE — Lecture 22: Hacker's Guide to Speculative Decoding in vLLM (Cade Daniel) | 🆓🎥 | https://www.youtube.com/watch?v=9wNAgpX6z_4 |
+| ⭐ vLLM docs — Speculative Decoding (draft model, n-gram, EAGLE-3, MTP, …) and "Per-request acceptance metrics": mean acceptance length = 1 + accepted tokens / drafts; Prometheus counters `vllm:spec_decode_num_draft_tokens`, `vllm:spec_decode_num_accepted_tokens` | 🆓📄 | https://docs.vllm.ai/en/latest/features/speculative_decoding/ · https://docs.vllm.ai/en/latest/features/speculative_decoding/acceptance_metrics/ |
+| The original papers: Leviathan et al. (ICML 2023) · Chen et al. (DeepMind) · Hugging Face "Assisted Generation" (gentle introduction) | 🆓📄 | https://arxiv.org/abs/2211.17192 · https://arxiv.org/abs/2302.01318 · https://huggingface.co/blog/assisted-generation |
+| Medusa (extra decoding heads) · EAGLE-1/2/3 (feature-level drafting; EAGLE-3 is the usual drafter in vLLM and SGLang deployments) | 🆓📄🧪 | https://arxiv.org/abs/2401.10774 · https://arxiv.org/abs/2401.15077 · https://arxiv.org/abs/2406.16858 · https://arxiv.org/abs/2503.01840 · https://github.com/SafeAILab/EAGLE |
+| Multi-token prediction (MTP), the built-in drafter that GLM and DeepSeek ship: Gloeckle et al. (Meta) · DeepSeek-V3 report (MTP module as draft, 85–90 % acceptance of the second token) · GLM-4.5 and GLM-5 reports (MTP layers designed for speculative decoding) | 🆓📄 | https://arxiv.org/abs/2404.19737 · https://arxiv.org/abs/2412.19437 · https://arxiv.org/abs/2508.06471 · https://arxiv.org/abs/2602.15763 |
+| vLLM blog — How Speculative Decoding Boosts vLLM Performance by up to 2.8x (and why it can hurt at high QPS) | 🆓📄 | https://vllm.ai/blog/2024-10-17-spec-decode |
+| Survey (Xia et al., ACL 2024) + Spec-Bench (EAGLE, Medusa, lookahead, prompt lookup on one harness) | 🆓📄🧪 | https://arxiv.org/abs/2401.07851 · https://github.com/hemingkx/Spec-Bench |
+| Train your own drafter: vllm-project/speculators (EAGLE-3, DFlash, MTP fine-tuning) · SGLang and TensorRT-LLM speculative-decoding docs | 🆓🧪📄 | https://github.com/vllm-project/speculators · https://docs.sglang.ai/advanced_features/speculative_decoding.html · https://github.com/NVIDIA/TensorRT-LLM/blob/main/docs/source/features/speculative-decoding.md |
+| Bojie Li — ch.8 §8.5 Speculative Decoding (drafts, verification, rollback; per-round latency vs output count) | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
+
+### LLM serving metrics & benchmarking
+
+*This is what separates LLMOps from MLOps: latency is not one number. TTFT (prefill), TPOT and ITL (decode), end-to-end latency, throughput, and goodput (requests per second that meet both SLOs).*
+
+| Resource | Type | Link |
+|---|---|---|
+| ⭐ NVIDIA Technical Blog — "LLM Inference Benchmarking: Fundamental Concepts" (defines TTFT, ITL, TPOT, throughput, goodput), then "How much does your LLM inference cost?" | 🆓📄 | https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/ · https://developer.nvidia.com/blog/llm-inference-benchmarking-how-much-does-your-llm-inference-cost |
+| ⭐ vLLM docs — Production Metrics and the Metrics design doc. V1 names: `vllm:time_to_first_token_seconds`, `vllm:inter_token_latency_seconds`, `vllm:request_time_per_output_token_seconds`, `vllm:e2e_request_latency_seconds`, `vllm:kv_cache_usage_perc` (was `vllm:gpu_cache_usage_perc` in V0), `vllm:num_requests_running` / `_waiting`, `vllm:prefix_cache_hits` / `_queries`, `vllm:num_preemptions` | 🆓📄 | https://docs.vllm.ai/en/stable/design/metrics/ · https://github.com/vllm-project/vllm/blob/main/docs/usage/metrics.md |
+| vLLM — Prometheus + Grafana example dashboard | 🆓🧪 | https://github.com/vllm-project/vllm/tree/main/examples/observability/prometheus_grafana |
+| ⭐ Load generators: `vllm bench serve` (built in) · GuideLLM (SLO-aware sweeps) · NVIDIA AIPerf (successor of GenAI-Perf) · inference-perf (Kubernetes WG Serving) | 🆓🧪 | https://docs.vllm.ai/en/latest/benchmarking/cli/ · https://github.com/vllm-project/guidellm · https://github.com/ai-dynamo/aiperf · https://github.com/kubernetes-sigs/inference-perf |
+| NVIDIA NIM benchmarking guide — Metrics (exact definitions, e.g. ITL = (e2e latency − TTFT) / (output tokens − 1)) | 🆓📄 | https://docs.nvidia.com/nim/benchmarking/llm/latest/metrics.html |
+| Databricks — LLM Inference Performance Engineering: Best Practices · Anyscale — Reproducible Performance Metrics for LLM Inference | 🆓📄 | https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices · https://www.anyscale.com/blog/reproducible-performance-metrics-for-llm-inference |
+| Goodput: DistServe paper (OSDI 2024) and Hao AI Lab, "Throughput is Not All You Need" | 🆓📄 | https://arxiv.org/abs/2401.09670 · https://haoailab.com/blogs/distserve/ |
+| SGLang — Production metrics · Kubernetes Gateway API Inference Extension (the "inference gateway": InferencePool, prefix-cache-aware load balancing) | 🆓📄 | https://docs.sglang.ai/references/production_metrics.html · https://gateway-api-inference-extension.sigs.k8s.io/ |
+| MLPerf Inference (MLCommons) — the datacenter LLM suite (Llama 2 70B, Llama 3.1 405B, DeepSeek-R1, …) and how vendors report | 🆓🧪 | https://github.com/mlcommons/inference |
+| Bojie Li — ch.3 §3.1.2 task objectives and evaluation metrics; ch.8 §8.1.3 from single-request time to service targets | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
+
+### Looking ahead: disaggregated serving (prefill/decode split)
+
+*Prefill is compute-bound, decode is memory-bound. The frontier runs them on separate pools, ships the KV cache over RDMA, and routes requests by prefix-cache hits. Read this after you can explain TTFT vs TPOT on one box.*
+
+| Resource | Type | Link |
+|---|---|---|
+| ⭐ DistServe (OSDI 2024) · Splitwise (ISCA 2024) · Mooncake (FAST 2025 best paper; the KV-centric design behind Kimi) | 🆓📄🧪 | https://arxiv.org/abs/2401.09670 · https://arxiv.org/abs/2311.18677 · https://arxiv.org/abs/2407.00079 · https://github.com/kvcache-ai/Mooncake |
+| Hao AI Lab — "Disaggregated Inference: 18 Months Later" (what Dynamo, llm-d, SGLang and vLLM adopted) · "Beyond the Buzz: A Pragmatic Take on Inference Disaggregation" (when it does not pay off) | 🆓📄 | https://haoailab.com/blogs/distserve-retro/ · https://arxiv.org/abs/2506.05508 |
+| ⭐ llm-d (Red Hat, Google, IBM, CoreWeave, NVIDIA) — Kubernetes-native stack: well-lit paths, P/D disaggregation guide, prefix-cache-aware routing | 🆓📄🧪 | https://llm-d.ai/ · https://llm-d.ai/docs/well-lit-paths · https://github.com/llm-d/llm-d/tree/main/guides/pd-disaggregation |
+| NVIDIA Dynamo — Disaggregated serving, KV-cache-aware routing, and the launch post "Introducing NVIDIA Dynamo" (GTC 2025) | 🆓📄 | https://docs.nvidia.com/dynamo/dev/cli/disaggregated-serving/overview · https://docs.nvidia.com/dynamo/latest/user-guides/kv-cache-aware-routing · https://developer.nvidia.com/blog/introducing-nvidia-dynamo-a-low-latency-distributed-inference-framework-for-scaling-reasoning-ai-models |
+| vLLM docs — Disaggregated Prefilling (KV connectors: NIXL, LMCache, Mooncake; the docs say it does *not* raise throughput, it decouples TTFT and ITL tuning) · SGLang — PD Disaggregation | 🆓📄 | https://docs.vllm.ai/en/latest/features/disagg_prefill/ · https://docs.sglang.ai/advanced_features/pd_disaggregation.html |
+| The plumbing: NIXL (NVIDIA Inference Xfer Library, KV transfer over RDMA and NVLink) · LMCache (KV-cache tiers: GPU → CPU → disk → remote) | 🆓🧪 | https://github.com/ai-dynamo/nixl · https://github.com/LMCache/LMCache |
+| BentoML LLM Inference Handbook — Prefill-decode disaggregation · Prefix-aware routing (practitioner explainers) | 🆓📕 | https://bentoml.com/llm/inference-optimization/prefill-decode-disaggregation · https://bentoml.com/llm/inference-optimization/prefix-aware-routing |
+| Bojie Li — ch.9 §9.2 Prefill–Decode Separation and Resource Ratios (KV transfer, stage throughput, instance ratios, when it pays off) | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 
 🧪 **Do**
-1. vLLM benchmark: prefix caching on/off, `max_num_seqs`, `gpu_memory_utilization` → throughput vs p99 chart.
-2. FP8 vs NVFP4 quantization: quality and speed.
-3. Kueue + GPU Operator: two teams submit jobs; observe quotas and preemption.
-4. LoRA fine-tune across 2 nodes (DDP/FSDP) over RDMA; measure scaling efficiency.
-5. Retrain loop: Evidently → Alertmanager → Argo Events → job → MLflow → canary.
+1. vLLM benchmark: prefix caching on/off, `max_num_seqs`, `gpu_memory_utilization`, `max_num_batched_tokens` → throughput vs p99 TTFT and p99 TPOT; report goodput against an SLO you choose.
+2. Quantize one model yourself with LLM Compressor (W8A8 FP8 and W4A16), then compare against the vendor NVFP4 checkpoint: size, tokens/s, lm-eval scores (GSM8K, IFEval, MMLU-Pro) and perplexity or KL divergence. Write down what 4-bit cost you.
+3. Speculative decoding: enable MTP, EAGLE-3 or n-gram; read the `vllm:spec_decode_*` counters; plot mean acceptance length vs tokens/s at batch 1 and batch 16; find the batch size where it stops helping.
+4. Grafana dashboard from vLLM metrics: TTFT p50/p99, ITL p99, KV-cache usage, queue depth, preemptions; alert on p99 TTFT.
+5. Kueue + GPU Operator: two teams submit jobs; observe quotas and preemption.
+6. LoRA fine-tune across 2 nodes (DDP/FSDP) over RDMA; measure scaling efficiency.
+7. Retrain loop: Evidently → Alertmanager → Argo Events → job → MLflow → canary.
 
-**Milestone**: a benchmark report for one LLM on your hardware (throughput vs latency at different batch sizes, FP8 vs NVFP4, single node vs 2-node tensor parallel) and a working automatic retrain loop. If you want a certificate at this stage, take **NCP-AII** (if you build clusters) or **NCP-AIO** (if you operate them).
+**Milestone**: a benchmark report for one LLM on your hardware (throughput vs TTFT/TPOT at different batch sizes; FP8 vs NVFP4 with the eval numbers that show what quantization cost; speculative-decoding acceptance vs speedup; single node vs 2-node tensor parallel) and a working automatic retrain loop. If you want a certificate at this stage, take **NCP-AII** (if you build clusters) or **NCP-AIO** (if you operate them).
 
 ---
 
@@ -385,7 +529,7 @@
 | ⭐ NVIDIA DGX SuperPOD reference architectures | 🆓📄 | https://docs.nvidia.com/dgx-superpod/ |
 | Open Compute Project | 🆓📄 | https://www.opencompute.org/ |
 | Uptime Institute | 🆓📄 | https://www.uptimeinstitute.com/ |
-| AI Infrastructure (Bojie Li) — ch.6, 7, 11, 12 | 🆓📕 | https://bojieli.github.io/ai-infra-book/ |
+| AI Infrastructure (Bojie Li) — ch.6 supernodes, ch.7 data-center networks, ch.11 resource scheduling, ch.12 edge-cloud coordination | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 | ai-infra-curriculum — Architect track | 🆓📄 | https://ai-infra-curriculum.github.io/ |
 
 🧪 **Do (on paper)**: design a 128-GPU training + inference cluster: TFLOPS, HBM, NVLink domains, 400G ports, oversubscription, checkpoint storage GB/s, kW per rack, air vs liquid cooling, on-prem vs cloud TCO.
@@ -411,6 +555,7 @@ Exam simulator for CKA/CKAD/CKS: https://killer.sh/
 | Repository | What it is |
 |---|---|
 | ⭐ https://github.com/DucLong06/face-detection-ml-system | My project: face-detection ML system (Jenkins, GKE, Terraform/Ansible, ELK, Jaeger), being upgraded to on-prem GPU (DGX Spark), GitOps, GPU serving and a security baseline. See the plans branch. |
+| ⭐ Two DGX Spark over 200G RoCE — writeup (in progress) | My lab: two GB10 nodes linked over one QSFP cable (RoCE v2, NCCL), vLLM tensor-parallel serving a 320B-parameter MoE (GLM-5.3 family, NVFP4/MXFP8 checkpoint from NVIDIA Model Optimizer) with MTP speculative decoding. The writeup will cover cabling and RoCE setup, `ib_write_bw` and `nccl-tests` numbers, memory budgeting on unified memory, `--gpu-memory-utilization`, speculative-decoding acceptance rate, and the lessons in the unified-memory note of Section 4. Closest public recipes meanwhile: https://github.com/himorishige/glm53-flash-2x-dgx-spark-recipe · https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-2x-DGX-Spark · https://github.com/Kdurazzo/dual-dgx-spark-config-guide · curated list https://github.com/bidual/awesome-dgx-spark |
 | https://github.com/ai-infra-curriculum/ai-infra-engineer-learning | 10 modules, 62 labs, 3 projects (model serving → MLOps pipeline → LLM deployment) |
 | https://github.com/ai-infra-curriculum/ai-infra-performance-learning | Performance-engineer track: CUDA, Nsight, compression, transformer kernels |
 | https://github.com/DataTalksClub/mlops-zoomcamp | Submit a project for free peer review |
@@ -443,6 +588,10 @@ This roadmap stands on the work of many people and communities:
 - **[Bojie Li](https://github.com/bojieli/ai-infra-book)** — author of the open-source *AI Infrastructure* book (Apache 2.0), the backbone of Sections 4, 5, 7 and 8.
 - **Wen-mei Hwu, David Kirk, Izzat El Hajj** — *Programming Massively Parallel Processors* and the [official lecture channel](https://www.youtube.com/@pmpp-book).
 - **[GPU MODE](https://github.com/gpu-mode/lectures)** — the community and free lecture series on GPU performance.
+- **[Song Han / MIT HAN Lab](https://hanlab.mit.edu/)** — MIT 6.5940 (EfficientML.ai), AWQ, SmoothQuant and TinyChat, the techniques behind most of the quantized checkpoints we run.
+- **[vLLM project](https://github.com/vllm-project), Red Hat AI and DeepLearning.AI** — vLLM, LLM Compressor, GuideLLM and the free course *Fast & Efficient LLM Inference with vLLM*.
+- **[EleutherAI](https://github.com/EleutherAI/lm-evaluation-harness)** — lm-evaluation-harness; **[Hao AI Lab (UCSD)](https://haoailab.com/)** — DistServe and the disaggregated-serving writeups.
+- **The DGX Spark community** — himorishige, tonyd2wild, Kdurazzo, natolambert, bidual (awesome-dgx-spark) and the NVIDIA forum members who documented GB10 multi-node setups and the unified-memory pitfalls.
 - **Liz Rice / Isovalent** — *Container Security* and *Learning eBPF*, released free.
 - **Kim Wüstkamp / Killer Shell** — the CKS course released free on YouTube, killer.sh and Killercoda.
 - **Luiz André Barroso, Urs Hölzle, Parthasarathy Ranganathan** — *The Datacenter as a Computer*, open access; **Google SRE** — the SRE books.
