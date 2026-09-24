@@ -33,6 +33,9 @@
     - [Principles \& system design](#principles--system-design)
     - [Tools (official docs)](#tools-official-docs)
     - [Structured course (Vietnamese)](#structured-course-vietnamese)
+  - [3.5. LLM fundamentals: transformer, tokens, KV cache, MoE](#35-llm-fundamentals-transformer-tokens-kv-cache-moe)
+    - [Watch \& build](#watch--build)
+    - [Read: the architecture decides memory and speed](#read-the-architecture-decides-memory-and-speed)
   - [4. GPU \& NVIDIA hardware](#4-gpu--nvidia-hardware)
     - [Video](#video)
     - [Books \& docs](#books--docs)
@@ -64,7 +67,7 @@
 
 ## 📖 How to use this roadmap
 
-1. Sections 1–3 are the base. Sections 4–8 can be studied in parallel depending on what your job needs. If you already know MLOps, jump straight to Section 4.
+1. Sections 1–3 are the base. Section 3.5 (LLM fundamentals) is the bridge that Sections 4 and 7 assume. Sections 4–8 can be studied in parallel depending on what your job needs. If you already know MLOps, jump straight to Section 3.5.
 2. Each section has **Learn** (watch/read) → **Do** (labs) → **Milestone** (something you can show). No milestone, section not done.
 3. Legend: 🆓 free · 💰 paid · 🎥 video · 📕 book · 📄 docs/paper · 🧪 lab · ⭐ start here.
 4. Keep an English-language engineering journal after each lab. It becomes your portfolio.
@@ -74,22 +77,23 @@
 
 ## 🎯 Minimum path
 
-The full roadmap is deliberately wide, and it is easy to learn broad and shallow or to give up halfway. If your goal is *run and operate LLM inference on GPU hardware*, do these twelve in order and treat the rest as look-up material. Each one has a concrete output; do not move on without it.
+The full roadmap is deliberately wide, and it is easy to learn broad and shallow or to give up halfway. If your goal is *run and operate LLM inference on GPU hardware*, do these thirteen in order and treat the rest as look-up material. Each one has a concrete output; do not move on without it.
 
 | # | Resource (section) | Output you should have |
 |---|---|---|
 | 1 | Kubernetes docs tutorials → Kubernetes The Hard Way (Section 2) | a cluster you built by hand |
 | 2 | Made With ML (Section 3) | one model served with monitoring |
-| 3 | PMPP lectures (Izzat El Hajj) + GPU MODE Lecture 8 "CUDA Performance Checklist" (Section 4) | a matmul kernel profiled with `ncu` and its roofline |
-| 4 | *AI Infrastructure* (Bojie Li) ch.3 workloads, ch.4 accelerator & memory hierarchy, ch.8 inference optimization (Sections 4, 7) | the memory budget of one model (weights + KV cache) computed by hand |
-| 5 | MIT 6.5940 Lectures 5–6 "Quantization I & II" + Lecture 13 "LLM Deployment Techniques" (Section 7) | can explain W8A8 vs W4A16 vs NVFP4 and why the group size differs |
-| 6 | How to Scale Your Model (Scaling Book), inference chapters (Section 7) | can derive TTFT and TPOT from bandwidth, batch size and model size |
-| 7 | vLLM docs: Optimization & Tuning, Conserving memory, Quantization, Metrics (Section 7) | a tuned `vllm serve` exporting Prometheus metrics |
-| 8 | DeepLearning.AI × Red Hat "Fast & Efficient LLM Inference with vLLM" (Section 7) | you quantized, served and benchmarked a model yourself |
-| 9 | lm-evaluation-harness against your quantized model (Section 7) | a number for what quantization cost you |
-| 10 | NVIDIA "LLM Inference Benchmarking" blog series + `vllm bench serve` (Section 7) | a throughput vs p99 TTFT/TPOT chart with goodput against an SLO |
-| 11 | NCCL user guide + nccl-tests over your NIC (Section 5) | measured `all_reduce` bus bandwidth and which transport NCCL picked |
-| 12 | Container Security (Liz Rice) + OWASP Top 10 for LLM (Section 6) | a one-page threat model for your serving stack |
+| 3 | 3Blue1Brown chapters 5–6 → Karpathy "Let's build GPT" → *AI Infrastructure* (Bojie Li) ch.2 model architecture (Section 3.5) | your own small GPT with a KV cache, and KV bytes per token for GQA vs MLA computed by hand |
+| 4 | PMPP lectures (Izzat El Hajj) + GPU MODE Lecture 8 "CUDA Performance Checklist" (Section 4) | a matmul kernel profiled with `ncu` and its roofline |
+| 5 | *AI Infrastructure* (Bojie Li) ch.3 workloads, ch.4 accelerator & memory hierarchy, ch.8 inference optimization (Sections 4, 7) | the memory budget of one model (weights + KV cache) computed by hand |
+| 6 | MIT 6.5940 Lectures 5–6 "Quantization I & II" + Lecture 13 "LLM Deployment Techniques" (Section 7) | can explain W8A8 vs W4A16 vs NVFP4 and why the group size differs |
+| 7 | How to Scale Your Model (Scaling Book), inference chapters (Section 7) | can derive TTFT and TPOT from bandwidth, batch size and model size |
+| 8 | vLLM docs: Optimization & Tuning, Conserving memory, Quantization, Metrics (Section 7) | a tuned `vllm serve` exporting Prometheus metrics |
+| 9 | DeepLearning.AI × Red Hat "Fast & Efficient LLM Inference with vLLM" (Section 7) | you quantized, served and benchmarked a model yourself |
+| 10 | lm-evaluation-harness against your quantized model (Section 7) | a number for what quantization cost you |
+| 11 | NVIDIA "LLM Inference Benchmarking" blog series + `vllm bench serve` (Section 7) | a throughput vs p99 TTFT/TPOT chart with goodput against an SLO |
+| 12 | NCCL user guide + nccl-tests over your NIC (Section 5) | measured `all_reduce` bus bandwidth and which transport NCCL picked |
+| 13 | Container Security (Liz Rice) + OWASP Top 10 for LLM (Section 6) | a one-page threat model for your serving stack |
 
 After these, Section 8 (AI Data Center) and the certifications are the natural next step.
 
@@ -127,7 +131,6 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | Python official tutorial | 🆓📄 | https://docs.python.org/3/tutorial/ |
 | Machine Learning Engineering (Andriy Burkov) | 🆓📕 | http://www.mlebook.com/ |
 | The Hundred-Page Machine Learning Book | 🆓📕 | https://themlbook.com/ |
-| Dive into Deep Learning (D2L) | 🆓📕 | https://d2l.ai/ |
 
 ### Networking basics
 | Resource | Type | Link |
@@ -230,6 +233,45 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 
 🧪 **Do**: train → MLflow registry → KServe/Triton → Evidently drift → alert → automatic retrain → canary.
 **Milestone**: one repository that trains a model, registers it in MLflow, serves it on Kubernetes, detects data drift with Evidently, and automatically retrains and redeploys (canary) when drift is detected — all triggered without manual steps.
+
+---
+
+## 3.5. LLM fundamentals: transformer, tokens, KV cache, MoE
+
+*The bridge between MLOps and everything after it. You cannot size a KV cache, choose a parallelism, read a quantization config or explain why decode is memory-bound until you know what a transformer computes for each token and what it has to keep in memory. Sections 4 and 7 assume this section.*
+
+**Goal**: given any model's `config.json`, work out by hand its total and active parameters, FLOPs per token, weight memory at BF16 / FP8 / NVFP4 and KV-cache bytes per token, and explain what changes between prefill and decode.
+
+### Watch & build
+| Resource | Type | Link |
+|---|---|---|
+| ⭐ 3Blue1Brown — Chapter 5 "But what is a GPT?" and Chapter 6 "Attention in transformers, step by step" (intuition first) | 🆓🎥 | https://www.3blue1brown.com/lessons/gpt/ · https://www.3blue1brown.com/lessons/attention/ |
+| Andrej Karpathy — Deep Dive into LLMs like ChatGPT (3.5 h, the whole stack: pretraining data, tokenization, the network, SFT, RL) | 🆓🎥 | https://www.youtube.com/watch?v=7xTGNNLPyMI |
+| ⭐ Andrej Karpathy — Neural Networks: Zero to Hero, Lecture 7 "Let's build GPT: from scratch, in code, spelled out" and Lecture 8 "Let's build the GPT Tokenizer" (start from Lecture 1 if backpropagation is new to you) | 🆓🎥🧪 | https://www.youtube.com/watch?v=kCc8FmEb1nY · https://www.youtube.com/watch?v=zduSFxRajkE · https://github.com/karpathy/nn-zero-to-hero |
+| Interactive: Transformer Explainer (a live GPT-2 in your browser) · LLM Visualization (Brendan Bycroft, a 3D walkthrough of one token of inference) | 🆓🧪 | https://poloclub.github.io/transformer-explainer/ · https://bbycroft.net/llm |
+| ⭐ Stanford CS336 — Lecture 1 "Overview and Tokenization", Lecture 2 "PyTorch, Resource Accounting", Lecture 3 "Architectures, Hyperparameters", Lecture 4 "Mixture of Experts", plus Assignment 1 "Basics" (BPE tokenizer, transformer and AdamW from scratch). This is the deep option, and the same course continues into Sections 4 and 7 | 🆓🎥🧪 | https://cs336.stanford.edu/ · https://www.youtube.com/watch?v=SQ3fZ1sAqXI · https://github.com/stanford-cs336/assignment1-basics |
+| Build a Large Language Model (From Scratch) (Sebastian Raschka) — the book is paid, the code is free. Bonus notebooks implement KV cache (`ch04/03_kv-cache`), GQA (`ch04/04_gqa`), MLA (`ch04/05_mla`), sliding-window attention, MoE (`ch04/07_moe`), a FLOPs analysis, and Llama 3 / Qwen3 / Gemma from scratch | 💰📕 · 🆓🧪 | https://github.com/rasbt/LLMs-from-scratch |
+
+### Read: the architecture decides memory and speed
+| Resource | Type | Link |
+|---|---|---|
+| ⭐ AI Infrastructure (Bojie Li) — ch.1 (§1.3 estimating one model execution with a few numbers) and ch.2 model architecture (§2.2 prefill, decode and state reuse; §2.3 multi-head attention and KV sharing, MLA, sliding windows, linear and hybrid attention, "how much to store per token, how much to read per decode"; §2.4 expert routing and per-batch weight reads) | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
+| ⭐ EleutherAI — Transformer Math 101 (training FLOPs ≈ 6 × parameters × tokens; memory for weights, optimizer states and activations) · kipply — Transformer Inference Arithmetic (KV-cache size, when decode is memory-bound, a simple latency model) | 🆓📄 | https://blog.eleuther.ai/transformer-math/ · https://kipp.ly/transformer-inference-arithmetic/ |
+| Sebastian Raschka — The Big LLM Architecture Comparison (GPT-2 to DeepSeek-V3, Llama 4, Qwen3, GLM: RoPE, GQA, MLA, MoE, normalization placement) and the LLM Architecture Gallery | 🆓📄 | https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison · https://sebastianraschka.com/llm-architecture-gallery/ |
+| Jay Alammar — The Illustrated Transformer · Harvard NLP — The Annotated Transformer (the original paper as about 400 lines of runnable code) | 🆓📄🧪 | https://jalammar.github.io/illustrated-transformer/ · https://nlp.seas.harvard.edu/annotated-transformer/ |
+| Dive into Deep Learning — Chapter 11 "Attention Mechanisms and Transformers" (textbook reference with code) | 🆓📕 | https://d2l.ai/chapter_attention-mechanisms-and-transformers/ |
+| Papers to know by name: Attention Is All You Need · multi-query attention (Shazeer) · GQA · RoPE (RoFormer) · DeepSeek-V2 (MLA: 93 % less KV cache than DeepSeek 67B) · Mixtral of Experts (47B total, 13B active parameters) · scaling laws (Kaplan) and Chinchilla (compute-optimal training) | 🆓📄 | https://arxiv.org/abs/1706.03762 · https://arxiv.org/abs/1911.02150 · https://arxiv.org/abs/2305.13245 · https://arxiv.org/abs/2104.09864 · https://arxiv.org/abs/2405.04434 · https://arxiv.org/abs/2401.04088 · https://arxiv.org/abs/2001.08361 · https://arxiv.org/abs/2203.15556 |
+| Post-training in one book: RLHF Book (Nathan Lambert, free online) — SFT, reward models, DPO, RL; what "rollout" and "policy update" mean when they show up as infrastructure workloads | 🆓📕 | https://rlhfbook.com/ |
+
+🧪 **Do**
+1. Watch 3Blue1Brown chapters 5–6, then code along with Karpathy's "Let's build GPT" and train the character-level model on a small text.
+2. Add a KV cache to your generation loop. Measure tokens/s with and without it for 256 and 2,048 generated tokens. Raschka's `ch04/03_kv-cache` is the reference.
+3. Replace multi-head attention with GQA (Raschka `ch04/04_gqa`) and compute KV bytes per token before and after.
+4. Tokenizer check: count tokens for the same paragraph in English and in Vietnamese with the tokenizer of the model you serve (`AutoTokenizer.from_pretrained(...)`). That ratio is a real cost multiplier: more tokens mean more KV cache, longer TTFT and higher cost for the same text.
+5. Paper exercise: open the `config.json` of one dense model (for example Llama-3.1-8B) and one MoE model with MLA (for example DeepSeek-V3, or the model you actually serve). Compute total and active parameters, FLOPs per generated token (about 2 × active parameters), weight memory at BF16 / FP8 / NVFP4, and KV-cache bytes per token for MHA vs GQA vs MLA. Check your numbers against https://elinx.github.io/llm-mem-calculator/ and against what vLLM logs at startup.
+6. Prefill vs decode: time one forward pass over a 2,048-token prompt against 256 single-token decode steps on your GPU, and explain the difference in tokens/s with arithmetic intensity. This is the bridge into Section 4.
+
+**Milestone**: a repo or notebook with (1) your small GPT with a working KV-cache generation loop and the measured speedup, and (2) a one-page "infra model card" for the model you actually serve: total and active parameters, layers, attention type (MHA / GQA / MLA) and KV heads, KV bytes per token at BF16 and FP8, weight size at BF16 / FP8 / NVFP4, and FLOPs per token, each number computed by hand and checked against a measurement. After this, Karpathy's "Let's reproduce GPT-2" in Section 7 shows the same model at the systems level.
 
 ---
 
@@ -585,9 +627,10 @@ Exam simulator for CKA/CKAD/CKS: https://killer.sh/
 This roadmap stands on the work of many people and communities:
 
 - **[Full Stack Data Science](https://fullstackdatascience.com/)** and **[Quan Dang](https://github.com/quan-dang)** — the course that gave me my MLOps foundation (Docker, Kubernetes, Kafka, Spark, Airflow, Kubeflow, Jenkins, GKE, observability) and taught me to build projects against a rubric. Much of Sections 2–3 is what I learned there, rewritten from the perspective of someone now working in the field.
-- **[Bojie Li](https://github.com/bojieli/ai-infra-book)** — author of the open-source *AI Infrastructure* book (Apache 2.0), the backbone of Sections 4, 5, 7 and 8.
+- **[Bojie Li](https://github.com/bojieli/ai-infra-book)** — author of the open-source *AI Infrastructure* book (Apache 2.0), the backbone of Sections 3.5, 4, 5, 7 and 8.
 - **Wen-mei Hwu, David Kirk, Izzat El Hajj** — *Programming Massively Parallel Processors* and the [official lecture channel](https://www.youtube.com/@pmpp-book).
 - **[GPU MODE](https://github.com/gpu-mode/lectures)** — the community and free lecture series on GPU performance.
+- **Andrej Karpathy, Grant Sanderson (3Blue1Brown), Sebastian Raschka** and the **Stanford CS336** team (Percy Liang, Tatsunori Hashimoto) — the free videos, code and lectures behind Section 3.5.
 - **[Song Han / MIT HAN Lab](https://hanlab.mit.edu/)** — MIT 6.5940 (EfficientML.ai), AWQ, SmoothQuant and TinyChat, the techniques behind most of the quantized checkpoints we run.
 - **[vLLM project](https://github.com/vllm-project), Red Hat AI and DeepLearning.AI** — vLLM, LLM Compressor, GuideLLM and the free course *Fast & Efficient LLM Inference with vLLM*.
 - **[EleutherAI](https://github.com/EleutherAI/lm-evaluation-harness)** — lm-evaluation-harness; **[Hao AI Lab (UCSD)](https://haoailab.com/)** — DistServe and the disaggregated-serving writeups.

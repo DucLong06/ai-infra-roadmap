@@ -34,6 +34,9 @@
     - [Nguyên lý \& thiết kế hệ thống](#nguyên-lý--thiết-kế-hệ-thống)
     - [Tool (docs chính thức)](#tool-docs-chính-thức)
     - [Khoá học có hệ thống (tiếng Việt)](#khoá-học-có-hệ-thống-tiếng-việt)
+  - [3.5. Nền tảng LLM: transformer, token, KV cache, MoE](#35-nền-tảng-llm-transformer-token-kv-cache-moe)
+    - [Xem \& tự build](#xem--tự-build)
+    - [Đọc: kiến trúc quyết định memory và tốc độ](#đọc-kiến-trúc-quyết-định-memory-và-tốc-độ)
   - [4. GPU \& phần cứng NVIDIA](#4-gpu--phần-cứng-nvidia)
     - [Video](#video)
     - [Sách \& docs](#sách--docs)
@@ -65,7 +68,7 @@
 
 ## 📖 Cách dùng lộ trình
 
-1. Mục 1–3 là nền. Mục 4–8 có thể học song song tuỳ công việc. Đã biết MLOps thì vào thẳng mục 4.
+1. Mục 1–3 là nền. Mục 3.5 (Nền tảng LLM) là cây cầu mà mục 4 và mục 7 mặc định bạn đã qua. Mục 4–8 có thể học song song tuỳ công việc. Đã biết MLOps thì vào thẳng mục 3.5.
 2. Mỗi mục có **Học** (xem/đọc) → **Làm** (lab) → **Milestone** (sản phẩm để chứng minh). Chưa có milestone = chưa xong.
 3. Ký hiệu: 🆓 miễn phí · 💰 trả phí · 🎥 video · 📕 sách · 📄 docs/paper · 🧪 lab · ⭐ bắt đầu từ đây.
 4. Viết journal bằng tiếng Anh sau mỗi lab. Đó chính là portfolio của bạn.
@@ -75,24 +78,25 @@
 
 ## 🎯 Lộ trình tối thiểu
 
-Roadmap đầy đủ cố tình rộng, và rất dễ học rộng mà không sâu, hoặc bỏ dở giữa chừng. Nếu mục tiêu của bạn là *chạy và vận hành LLM inference trên phần cứng GPU*, hãy làm 12 thứ này theo thứ tự và coi phần còn lại là tài liệu tra cứu. Mỗi mục có một sản phẩm cụ thể; chưa có thì chưa đi tiếp.
+Roadmap đầy đủ cố tình rộng, và rất dễ học rộng mà không sâu, hoặc bỏ dở giữa chừng. Nếu mục tiêu của bạn là *chạy và vận hành LLM inference trên phần cứng GPU*, hãy làm 13 thứ này theo thứ tự và coi phần còn lại là tài liệu tra cứu. Mỗi mục có một sản phẩm cụ thể; chưa có thì chưa đi tiếp.
 
 | # | Tài nguyên (mục) | Sản phẩm bạn phải có |
 |---|---|---|
 | 1 | Kubernetes docs tutorials → Kubernetes The Hard Way (mục 2) | một cluster bạn tự dựng bằng tay |
 | 2 | Made With ML (mục 3) | một model được serve kèm monitoring |
-| 3 | Bài giảng PMPP (Izzat El Hajj) + GPU MODE Lecture 8 "CUDA Performance Checklist" (mục 4) | một kernel matmul đã profile bằng `ncu` và roofline của nó |
-| 4 | *AI Infrastructure* (Bojie Li) ch.3 workloads, ch.4 accelerator & memory hierarchy, ch.8 inference optimization (mục 4, 7) | memory budget của một model (weights + KV cache) tính tay |
-| 5 | MIT 6.5940 Lecture 5–6 "Quantization I & II" + Lecture 13 "LLM Deployment Techniques" (mục 7) | giải thích được W8A8 vs W4A16 vs NVFP4 và vì sao group size khác nhau |
-| 6 | How to Scale Your Model (Scaling Book), các chương inference (mục 7) | suy ra được TTFT và TPOT từ bandwidth, batch size và kích thước model |
-| 7 | vLLM docs: Optimization & Tuning, Conserving memory, Quantization, Metrics (mục 7) | một `vllm serve` đã tune, xuất metric Prometheus |
-| 8 | DeepLearning.AI × Red Hat "Fast & Efficient LLM Inference with vLLM" (mục 7) | bạn đã tự quantize, serve và benchmark một model |
-| 9 | lm-evaluation-harness chạy trên model đã quantize của bạn (mục 7) | một con số cho biết quantization lấy mất bao nhiêu |
-| 10 | Loạt blog NVIDIA "LLM Inference Benchmarking" + `vllm bench serve` (mục 7) | đồ thị throughput vs p99 TTFT/TPOT kèm goodput theo một SLO |
-| 11 | NCCL user guide + nccl-tests trên NIC của bạn (mục 5) | bus bandwidth `all_reduce` đo được và transport NCCL đã chọn |
-| 12 | Container Security (Liz Rice) + OWASP Top 10 for LLM (mục 6) | một trang threat model cho serving stack của bạn |
+| 3 | 3Blue1Brown chapter 5–6 → Karpathy "Let's build GPT" → *AI Infrastructure* (Bojie Li) ch.2 model architecture (mục 3.5) | GPT nhỏ của chính bạn có KV cache, và số byte KV mỗi token cho GQA vs MLA tính tay |
+| 4 | Bài giảng PMPP (Izzat El Hajj) + GPU MODE Lecture 8 "CUDA Performance Checklist" (mục 4) | một kernel matmul đã profile bằng `ncu` và roofline của nó |
+| 5 | *AI Infrastructure* (Bojie Li) ch.3 workloads, ch.4 accelerator & memory hierarchy, ch.8 inference optimization (mục 4, 7) | memory budget của một model (weights + KV cache) tính tay |
+| 6 | MIT 6.5940 Lecture 5–6 "Quantization I & II" + Lecture 13 "LLM Deployment Techniques" (mục 7) | giải thích được W8A8 vs W4A16 vs NVFP4 và vì sao group size khác nhau |
+| 7 | How to Scale Your Model (Scaling Book), các chương inference (mục 7) | suy ra được TTFT và TPOT từ bandwidth, batch size và kích thước model |
+| 8 | vLLM docs: Optimization & Tuning, Conserving memory, Quantization, Metrics (mục 7) | một `vllm serve` đã tune, xuất metric Prometheus |
+| 9 | DeepLearning.AI × Red Hat "Fast & Efficient LLM Inference with vLLM" (mục 7) | bạn đã tự quantize, serve và benchmark một model |
+| 10 | lm-evaluation-harness chạy trên model đã quantize của bạn (mục 7) | một con số cho biết quantization lấy mất bao nhiêu |
+| 11 | Loạt blog NVIDIA "LLM Inference Benchmarking" + `vllm bench serve` (mục 7) | đồ thị throughput vs p99 TTFT/TPOT kèm goodput theo một SLO |
+| 12 | NCCL user guide + nccl-tests trên NIC của bạn (mục 5) | bus bandwidth `all_reduce` đo được và transport NCCL đã chọn |
+| 13 | Container Security (Liz Rice) + OWASP Top 10 for LLM (mục 6) | một trang threat model cho serving stack của bạn |
 
-Sau 12 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước tiếp theo tự nhiên.
+Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước tiếp theo tự nhiên.
 
 ---
 
@@ -128,7 +132,6 @@ Sau 12 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | Python official tutorial | 🆓📄 | https://docs.python.org/3/tutorial/ |
 | Machine Learning Engineering (Andriy Burkov) | 🆓📕 | http://www.mlebook.com/ |
 | The Hundred-Page Machine Learning Book | 🆓📕 | https://themlbook.com/ |
-| Dive into Deep Learning (D2L) | 🆓📕 | https://d2l.ai/ |
 
 ### Network cơ bản
 | Tài nguyên | Loại | Link |
@@ -231,6 +234,45 @@ Sau 12 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 
 🧪 **Làm**: train → MLflow registry → KServe/Triton → Evidently drift → alert → retrain tự động → canary.
 **Milestone**: một repo train model, đăng ký vào MLflow, serve trên Kubernetes, phát hiện data drift bằng Evidently, và tự động retrain + redeploy (canary) khi có drift — toàn bộ chạy không cần thao tác tay.
+
+---
+
+## 3.5. Nền tảng LLM: transformer, token, KV cache, MoE
+
+*Cây cầu nối giữa MLOps và mọi thứ phía sau. Bạn không thể tính KV cache, chọn cách parallelism, đọc config quantization hay giải thích vì sao decode bị memory-bound nếu chưa biết transformer tính gì cho mỗi token và phải giữ gì trong bộ nhớ. Mục 4 và mục 7 mặc định bạn đã học mục này.*
+
+**Mục tiêu**: cho `config.json` của bất kỳ model nào, tự tính tay được tổng số tham số và số tham số active, FLOPs mỗi token, dung lượng weight ở BF16 / FP8 / NVFP4 và số byte KV cache mỗi token, và giải thích được điều gì thay đổi giữa prefill và decode.
+
+### Xem & tự build
+| Tài nguyên | Loại | Link |
+|---|---|---|
+| ⭐ 3Blue1Brown — Chapter 5 "But what is a GPT?" và Chapter 6 "Attention in transformers, step by step" (trực giác trước) | 🆓🎥 | https://www.3blue1brown.com/lessons/gpt/ · https://www.3blue1brown.com/lessons/attention/ |
+| Andrej Karpathy — Deep Dive into LLMs like ChatGPT (3,5 giờ, toàn bộ stack: data pretraining, tokenization, mạng neural, SFT, RL) | 🆓🎥 | https://www.youtube.com/watch?v=7xTGNNLPyMI |
+| ⭐ Andrej Karpathy — Neural Networks: Zero to Hero, Lecture 7 "Let's build GPT: from scratch, in code, spelled out" và Lecture 8 "Let's build the GPT Tokenizer" (bắt đầu từ Lecture 1 nếu bạn chưa quen backpropagation) | 🆓🎥🧪 | https://www.youtube.com/watch?v=kCc8FmEb1nY · https://www.youtube.com/watch?v=zduSFxRajkE · https://github.com/karpathy/nn-zero-to-hero |
+| Tương tác: Transformer Explainer (GPT-2 chạy thật trong trình duyệt) · LLM Visualization (Brendan Bycroft, mô phỏng 3D một bước inference cho một token) | 🆓🧪 | https://poloclub.github.io/transformer-explainer/ · https://bbycroft.net/llm |
+| ⭐ Stanford CS336 — Lecture 1 "Overview and Tokenization", Lecture 2 "PyTorch, Resource Accounting", Lecture 3 "Architectures, Hyperparameters", Lecture 4 "Mixture of Experts", cùng Assignment 1 "Basics" (tự viết BPE tokenizer, transformer và AdamW). Đây là lựa chọn học sâu, và cùng khoá này học tiếp ở mục 4 và mục 7 | 🆓🎥🧪 | https://cs336.stanford.edu/ · https://www.youtube.com/watch?v=SQ3fZ1sAqXI · https://github.com/stanford-cs336/assignment1-basics |
+| Build a Large Language Model (From Scratch) (Sebastian Raschka) — sách trả phí, code miễn phí. Các notebook bonus tự cài KV cache (`ch04/03_kv-cache`), GQA (`ch04/04_gqa`), MLA (`ch04/05_mla`), sliding-window attention, MoE (`ch04/07_moe`), phân tích FLOPs, và Llama 3 / Qwen3 / Gemma từ đầu | 💰📕 · 🆓🧪 | https://github.com/rasbt/LLMs-from-scratch |
+
+### Đọc: kiến trúc quyết định memory và tốc độ
+| Tài nguyên | Loại | Link |
+|---|---|---|
+| ⭐ AI Infrastructure (Bojie Li) — ch.1 (§1.3 ước lượng một lần chạy model bằng vài con số) và ch.2 model architecture (§2.2 prefill, decode và tái sử dụng state; §2.3 multi-head attention và KV sharing, MLA, sliding window, linear và hybrid attention, "mỗi token lưu bao nhiêu, mỗi bước decode đọc bao nhiêu"; §2.4 expert routing và lượng weight đọc mỗi batch) | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
+| ⭐ EleutherAI — Transformer Math 101 (FLOPs training ≈ 6 × số tham số × số token; memory cho weight, optimizer state và activation) · kipply — Transformer Inference Arithmetic (kích thước KV cache, khi nào decode bị memory-bound, một mô hình latency đơn giản) | 🆓📄 | https://blog.eleuther.ai/transformer-math/ · https://kipp.ly/transformer-inference-arithmetic/ |
+| Sebastian Raschka — The Big LLM Architecture Comparison (từ GPT-2 tới DeepSeek-V3, Llama 4, Qwen3, GLM: RoPE, GQA, MLA, MoE, vị trí normalization) và LLM Architecture Gallery | 🆓📄 | https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison · https://sebastianraschka.com/llm-architecture-gallery/ |
+| Jay Alammar — The Illustrated Transformer · Harvard NLP — The Annotated Transformer (paper gốc dưới dạng khoảng 400 dòng code chạy được) | 🆓📄🧪 | https://jalammar.github.io/illustrated-transformer/ · https://nlp.seas.harvard.edu/annotated-transformer/ |
+| Dive into Deep Learning — Chapter 11 "Attention Mechanisms and Transformers" (sách tham chiếu kèm code) | 🆓📕 | https://d2l.ai/chapter_attention-mechanisms-and-transformers/ |
+| Paper nên biết tên: Attention Is All You Need · multi-query attention (Shazeer) · GQA · RoPE (RoFormer) · DeepSeek-V2 (MLA: KV cache nhỏ hơn 93 % so với DeepSeek 67B) · Mixtral of Experts (47B tham số tổng, 13B active) · scaling laws (Kaplan) và Chinchilla (training tối ưu theo compute) | 🆓📄 | https://arxiv.org/abs/1706.03762 · https://arxiv.org/abs/1911.02150 · https://arxiv.org/abs/2305.13245 · https://arxiv.org/abs/2104.09864 · https://arxiv.org/abs/2405.04434 · https://arxiv.org/abs/2401.04088 · https://arxiv.org/abs/2001.08361 · https://arxiv.org/abs/2203.15556 |
+| Post-training trong một cuốn sách: RLHF Book (Nathan Lambert, đọc miễn phí online) — SFT, reward model, DPO, RL; "rollout" và "policy update" nghĩa là gì khi chúng xuất hiện dưới dạng workload hạ tầng | 🆓📕 | https://rlhfbook.com/ |
+
+🧪 **Làm**
+1. Xem 3Blue1Brown chapter 5–6, rồi code theo Karpathy "Let's build GPT" và train model mức ký tự trên một đoạn text nhỏ.
+2. Thêm KV cache vào vòng lặp generate. Đo tokens/s có và không có KV cache khi sinh 256 và 2.048 token. Tham chiếu: `ch04/03_kv-cache` của Raschka.
+3. Thay multi-head attention bằng GQA (Raschka `ch04/04_gqa`) và tính số byte KV mỗi token trước và sau.
+4. Kiểm tra tokenizer: đếm số token của cùng một đoạn văn bằng tiếng Anh và tiếng Việt với tokenizer của model bạn đang serve (`AutoTokenizer.from_pretrained(...)`). Tỷ lệ đó là hệ số chi phí thật: nhiều token hơn nghĩa là nhiều KV cache hơn, TTFT dài hơn và tốn tiền hơn cho cùng một nội dung.
+5. Bài tập trên giấy: mở `config.json` của một model dense (ví dụ Llama-3.1-8B) và một model MoE dùng MLA (ví dụ DeepSeek-V3, hoặc model bạn đang serve). Tính tổng số tham số và số tham số active, FLOPs mỗi token sinh ra (khoảng 2 × số tham số active), dung lượng weight ở BF16 / FP8 / NVFP4, và số byte KV cache mỗi token cho MHA vs GQA vs MLA. Đối chiếu với https://elinx.github.io/llm-mem-calculator/ và với log của vLLM lúc khởi động.
+6. Prefill vs decode: đo thời gian một forward pass cho prompt 2.048 token so với 256 bước decode một token trên GPU của bạn, rồi giải thích chênh lệch tokens/s bằng arithmetic intensity. Đây là cây cầu sang mục 4.
+
+**Milestone**: một repo hoặc notebook gồm (1) GPT nhỏ của bạn với vòng lặp generate có KV cache chạy được và tốc độ tăng đo được, và (2) một trang "infra model card" cho model bạn thực sự serve: tổng số tham số và số tham số active, số layer, loại attention (MHA / GQA / MLA) và số KV head, số byte KV mỗi token ở BF16 và FP8, dung lượng weight ở BF16 / FP8 / NVFP4, và FLOPs mỗi token, mỗi con số đều tính tay và kiểm lại bằng số đo. Sau mục này, video "Let's reproduce GPT-2" của Karpathy ở mục 7 cho thấy cùng model đó ở tầng hệ thống.
 
 ---
 
@@ -586,9 +628,10 @@ Simulator thi CKA/CKAD/CKS: https://killer.sh/
 Roadmap này đứng trên vai nhiều người và cộng đồng:
 
 - **[Full Stack Data Science](https://fullstackdatascience.com/)** và anh **[Quan Dang](https://github.com/quan-dang)** — khoá học cho tôi nền MLOps đầu tiên (Docker, Kubernetes, Kafka, Spark, Airflow, Kubeflow, Jenkins, GKE, observability) và cách làm đồ án theo rubric. Phần lớn mục 2–3 là những gì tôi học được ở đó, viết lại theo góc nhìn của người đã đi làm.
-- **[Bojie Li](https://github.com/bojieli/ai-infra-book)** — tác giả sách open-source *AI Infrastructure* (Apache 2.0), xương sống của mục 4, 5, 7, 8.
+- **[Bojie Li](https://github.com/bojieli/ai-infra-book)** — tác giả sách open-source *AI Infrastructure* (Apache 2.0), xương sống của mục 3.5, 4, 5, 7, 8.
 - **Wen-mei Hwu, David Kirk, Izzat El Hajj** — *Programming Massively Parallel Processors* và [kênh bài giảng chính thức](https://www.youtube.com/@pmpp-book).
 - **[GPU MODE](https://github.com/gpu-mode/lectures)** — cộng đồng và loạt lecture free về GPU performance.
+- **Andrej Karpathy, Grant Sanderson (3Blue1Brown), Sebastian Raschka** và đội ngũ **Stanford CS336** (Percy Liang, Tatsunori Hashimoto) — video, code và bài giảng miễn phí làm nền cho mục 3.5.
 - **[Song Han / MIT HAN Lab](https://hanlab.mit.edu/)** — MIT 6.5940 (EfficientML.ai), AWQ, SmoothQuant và TinyChat, những kỹ thuật đứng sau phần lớn checkpoint quantized mà chúng ta chạy.
 - **[vLLM project](https://github.com/vllm-project), Red Hat AI và DeepLearning.AI** — vLLM, LLM Compressor, GuideLLM và khoá học miễn phí *Fast & Efficient LLM Inference with vLLM*.
 - **[EleutherAI](https://github.com/EleutherAI/lm-evaluation-harness)** — lm-evaluation-harness; **[Hao AI Lab (UCSD)](https://haoailab.com/)** — DistServe và các bài viết về disaggregated serving.
