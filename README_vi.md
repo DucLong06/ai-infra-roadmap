@@ -80,6 +80,8 @@
 
 Roadmap đầy đủ cố tình rộng, và rất dễ học rộng mà không sâu, hoặc bỏ dở giữa chừng. Nếu mục tiêu của bạn là *chạy và vận hành LLM inference trên phần cứng GPU*, hãy làm 13 thứ này theo thứ tự và coi phần còn lại là tài liệu tra cứu. Mỗi mục có một sản phẩm cụ thể; chưa có thì chưa đi tiếp.
 
+![Lộ trình tối thiểu: 13 chặng từ Kubernetes tới threat model](assets/minimum-path.png)
+
 | # | Tài nguyên (mục) | Sản phẩm bạn phải có |
 |---|---|---|
 | 1 | Kubernetes docs tutorials → Kubernetes The Hard Way (mục 2) | một cluster bạn tự dựng bằng tay |
@@ -602,6 +604,10 @@ Simulator thi CKA/CKAD/CKS: https://killer.sh/
 | https://github.com/ai-infra-curriculum/ai-infra-engineer-learning | 10 module, 62 lab, 3 project (model serving → MLOps pipeline → LLM deployment) |
 | https://github.com/ai-infra-curriculum/ai-infra-performance-learning | Track performance engineer: CUDA, Nsight, compression, transformer kernels |
 | https://github.com/DataTalksClub/mlops-zoomcamp | Nộp project để được peer review miễn phí |
+
+**Sơ đồ lab của tôi**: hai DGX Spark (GB10) nối bằng một sợi cáp QSFP, vLLM tensor parallel trên cả hai node.
+
+![Hai DGX Spark nối qua RoCE 200G, vLLM tensor parallel = 2](assets/dgx-spark-lab.png)
 
 ---
 

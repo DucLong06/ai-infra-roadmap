@@ -79,6 +79,8 @@
 
 The full roadmap is deliberately wide, and it is easy to learn broad and shallow or to give up halfway. If your goal is *run and operate LLM inference on GPU hardware*, do these thirteen in order and treat the rest as look-up material. Each one has a concrete output; do not move on without it.
 
+![Minimum path: 13 stops from Kubernetes to a threat model](assets/minimum-path.png)
+
 | # | Resource (section) | Output you should have |
 |---|---|---|
 | 1 | Kubernetes docs tutorials → Kubernetes The Hard Way (Section 2) | a cluster you built by hand |
@@ -601,6 +603,10 @@ Exam simulator for CKA/CKAD/CKS: https://killer.sh/
 | https://github.com/ai-infra-curriculum/ai-infra-engineer-learning | 10 modules, 62 labs, 3 projects (model serving → MLOps pipeline → LLM deployment) |
 | https://github.com/ai-infra-curriculum/ai-infra-performance-learning | Performance-engineer track: CUDA, Nsight, compression, transformer kernels |
 | https://github.com/DataTalksClub/mlops-zoomcamp | Submit a project for free peer review |
+
+**My lab topology**: two DGX Spark (GB10) linked by one QSFP cable, vLLM tensor parallel across both nodes.
+
+![Two DGX Spark linked over 200G RoCE, vLLM tensor parallel = 2](assets/dgx-spark-lab.png)
 
 ---
 
