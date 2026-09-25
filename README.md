@@ -262,6 +262,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | Sebastian Raschka — The Big LLM Architecture Comparison (GPT-2 to DeepSeek-V3, Llama 4, Qwen3, GLM: RoPE, GQA, MLA, MoE, normalization placement) and the LLM Architecture Gallery | 🆓📄 | https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison · https://sebastianraschka.com/llm-architecture-gallery/ |
 | Jay Alammar — The Illustrated Transformer · Harvard NLP — The Annotated Transformer (the original paper as about 400 lines of runnable code) | 🆓📄🧪 | https://jalammar.github.io/illustrated-transformer/ · https://nlp.seas.harvard.edu/annotated-transformer/ |
 | Dive into Deep Learning — Chapter 11 "Attention Mechanisms and Transformers" (textbook reference with code) | 🆓📕 | https://d2l.ai/chapter_attention-mechanisms-and-transformers/ |
+| Outcome School (Amit Shekhar) — AI Engineering Course, Module 3 "Generative AI and the Transformer Architecture" and Module 5 "Modern LLM Architecture", plus the companion `llm-internals` index: plain-language blog lessons on BPE, the math behind Q/K/V and the √dₖ scaling, causal masking, RoPE, MoE, GQA, sliding-window attention, attention sinks, FlashAttention and DeepSeek-V4. A gentle first pass or a quick review; no code or labs | 🆓📄🎥 | https://github.com/amitshekhariitbhu/ai-engineering-course · https://github.com/amitshekhariitbhu/llm-internals |
 | Papers to know by name: Attention Is All You Need · multi-query attention (Shazeer) · GQA · RoPE (RoFormer) · DeepSeek-V2 (MLA: 93 % less KV cache than DeepSeek 67B) · Mixtral of Experts (47B total, 13B active parameters) · scaling laws (Kaplan) and Chinchilla (compute-optimal training) | 🆓📄 | https://arxiv.org/abs/1706.03762 · https://arxiv.org/abs/1911.02150 · https://arxiv.org/abs/2305.13245 · https://arxiv.org/abs/2104.09864 · https://arxiv.org/abs/2405.04434 · https://arxiv.org/abs/2401.04088 · https://arxiv.org/abs/2001.08361 · https://arxiv.org/abs/2203.15556 |
 | Post-training in one book: RLHF Book (Nathan Lambert, free online) — SFT, reward models, DPO, RL; what "rollout" and "policy update" mean when they show up as infrastructure workloads | 🆓📕 | https://rlhfbook.com/ |
 
@@ -446,6 +447,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | vLLM Zero to Hero (Red Hat AI) — run → optimize → benchmark → scale | 🆓🧪 | https://github.com/red-hat-ai-dev/vLLM-zero-to-hero-overview |
 | Aleksa Gordić — Inside vLLM: Anatomy of a High-Throughput LLM Inference System | 🆓📄 | https://www.aleksagordic.com/blog/vllm |
 | Lilian Weng — Large Transformer Model Inference Optimization | 🆓📄 | https://lilianweng.github.io/posts/2023-01-10-inference-optimization/ |
+| Outcome School (Amit Shekhar) — LLM Inference Engineering: plain-language blog lessons on prefill vs decode and TTFT/TPOT, KV cache and KV-cache compression, PagedAttention, continuous batching, speculative decoding (n-gram, Medusa, EAGLE), vLLM, SGLang, TensorRT-LLM, GGUF, and how GPUs, TPUs and LPUs run inference. Read one lesson before the matching paper or doc above; no labs | 🆓📄 | https://github.com/amitshekhariitbhu/llm-inference-engineering · https://outcomeschool.com/blog/prefill-vs-decode-llm-inference-optimization |
 | TensorRT-LLM docs | 🆓📄 | https://nvidia.github.io/TensorRT-LLM/ |
 | NVIDIA Dynamo docs | 🆓📄 | https://docs.nvidia.com/dynamo/latest/ |
 | gpu-perf-engineering-resources — paper list (FlashAttention-3, PagedAttention, FlashInfer, MLA) | 🆓📄 | https://github.com/JINO-ROHIT/gpu-perf-engineering-resources |
@@ -621,6 +623,7 @@ Exam simulator for CKA/CKAD/CKS: https://killer.sh/
 | gpu-perf-engineering-resources | https://github.com/JINO-ROHIT/gpu-perf-engineering-resources |
 | MLOps Engineer Roadmap (100% free video resources) | https://github.com/harish303118/MLOps-Engineering-with-Roadmap-and-Free-Learning-Resources |
 | ml-roadmap | https://github.com/loganthorneloe/ml-roadmap |
+| AI Engineering Course (Outcome School, 18 modules: ML foundations → transformers → fine-tuning → RAG → agents → inference → system design). Application-side AI engineering that complements this infrastructure roadmap | https://github.com/amitshekhariitbhu/ai-engineering-course |
 | Machine Learning Systems (mlsysbook.ai) | https://mlsysbook.ai/ |
 | developer-roadmap (roadmap.sh source) | https://github.com/kamranahmedse/developer-roadmap |
 
