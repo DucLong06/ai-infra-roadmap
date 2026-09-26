@@ -53,6 +53,7 @@
     - [Evaluation: what did quantization cost you?](#evaluation-what-did-quantization-cost-you)
     - [Speculative decoding](#speculative-decoding)
     - [LLM serving metrics \& benchmarking](#llm-serving-metrics--benchmarking)
+    - [What AI teams build on top: RAG, agents, MCP (know it to run it)](#what-ai-teams-build-on-top-rag-agents-mcp-know-it-to-run-it)
     - [Looking ahead: disaggregated serving (prefill/decode split)](#looking-ahead-disaggregated-serving-prefilldecode-split)
   - [8. AI Data Center (AIDC)](#8-ai-data-center-aidc)
     - [Video](#video-4)
@@ -253,6 +254,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | Interactive: Transformer Explainer (a live GPT-2 in your browser) · LLM Visualization (Brendan Bycroft, a 3D walkthrough of one token of inference) | 🆓🧪 | https://poloclub.github.io/transformer-explainer/ · https://bbycroft.net/llm |
 | ⭐ Stanford CS336 — Lecture 1 "Overview and Tokenization", Lecture 2 "PyTorch, Resource Accounting", Lecture 3 "Architectures, Hyperparameters", Lecture 4 "Mixture of Experts", plus Assignment 1 "Basics" (BPE tokenizer, transformer and AdamW from scratch). This is the deep option, and the same course continues into Sections 4 and 7 | 🆓🎥🧪 | https://cs336.stanford.edu/ · https://www.youtube.com/watch?v=SQ3fZ1sAqXI · https://github.com/stanford-cs336/assignment1-basics |
 | Build a Large Language Model (From Scratch) (Sebastian Raschka) — the book is paid, the code is free. Bonus notebooks implement KV cache (`ch04/03_kv-cache`), GQA (`ch04/04_gqa`), MLA (`ch04/05_mla`), sliding-window attention, MoE (`ch04/07_moe`), a FLOPs analysis, and Llama 3 / Qwen3 / Gemma from scratch | 💰📕 · 🆓🧪 | https://github.com/rasbt/LLMs-from-scratch |
+| AI Engineering from Scratch (Rohit Ghumare) — Phase 7 "Transformers Deep Dive" and Phase 10 "LLMs from Scratch": build attention, a tokenizer, a mini-GPT, KV cache, quantization, speculative decoding and multi-token prediction by hand in plain Python and NumPy, with a quiz per lesson. Toy scale, so pair it with Karpathy or CS336 for PyTorch | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/07-transformers-deep-dive · https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/10-llms-from-scratch |
 
 ### Read: the architecture decides memory and speed
 | Resource | Type | Link |
@@ -262,6 +264,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | Sebastian Raschka — The Big LLM Architecture Comparison (GPT-2 to DeepSeek-V3, Llama 4, Qwen3, GLM: RoPE, GQA, MLA, MoE, normalization placement) and the LLM Architecture Gallery | 🆓📄 | https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison · https://sebastianraschka.com/llm-architecture-gallery/ |
 | Jay Alammar — The Illustrated Transformer · Harvard NLP — The Annotated Transformer (the original paper as about 400 lines of runnable code) | 🆓📄🧪 | https://jalammar.github.io/illustrated-transformer/ · https://nlp.seas.harvard.edu/annotated-transformer/ |
 | Dive into Deep Learning — Chapter 11 "Attention Mechanisms and Transformers" (textbook reference with code) | 🆓📕 | https://d2l.ai/chapter_attention-mechanisms-and-transformers/ |
+| Outcome School (Amit Shekhar) — AI Engineering Course, Module 3 "Generative AI and the Transformer Architecture" and Module 5 "Modern LLM Architecture", plus the companion `llm-internals` index: plain-language blog lessons on BPE, the math behind Q/K/V and the √dₖ scaling, causal masking, RoPE, MoE, GQA, sliding-window attention, attention sinks, FlashAttention and DeepSeek-V4. A gentle first pass or a quick review; no code or labs | 🆓📄🎥 | https://github.com/amitshekhariitbhu/ai-engineering-course · https://github.com/amitshekhariitbhu/llm-internals |
 | Papers to know by name: Attention Is All You Need · multi-query attention (Shazeer) · GQA · RoPE (RoFormer) · DeepSeek-V2 (MLA: 93 % less KV cache than DeepSeek 67B) · Mixtral of Experts (47B total, 13B active parameters) · scaling laws (Kaplan) and Chinchilla (compute-optimal training) | 🆓📄 | https://arxiv.org/abs/1706.03762 · https://arxiv.org/abs/1911.02150 · https://arxiv.org/abs/2305.13245 · https://arxiv.org/abs/2104.09864 · https://arxiv.org/abs/2405.04434 · https://arxiv.org/abs/2401.04088 · https://arxiv.org/abs/2001.08361 · https://arxiv.org/abs/2203.15556 |
 | Post-training in one book: RLHF Book (Nathan Lambert, free online) — SFT, reward models, DPO, RL; what "rollout" and "policy update" mean when they show up as infrastructure workloads | 🆓📕 | https://rlhfbook.com/ |
 
@@ -421,7 +424,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 
 ## 7. LLMOps & large-scale inference
 
-*Operating LLMs = MLOps + GPU memory as the scarcest resource + quantization as the lever that makes a model fit + new evaluation (eval harnesses, LLM-as-judge) + latency that is not one number (TTFT, TPOT) + cost per token.*
+*Operating LLMs = MLOps + GPU memory as the scarcest resource + quantization as the lever that makes a model fit + new evaluation (eval harnesses, LLM-as-judge) + latency that is not one number (TTFT, TPOT) + cost per token + the application stack teams build on top (RAG, agents, MCP) that ops has to deploy and test.*
 
 ### Video
 | Resource | Type | Link |
@@ -442,10 +445,12 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | ⭐ The Ultra-Scale Playbook (Hugging Face) | 🆓📕 | https://huggingface.co/spaces/nanotron/ultrascale-playbook |
 | AI Infrastructure (Bojie Li) — ch.8 inference optimization (§8.1 request lifecycle and memory, §8.2 continuous batching, §8.3 KV cache, §8.4 compression and offloading, §8.5 speculative decoding), ch.9 distributed inference (§9.2 prefill–decode separation, §9.3–9.4 MoE and expert parallelism), ch.10 training systems, ch.11 scheduling | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 | AI Performance Engineering (Chris Fregly) — code repo | 🆓🧪 | https://github.com/cfregly/ai-performance-engineering |
+| AI Engineering from Scratch — Phase 17 "Infrastructure and Production": 29 lessons on vLLM internals, EAGLE-3, SGLang RadixAttention, TensorRT-LLM on Blackwell, goodput, production quantization, disaggregated prefill/decode, LMCache, load testing, SRE and FinOps for LLMs. The code is a standard-library simulator with illustrative constants, so use it for concepts and then measure on real hardware | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production |
 | vLLM docs — start with Optimization & Tuning, Conserving memory, Engine args | 🆓📄 | https://docs.vllm.ai/ · https://docs.vllm.ai/en/stable/configuration/optimization/ · https://docs.vllm.ai/en/latest/configuration/conserving_memory/ |
 | vLLM Zero to Hero (Red Hat AI) — run → optimize → benchmark → scale | 🆓🧪 | https://github.com/red-hat-ai-dev/vLLM-zero-to-hero-overview |
 | Aleksa Gordić — Inside vLLM: Anatomy of a High-Throughput LLM Inference System | 🆓📄 | https://www.aleksagordic.com/blog/vllm |
 | Lilian Weng — Large Transformer Model Inference Optimization | 🆓📄 | https://lilianweng.github.io/posts/2023-01-10-inference-optimization/ |
+| Outcome School (Amit Shekhar) — LLM Inference Engineering: plain-language blog lessons on prefill vs decode and TTFT/TPOT, KV cache and KV-cache compression, PagedAttention, continuous batching, speculative decoding (n-gram, Medusa, EAGLE), vLLM, SGLang, TensorRT-LLM, GGUF, and how GPUs, TPUs and LPUs run inference. Read one lesson before the matching paper or doc above; no labs | 🆓📄 | https://github.com/amitshekhariitbhu/llm-inference-engineering · https://outcomeschool.com/blog/prefill-vs-decode-llm-inference-optimization |
 | TensorRT-LLM docs | 🆓📄 | https://nvidia.github.io/TensorRT-LLM/ |
 | NVIDIA Dynamo docs | 🆓📄 | https://docs.nvidia.com/dynamo/latest/ |
 | gpu-perf-engineering-resources — paper list (FlashAttention-3, PagedAttention, FlashInfer, MLA) | 🆓📄 | https://github.com/JINO-ROHIT/gpu-perf-engineering-resources |
@@ -528,6 +533,30 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | MLPerf Inference (MLCommons) — the datacenter LLM suite (Llama 2 70B, Llama 3.1 405B, DeepSeek-R1, …) and how vendors report | 🆓🧪 | https://github.com/mlcommons/inference |
 | Bojie Li — ch.3 §3.1.2 task objectives and evaluation metrics; ch.8 §8.1.3 from single-request time to service targets | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 
+### What AI teams build on top: RAG, agents, MCP (know it to run it)
+
+*Ops does not have to build the chatbot, but it has to run everything the chatbot depends on: an embedding server, a vector database, an OpenAI-compatible endpoint with tool calling, MCP servers, a gateway with keys and quotas, guardrails and tracing. Learn each pattern well enough to deploy its dependencies and to test them.*
+
+| Resource | Type | Link |
+|---|---|---|
+| ⭐ AI Engineering from Scratch (Rohit Ghumare, MIT; every lesson has runnable code and a quiz) — Phase 11 "LLM Engineering" (embeddings, RAG, function calling, evaluation, caching and cost, guardrails, MCP), Phase 13 "Tools and Protocols" (MCP server, client and transports, MCP security and OAuth 2.1, MCP gateways and registries, A2A, OpenTelemetry GenAI, LLM routing), Phase 14 "Agent Engineering" (agent loop, memory, workflow patterns, agent SDKs, agent observability, prompt-injection defense, production runtimes) | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/11-llm-engineering · https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/13-tools-and-protocols · https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/14-agent-engineering |
+| AI Engineering from Scratch — Phase 16 "Multi-Agent and Swarms" and Phase 18 "Ethics, Safety, Alignment" (red-team tooling with garak, Llama Guard and PyRIT; indirect prompt injection; CVEs for AI). Read the lessons that match what your teams actually deploy | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/16-multi-agent-and-swarms · https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/18-ethics-safety-alignment |
+| Outcome School — AI Engineering Course, Modules 8–11 (prompt and context engineering, RAG and vector search, agents and MCP, agent frameworks) and Modules 13–14 (evaluation, observability, guardrails, prompt injection): plain-language explainers | 🆓📄🎥 | https://github.com/amitshekhariitbhu/ai-engineering-course |
+| Anthropic — Building Effective Agents (workflows vs agents; most production systems are workflows, and that changes what you have to operate) | 🆓📄 | https://www.anthropic.com/engineering/building-effective-agents |
+| DeepLearning.AI × Anthropic — MCP: Build Rich-Context AI Apps (MCP server, client and remote deployment) · the MCP specification | 🆓🎥🧪📄 | https://www.deeplearning.ai/short-courses/mcp-build-rich-context-ai-apps-with-anthropic/ · https://modelcontextprotocol.io/specification/2026-07-28 |
+| AI Engineering (Chip Huyen, O'Reilly) — RAG, agents, evaluation and inference optimization from the application side | 💰📕 | https://github.com/chiphuyen/aie-book |
+
+**Ops cheat sheet: what to deploy and how to test it**
+
+| Pattern | What ops deploys | How to test it | Links |
+|---|---|---|---|
+| RAG | an embedding and reranker server, a vector database, ingestion jobs | retrieval recall@k on a small golden set; Ragas faithfulness and context precision; p99 latency split into retrieval vs generation | https://github.com/huggingface/text-embeddings-inference · https://github.com/pgvector/pgvector · https://github.com/qdrant/qdrant · https://github.com/milvus-io/milvus · https://github.com/explodinggradients/ragas |
+| Tool calling and agents | a vLLM endpoint started with `--enable-auto-tool-choice --tool-call-parser <parser>`, sandboxed tool execution, step and token limits | tool-call success rate on fixed tasks; loop and timeout limits hold; tokens and cost per task | https://docs.vllm.ai/en/latest/features/tool_calling/ |
+| MCP servers | MCP servers as services with OAuth 2.1, a NetworkPolicy and a registry or gateway in front | MCP Inspector in `--cli` mode in CI; contract tests on tool schemas | https://github.com/modelcontextprotocol/inspector |
+| AI gateway | LiteLLM proxy, or Agent Router (formerly Envoy AI Gateway) on Kubernetes: virtual keys, quotas, token-based rate limits, fallbacks | failover drill (stop one backend); quota and rate-limit tests; spend report per team | https://docs.litellm.ai/docs/ · https://github.com/envoyproxy/ai-gateway |
+| Guardrails and red team | Llama Guard and Prompt Guard, or NeMo Guardrails (Section 6), in front of the model | promptfoo red-team, garak and PyRIT runs in CI; track block rate and false positives | https://github.com/meta-llama/PurpleLlama · https://github.com/promptfoo/promptfoo · https://github.com/microsoft/PyRIT |
+| Observability | OpenTelemetry GenAI semantic conventions into Langfuse or your tracing backend | every request has a trace with model, tokens, latency and tool calls; alert on cost and error spikes | https://github.com/open-telemetry/semantic-conventions-genai · https://github.com/langfuse/langfuse |
+
 ### Looking ahead: disaggregated serving (prefill/decode split)
 
 *Prefill is compute-bound, decode is memory-bound. The frontier runs them on separate pools, ships the KV cache over RDMA, and routes requests by prefix-cache hits. Read this after you can explain TTFT vs TPOT on one box.*
@@ -551,8 +580,9 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 5. Kueue + GPU Operator: two teams submit jobs; observe quotas and preemption.
 6. LoRA fine-tune across 2 nodes (DDP/FSDP) over RDMA; measure scaling efficiency.
 7. Retrain loop: Evidently → Alertmanager → Argo Events → job → MLflow → canary.
+8. AI-app test bench on your cluster: an embedding server and Qdrant (or pgvector), your vLLM endpoint with tool calling behind LiteLLM, one small RAG app and one MCP server. Trace everything with OpenTelemetry into Langfuse, and gate every change in CI with Ragas scores, a promptfoo red-team run and MCP Inspector.
 
-**Milestone**: a benchmark report for one LLM on your hardware (throughput vs TTFT/TPOT at different batch sizes; FP8 vs NVFP4 with the eval numbers that show what quantization cost; speculative-decoding acceptance vs speedup; single node vs 2-node tensor parallel) and a working automatic retrain loop. If you want a certificate at this stage, take **NCP-AII** (if you build clusters) or **NCP-AIO** (if you operate them).
+**Milestone**: a benchmark report for one LLM on your hardware (throughput vs TTFT/TPOT at different batch sizes; FP8 vs NVFP4 with the eval numbers that show what quantization cost; speculative-decoding acceptance vs speedup; single node vs 2-node tensor parallel), a working automatic retrain loop, and an AI-app test bench (RAG, tool calling, MCP) with CI checks that other teams can reuse. If you want a certificate at this stage, take **NCP-AII** (if you build clusters) or **NCP-AIO** (if you operate them).
 
 ---
 
@@ -621,6 +651,8 @@ Exam simulator for CKA/CKAD/CKS: https://killer.sh/
 | gpu-perf-engineering-resources | https://github.com/JINO-ROHIT/gpu-perf-engineering-resources |
 | MLOps Engineer Roadmap (100% free video resources) | https://github.com/harish303118/MLOps-Engineering-with-Roadmap-and-Free-Learning-Resources |
 | ml-roadmap | https://github.com/loganthorneloe/ml-roadmap |
+| AI Engineering from Scratch (20 phases, runnable lessons in Python, TypeScript, Rust and Julia, MIT) | https://github.com/rohitg00/ai-engineering-from-scratch · https://aiengineeringfromscratch.com/ |
+| AI Engineering Course (Outcome School, 18 modules: ML foundations → transformers → fine-tuning → RAG → agents → inference → system design). Application-side AI engineering that complements this infrastructure roadmap | https://github.com/amitshekhariitbhu/ai-engineering-course |
 | Machine Learning Systems (mlsysbook.ai) | https://mlsysbook.ai/ |
 | developer-roadmap (roadmap.sh source) | https://github.com/kamranahmedse/developer-roadmap |
 
@@ -639,6 +671,7 @@ This roadmap stands on the work of many people and communities:
 - **Andrej Karpathy, Grant Sanderson (3Blue1Brown), Sebastian Raschka** and the **Stanford CS336** team (Percy Liang, Tatsunori Hashimoto) — the free videos, code and lectures behind Section 3.5.
 - **[Song Han / MIT HAN Lab](https://hanlab.mit.edu/)** — MIT 6.5940 (EfficientML.ai), AWQ, SmoothQuant and TinyChat, the techniques behind most of the quantized checkpoints we run.
 - **[vLLM project](https://github.com/vllm-project), Red Hat AI and DeepLearning.AI** — vLLM, LLM Compressor, GuideLLM and the free course *Fast & Efficient LLM Inference with vLLM*.
+- **[Rohit Ghumare](https://github.com/rohitg00/ai-engineering-from-scratch)** (AI Engineering from Scratch) and **[Amit Shekhar](https://github.com/amitshekhariitbhu/ai-engineering-course)** (Outcome School) — free curricula behind the AI-application material in Sections 3.5 and 7.
 - **[EleutherAI](https://github.com/EleutherAI/lm-evaluation-harness)** — lm-evaluation-harness; **[Hao AI Lab (UCSD)](https://haoailab.com/)** — DistServe and the disaggregated-serving writeups.
 - **The DGX Spark community** — himorishige, tonyd2wild, Kdurazzo, natolambert, bidual (awesome-dgx-spark) and the NVIDIA forum members who documented GB10 multi-node setups and the unified-memory pitfalls.
 - **Liz Rice / Isovalent** — *Container Security* and *Learning eBPF*, released free.
