@@ -47,6 +47,7 @@
   - [6. Security cho AI platform](#6-security-cho-ai-platform)
     - [Video](#video-2)
     - [Sách \& docs](#sách--docs-2)
+    - [Bảo mật LLM \& agent: khoá học, lab, chuẩn, công cụ](#bảo-mật-llm--agent-khoá-học-lab-chuẩn-công-cụ)
   - [7. LLMOps \& inference quy mô lớn](#7-llmops--inference-quy-mô-lớn)
     - [Video](#video-3)
     - [Sách \& docs](#sách--docs-3)
@@ -405,11 +406,29 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | Kyverno docs | 🆓📄 | https://kyverno.io/docs/ |
 | HashiCorp Vault tutorials | 🆓📄🧪 | https://developer.hashicorp.com/vault/tutorials |
 | Sigstore / cosign docs | 🆓📄 | https://docs.sigstore.dev/ |
-| ⭐ OWASP Top 10 for LLM Applications | 🆓📄 | https://genai.owasp.org/ |
-| MITRE ATLAS | 🆓📄 | https://atlas.mitre.org/ |
-| NVIDIA garak — scanner lỗ hổng LLM | 🆓🧪 | https://github.com/NVIDIA/garak |
-| NVIDIA NeMo Guardrails | 🆓🧪 | https://github.com/NVIDIA/NeMo-Guardrails |
 | roadmap.sh — Cyber Security | 🆓📄 | https://roadmap.sh/cyber-security |
+
+### Bảo mật LLM & agent: khoá học, lab, chuẩn, công cụ
+
+*Serving stack bạn dựng ở mục 7 tự nó là một bề mặt tấn công: prompt injection qua tài liệu RAG và output của tool, lộ system prompt, agent có tool được trao quá nhiều quyền (excessive agency), model và MCP server bị đầu độc trong supply chain, và unbounded consumption biến thành hoá đơn GPU. Học tấn công bằng tay trước, rồi đến chuẩn, rồi đến scanner có thể đưa vào CI.*
+
+| Tài nguyên | Loại | Link |
+|---|---|---|
+| ⭐ DeepLearning.AI × Giskard — Red Teaming LLM Applications (khoảng 1,5 h: prompt injection, red teaming ở quy mô lớn, dùng LLM để red-team LLM) | 🆓🎥🧪 | https://www.deeplearning.ai/short-courses/red-teaming-llm-applications/ |
+| ⭐ Microsoft — AI Red Teaming 101 (10 tập: direct và indirect prompt injection, tấn công single-turn và multi-turn như Crescendo, Skeleton Key, phòng thủ spotlighting, tự động hoá bằng PyRIT) + AI Red Teaming Playground Labs (12 thử thách chạy local bằng Docker) | 🆓🎥🧪 | https://learn.microsoft.com/en-us/security/ai-red-team/training · https://github.com/microsoft/AI-Red-Teaming-Playground-Labs |
+| ⭐ PortSwigger Web Security Academy — Web LLM attacks (lab miễn phí: excessive agency, insecure output handling, indirect prompt injection) | 🆓📄🧪 | https://portswigger.net/web-security/llm-attacks |
+| Lakera — Gandalf / Agent Breaker (game prompt injection, chơi free trên trình duyệt) và Prompt Injection Attacks Handbook | 🆓🧪📄 | https://gandalf.lakera.ai/ · https://www.lakera.ai/ai-security-guides/prompt-injection-attacks-handbook |
+| Red Team Leaders — CLLMSP → CLLMSE (Certified LLM Security Professional / Expert): khoá ôn và kỳ thi 6 giờ có lab thật (indirect prompt injection, RAG poisoning, MCP supply-chain rug pull). Đây là chứng chỉ tôi đang ôn | 🆓/💰🎥🧪 | https://courses.redteamleaders.com/courses/76172b63-32cd-4e3b-aaf9-6d3bf005348a · https://courses.redteamleaders.com/exams/73c286aa-2944-4f26-82ba-0ca14a05a4b7 |
+| Hack The Box Academy — AI Red Teamer path (hợp tác với Google; 12 module từ prompt injection đến AI evasion, privacy và defense) | 💰🧪 | https://academy.hackthebox.com/path/preview/ai-red-teamer |
+| OffSec — LLM Red Teaming learning path (30 h, 6 module) | 💰🎥🧪 | https://www.offsec.com/learning/paths/llm-red-teaming/ |
+| Practical DevSecOps — Certified AI Security Professional (CAISP): 50+ lab trên trình duyệt về OWASP LLM Top 10, MITRE ATLAS, AI supply chain, threat modeling STRIDE | 💰🧪 | https://www.practical-devsecops.com/certified-ai-security-professional/ |
+| LinkedIn Learning — Red Teaming for Generative AI (Rashim Mogha, 27 phút tổng quan) | 💰🎥 | https://www.linkedin.com/learning/red-teaming-for-generative-ai-building-robust-and-responsible-solutions |
+| ⭐ OWASP GenAI Security Project — Top 10 for LLM Applications (2025) và Top 10 for Agentic Applications (2026) | 🆓📄 | https://genai.owasp.org/llm-top-10/ · https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/ |
+| MITRE ATLAS — chiến thuật và kỹ thuật của kẻ tấn công nhắm vào hệ thống AI | 🆓📄 | https://atlas.mitre.org/ |
+| NIST AI 600-1 — Generative AI Profile của AI Risk Management Framework | 🆓📄 | https://doi.org/10.6028/NIST.AI.600-1 |
+| Scanner và tự động hoá red team: NVIDIA garak (scanner lỗ hổng LLM) · Microsoft PyRIT (Python Risk Identification Tool) · promptfoo red teaming (plugin map theo OWASP LLM Top 10, chạy được trong CI) | 🆓🧪 | https://github.com/NVIDIA/garak · https://github.com/microsoft/PyRIT · https://www.promptfoo.dev/docs/red-team/ |
+| Guardrails: NVIDIA NeMo Guardrails | 🆓🧪 | https://github.com/NVIDIA/NeMo-Guardrails |
+| Roadmap pentest AI/ML và tài nguyên miễn phí (anmolksachan): CTF, app cố tình có lỗ hổng, lab MCP | 🆓📄 | https://github.com/anmolksachan/AI-ML-Free-Resources-for-Security-and-Prompt-Injection |
 
 🧪 **Làm**
 1. Threat model 1 trang (STRIDE) cho hệ thống ML của bạn.
@@ -418,8 +437,9 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 4. CI: Trivy scan → cosign ký → Kyverno `verifyImages`.
 5. mTLS STRICT (Istio hoặc Cilium); kiểm chứng bằng tcpdump.
 6. Falco runtime alert; garak scan endpoint LLM.
+7. Tự red-team serving stack của mình: làm hết Microsoft Playground Labs và lab LLM của PortSwigger, rồi chạy promptfoo (plugin OWASP LLM Top 10) và PyRIT vào endpoint vLLM cùng RAG hoặc agent đứng trước nó. Đưa một scan vào CI và sửa một finding bằng NeMo Guardrails hoặc lọc input/output.
 
-**Milestone**: một pull request được merge vào dự án của bạn, thêm Kyverno policy, secret quản lý bằng Vault, image đã ký và được kiểm tra khi admission, mTLS giữa các service, và một rule alert Falco — kèm tài liệu threat model 1 trang giải thích mỗi biện pháp chống lại rủi ro nào. Nếu muốn có chứng chỉ ở giai đoạn này, thi **KCSA** trước rồi **CKS**.
+**Milestone**: một pull request được merge vào dự án của bạn, thêm Kyverno policy, secret quản lý bằng Vault, image đã ký và được kiểm tra khi admission, mTLS giữa các service, và một rule alert Falco — kèm tài liệu threat model 1 trang giải thích mỗi biện pháp chống lại rủi ro nào, map theo OWASP LLM Top 10 và MITRE ATLAS, và một báo cáo red-team scan với finding bạn đã sửa. Nếu muốn có chứng chỉ ở giai đoạn này, thi **KCSA** trước rồi **CKS**; phía LLM thì **CLLMSP → CLLMSE** hoặc **CAISP**.
 
 ---
 
@@ -567,7 +587,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | ⭐ DistServe (OSDI 2024) · Splitwise (ISCA 2024) · Mooncake (best paper FAST 2025; thiết kế lấy KV làm trung tâm đứng sau Kimi) | 🆓📄🧪 | https://arxiv.org/abs/2401.09670 · https://arxiv.org/abs/2311.18677 · https://arxiv.org/abs/2407.00079 · https://github.com/kvcache-ai/Mooncake |
 | Hao AI Lab — "Disaggregated Inference: 18 Months Later" (Dynamo, llm-d, SGLang và vLLM đã áp dụng gì) · "Beyond the Buzz: A Pragmatic Take on Inference Disaggregation" (khi nào không đáng) | 🆓📄 | https://haoailab.com/blogs/distserve-retro/ · https://arxiv.org/abs/2506.05508 |
 | ⭐ llm-d (Red Hat, Google, IBM, CoreWeave, NVIDIA) — stack Kubernetes-native: well-lit paths, guide P/D disaggregation, routing theo prefix cache | 🆓📄🧪 | https://llm-d.ai/ · https://llm-d.ai/docs/well-lit-paths · https://github.com/llm-d/llm-d/tree/main/guides/pd-disaggregation |
-| NVIDIA Dynamo — Disaggregated serving, KV-cache-aware routing, và bài ra mắt "Introducing NVIDIA Dynamo" (GTC 2025) | 🆓📄 | https://docs.nvidia.com/dynamo/dev/cli/disaggregated-serving/overview · https://docs.nvidia.com/dynamo/latest/user-guides/kv-cache-aware-routing · https://developer.nvidia.com/blog/introducing-nvidia-dynamo-a-low-latency-distributed-inference-framework-for-scaling-reasoning-ai-models |
+| NVIDIA Dynamo — Disaggregated serving, KV-cache-aware routing, và bài ra mắt "Introducing NVIDIA Dynamo" (GTC 2025) | 🆓📄 | https://docs.nvidia.com/dynamo/dev/cli/disaggregated-serving/overview · https://docs.nvidia.com/dynamo/user-guides/kv-cache-aware-routing · https://developer.nvidia.com/blog/introducing-nvidia-dynamo-a-low-latency-distributed-inference-framework-for-scaling-reasoning-ai-models |
 | vLLM docs — Disaggregated Prefilling (KV connector: NIXL, LMCache, Mooncake; docs nói rõ nó *không* tăng throughput, mà tách việc tune TTFT và ITL) · SGLang — PD Disaggregation | 🆓📄 | https://docs.vllm.ai/en/latest/features/disagg_prefill/ · https://docs.sglang.ai/advanced_features/pd_disaggregation.html |
 | Phần "ống nước": NIXL (NVIDIA Inference Xfer Library, chuyển KV qua RDMA và NVLink) · LMCache (các tầng KV cache: GPU → CPU → disk → remote) | 🆓🧪 | https://github.com/ai-dynamo/nixl · https://github.com/LMCache/LMCache |
 | BentoML LLM Inference Handbook — Prefill-decode disaggregation · Prefix-aware routing (giải thích kiểu practitioner) | 🆓📕 | https://bentoml.com/llm/inference-optimization/prefill-decode-disaggregation · https://bentoml.com/llm/inference-optimization/prefix-aware-routing |
@@ -620,6 +640,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | 2 | KCSA → CKS — Kubernetes security | https://www.cncf.io/certification/cks/ |
 | 3 | NVIDIA NCP-AIN — AI Networking | https://www.nvidia.com/en-us/learn/certification/ |
 | 4 | NVIDIA NCP-AII / NCP-AIO — AI Infrastructure / AI Operations (Professional) | https://www.nvidia.com/en-us/learn/certification/ |
+| 5 | CLLMSP → CLLMSE (Red Team Leaders) hoặc CAISP (Practical DevSecOps) — bảo mật LLM / AI | https://courses.redteamleaders.com/exams/73c286aa-2944-4f26-82ba-0ca14a05a4b7 · https://www.practical-devsecops.com/certified-ai-security-professional/ |
 
 Simulator thi CKA/CKAD/CKS: https://killer.sh/
 
@@ -656,6 +677,7 @@ Simulator thi CKA/CKAD/CKS: https://killer.sh/
 | AI Engineering Course (Outcome School, 18 module: nền tảng ML → transformer → fine-tuning → RAG → agent → inference → system design). Mảng AI engineering phía ứng dụng, bổ sung cho roadmap hạ tầng này | https://github.com/amitshekhariitbhu/ai-engineering-course |
 | Machine Learning Systems (mlsysbook.ai) | https://mlsysbook.ai/ |
 | developer-roadmap (mã nguồn roadmap.sh) | https://github.com/kamranahmedse/developer-roadmap |
+| AI Engineering Hub (patchy631) — 90+ project tầng ứng dụng (RAG, agent, MCP, evaluation) kèm một roadmap AI Engineering ngắn. Đây là *mặt bên kia* của repo này: dạy xây app trên model, không dạy vận hành model. Dùng nó làm nguồn workload thực tế để đặt lên serving stack của bạn (một agentic RAG, một MCP server, một pipeline eval với Opik) và là tầng nơi phần lớn finding bảo mật LLM ở mục 6 xuất hiện | https://github.com/patchy631/ai-engineering-hub |
 
 > **Đam mê open-source về AI?** Tôi dùng https://goodailist.com/repos để tìm các repo AI đang hot.
 
@@ -677,6 +699,7 @@ Roadmap này đứng trên vai nhiều người và cộng đồng:
 - **Cộng đồng DGX Spark** — himorishige, tonyd2wild, Kdurazzo, natolambert, bidual (awesome-dgx-spark) và các thành viên diễn đàn NVIDIA đã ghi lại cách dựng GB10 đa node và các bẫy unified memory.
 - **Liz Rice / Isovalent** — *Container Security* và *Learning eBPF* phát hành miễn phí.
 - **Kim Wüstkamp / Killer Shell** — khoá CKS free trên YouTube, killer.sh và Killercoda.
+- **Giskard và DeepLearning.AI, Microsoft AI Red Team, PortSwigger, Lakera, OWASP GenAI Security Project, Red Team Leaders** — các khoá học, lab, game và chuẩn LLM red-teaming miễn phí ở mục 6.
 - **Luiz André Barroso, Urs Hölzle, Parthasarathy Ranganathan** — *The Datacenter as a Computer* open access; **Google SRE** — các sách SRE.
 - **Larry Peterson & Bruce Davie** — *Computer Networks: A Systems Approach*; **Jim Kurose** — video bài giảng free.
 - **Vijay Janapa Reddi** — *Machine Learning Systems*; **Goku Mohandas** — Made With ML.
