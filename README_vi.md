@@ -209,7 +209,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | Tài nguyên | Loại | Link |
 |---|---|---|
 | ⭐ Made With ML (Goku Mohandas) | 🆓📕🧪 | https://madewithml.com/ |
-| ⭐ Machine Learning Systems (Vijay Janapa Reddi) | 🆓📕 | https://mlsysbook.ai/ |
+| ⭐ Machine Learning Systems (Vijay Janapa Reddi, Harvard CS249r) — bốn tập open access: I Introduction, II Scaling ML Systems (bản preview; tập sát nhất với mục 4–7), III Agentic và IV Physical AI (đang viết); mã nguồn và lab Marimo trên GitHub | 🆓📕🧪 | https://mlsysbook.ai/ · https://github.com/harvard-edge/cs249r_book |
 | ml-ops.org — nguyên lý & maturity model | 🆓📄 | https://ml-ops.org/ |
 | Google — Practitioners Guide to MLOps | 🆓📄 | https://cloud.google.com/resources/mlops-whitepaper |
 | Full Stack Deep Learning | 🆓🎥 | https://fullstackdeeplearning.com/ |

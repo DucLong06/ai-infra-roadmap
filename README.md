@@ -208,7 +208,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | Resource | Type | Link |
 |---|---|---|
 | ⭐ Made With ML (Goku Mohandas) | 🆓📕🧪 | https://madewithml.com/ |
-| ⭐ Machine Learning Systems (Vijay Janapa Reddi) | 🆓📕 | https://mlsysbook.ai/ |
+| ⭐ Machine Learning Systems (Vijay Janapa Reddi, Harvard CS249r) — four open-access volumes: I Introduction, II Scaling ML Systems (preview; the one closest to Sections 4–7), III Agentic and IV Physical AI (in preparation); source and Marimo labs on GitHub | 🆓📕🧪 | https://mlsysbook.ai/ · https://github.com/harvard-edge/cs249r_book |
 | ml-ops.org — principles & maturity model | 🆓📄 | https://ml-ops.org/ |
 | Google — Practitioners Guide to MLOps | 🆓📄 | https://cloud.google.com/resources/mlops-whitepaper |
 | Full Stack Deep Learning | 🆓🎥 | https://fullstackdeeplearning.com/ |
