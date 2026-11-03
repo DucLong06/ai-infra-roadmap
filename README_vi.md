@@ -47,6 +47,7 @@
   - [6. Security cho AI platform](#6-security-cho-ai-platform)
     - [Video](#video-2)
     - [Sách \& docs](#sách--docs-2)
+    - [Bảo mật LLM \& agent: khoá học, lab, chuẩn, công cụ](#bảo-mật-llm--agent-khoá-học-lab-chuẩn-công-cụ)
   - [7. LLMOps \& inference quy mô lớn](#7-llmops--inference-quy-mô-lớn)
     - [Video](#video-3)
     - [Sách \& docs](#sách--docs-3)
@@ -54,6 +55,7 @@
     - [Evaluation: quantization làm mất bao nhiêu?](#evaluation-quantization-làm-mất-bao-nhiêu)
     - [Speculative decoding](#speculative-decoding)
     - [Metric \& benchmark cho LLM serving](#metric--benchmark-cho-llm-serving)
+    - [AI team xây gì phía trên: RAG, agent, MCP (hiểu để vận hành)](#ai-team-xây-gì-phía-trên-rag-agent-mcp-hiểu-để-vận-hành)
     - [Nhìn về phía trước: disaggregated serving (tách prefill/decode)](#nhìn-về-phía-trước-disaggregated-serving-tách-prefilldecode)
   - [8. AI Data Center (AIDC)](#8-ai-data-center-aidc)
     - [Video](#video-4)
@@ -207,7 +209,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | Tài nguyên | Loại | Link |
 |---|---|---|
 | ⭐ Made With ML (Goku Mohandas) | 🆓📕🧪 | https://madewithml.com/ |
-| ⭐ Machine Learning Systems (Vijay Janapa Reddi) | 🆓📕 | https://mlsysbook.ai/ |
+| ⭐ Machine Learning Systems (Vijay Janapa Reddi, Harvard CS249r) — bốn tập open access: I Introduction, II Scaling ML Systems (bản preview; tập sát nhất với mục 4–7), III Agentic và IV Physical AI (đang viết); mã nguồn và lab Marimo trên GitHub | 🆓📕🧪 | https://mlsysbook.ai/ · https://github.com/harvard-edge/cs249r_book |
 | ml-ops.org — nguyên lý & maturity model | 🆓📄 | https://ml-ops.org/ |
 | Google — Practitioners Guide to MLOps | 🆓📄 | https://cloud.google.com/resources/mlops-whitepaper |
 | Full Stack Deep Learning | 🆓🎥 | https://fullstackdeeplearning.com/ |
@@ -252,8 +254,10 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | Andrej Karpathy — Deep Dive into LLMs like ChatGPT (3,5 giờ, toàn bộ stack: data pretraining, tokenization, mạng neural, SFT, RL) | 🆓🎥 | https://www.youtube.com/watch?v=7xTGNNLPyMI |
 | ⭐ Andrej Karpathy — Neural Networks: Zero to Hero, Lecture 7 "Let's build GPT: from scratch, in code, spelled out" và Lecture 8 "Let's build the GPT Tokenizer" (bắt đầu từ Lecture 1 nếu bạn chưa quen backpropagation) | 🆓🎥🧪 | https://www.youtube.com/watch?v=kCc8FmEb1nY · https://www.youtube.com/watch?v=zduSFxRajkE · https://github.com/karpathy/nn-zero-to-hero |
 | Tương tác: Transformer Explainer (GPT-2 chạy thật trong trình duyệt) · LLM Visualization (Brendan Bycroft, mô phỏng 3D một bước inference cho một token) | 🆓🧪 | https://poloclub.github.io/transformer-explainer/ · https://bbycroft.net/llm |
+| Bài tập có chấm tự động: TorchCode ("LeetCode cho PyTorch": softmax, attention, GPT-2 từ đầu) · Karpathy — nanochat (trọn pipeline ChatGPT, tokenizer → pretraining → SFT → inference, trong một codebase nhỏ; đọc sau "Let's build GPT") | 🆓🧪 | https://github.com/duoan/TorchCode · https://github.com/karpathy/nanochat |
 | ⭐ Stanford CS336 — Lecture 1 "Overview and Tokenization", Lecture 2 "PyTorch, Resource Accounting", Lecture 3 "Architectures, Hyperparameters", Lecture 4 "Mixture of Experts", cùng Assignment 1 "Basics" (tự viết BPE tokenizer, transformer và AdamW). Đây là lựa chọn học sâu, và cùng khoá này học tiếp ở mục 4 và mục 7 | 🆓🎥🧪 | https://cs336.stanford.edu/ · https://www.youtube.com/watch?v=SQ3fZ1sAqXI · https://github.com/stanford-cs336/assignment1-basics |
 | Build a Large Language Model (From Scratch) (Sebastian Raschka) — sách trả phí, code miễn phí. Các notebook bonus tự cài KV cache (`ch04/03_kv-cache`), GQA (`ch04/04_gqa`), MLA (`ch04/05_mla`), sliding-window attention, MoE (`ch04/07_moe`), phân tích FLOPs, và Llama 3 / Qwen3 / Gemma từ đầu | 💰📕 · 🆓🧪 | https://github.com/rasbt/LLMs-from-scratch |
+| AI Engineering from Scratch (Rohit Ghumare) — Phase 7 "Transformers Deep Dive" và Phase 10 "LLMs from Scratch": tự viết attention, tokenizer, mini-GPT, KV cache, quantization, speculative decoding và multi-token prediction bằng Python thuần và NumPy, mỗi bài có quiz. Quy mô đồ chơi, nên học kèm Karpathy hoặc CS336 để có bản PyTorch | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/07-transformers-deep-dive · https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/10-llms-from-scratch |
 
 ### Đọc: kiến trúc quyết định memory và tốc độ
 | Tài nguyên | Loại | Link |
@@ -263,6 +267,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | Sebastian Raschka — The Big LLM Architecture Comparison (từ GPT-2 tới DeepSeek-V3, Llama 4, Qwen3, GLM: RoPE, GQA, MLA, MoE, vị trí normalization) và LLM Architecture Gallery | 🆓📄 | https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison · https://sebastianraschka.com/llm-architecture-gallery/ |
 | Jay Alammar — The Illustrated Transformer · Harvard NLP — The Annotated Transformer (paper gốc dưới dạng khoảng 400 dòng code chạy được) | 🆓📄🧪 | https://jalammar.github.io/illustrated-transformer/ · https://nlp.seas.harvard.edu/annotated-transformer/ |
 | Dive into Deep Learning — Chapter 11 "Attention Mechanisms and Transformers" (sách tham chiếu kèm code) | 🆓📕 | https://d2l.ai/chapter_attention-mechanisms-and-transformers/ |
+| Outcome School (Amit Shekhar) — AI Engineering Course, Module 3 "Generative AI and the Transformer Architecture" và Module 5 "Modern LLM Architecture", cùng danh mục đi kèm `llm-internals`: các bài blog viết dễ hiểu về BPE, toán đằng sau Q/K/V và hệ số √dₖ, causal masking, RoPE, MoE, GQA, sliding-window attention, attention sink, FlashAttention và DeepSeek-V4. Hợp để đọc lướt lần đầu hoặc ôn nhanh; không có code hay lab | 🆓📄🎥 | https://github.com/amitshekhariitbhu/ai-engineering-course · https://github.com/amitshekhariitbhu/llm-internals |
 | Paper nên biết tên: Attention Is All You Need · multi-query attention (Shazeer) · GQA · RoPE (RoFormer) · DeepSeek-V2 (MLA: KV cache nhỏ hơn 93 % so với DeepSeek 67B) · Mixtral of Experts (47B tham số tổng, 13B active) · scaling laws (Kaplan) và Chinchilla (training tối ưu theo compute) | 🆓📄 | https://arxiv.org/abs/1706.03762 · https://arxiv.org/abs/1911.02150 · https://arxiv.org/abs/2305.13245 · https://arxiv.org/abs/2104.09864 · https://arxiv.org/abs/2405.04434 · https://arxiv.org/abs/2401.04088 · https://arxiv.org/abs/2001.08361 · https://arxiv.org/abs/2203.15556 |
 | Post-training trong một cuốn sách: RLHF Book (Nathan Lambert, đọc miễn phí online) — SFT, reward model, DPO, RL; "rollout" và "policy update" nghĩa là gì khi chúng xuất hiện dưới dạng workload hạ tầng | 🆓📕 | https://rlhfbook.com/ |
 
@@ -312,6 +317,9 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | NVIDIA Blackwell architecture | 🆓📄 | https://resources.nvidia.com/en-us-blackwell-architecture |
 | Horace He — Making Deep Learning Go Brrrr From First Principles (compute-bound vs memory-bound vs overhead-bound) | 🆓📄 | https://horace.io/brrr_intro.html |
 | Modal — GPU Glossary ("GPU documentation for humans": SM, warp, HBM, tensor core, CUDA graph) | 🆓📄 | https://modal.com/gpu-glossary |
+| Thư viện kernel để đọc, không chỉ để dùng: FlashAttention · CUTLASS (CUDA template và Python DSL cho GEMM) · FlashInfer (kernel attention và sampling đứng sau vLLM và SGLang) · DeepGEMM (FP8 GEMM trong khoảng 300 dòng CUDA) · ThunderKittens (tile primitive) | 🆓🧪 | https://github.com/Dao-AILab/flash-attention · https://github.com/NVIDIA/cutlass · https://github.com/flashinfer-ai/flashinfer · https://github.com/deepseek-ai/DeepGEMM · https://github.com/HazyResearch/ThunderKittens |
+| Anthropic — original performance take-home (bài phỏng vấn performance engineering thật, nay công khai: làm một workload kiểu kernel chạy nhanh hơn và giải thích vì sao) | 🆓🧪 | https://github.com/anthropics/original_performance_takehome |
+| Framework training và RL cần biết tên, vì job của chúng sẽ chạy trên cluster của bạn: Megatron-LM (tensor/pipeline parallel) · DeepSpeed (ZeRO) · torchtitan (pretraining thuần PyTorch) · verl và slime (RL post-training: rollout engine cộng training engine) | 🆓📄 | https://github.com/NVIDIA/Megatron-LM · https://github.com/deepspeedai/DeepSpeed · https://github.com/pytorch/torchtitan · https://github.com/verl-project/verl · https://github.com/THUDM/slime |
 
 ### Tool
 | Tool | Link |
@@ -321,6 +329,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | NVIDIA GPU Operator (driver, device plugin, MIG / time-slicing / MPS) | https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html |
 | Kueue (job queueing, GPU quota) | https://kueue.sigs.k8s.io/ |
 | DGX Spark docs & playbooks (mã nguồn playbook trên GitHub) | https://docs.nvidia.com/dgx/dgx-spark/ · https://build.nvidia.com/spark · https://github.com/NVIDIA/dgx-spark-playbooks |
+| nvitop · nvtop (xem process GPU tương tác; `nvidia-smi` cho người) | https://github.com/XuehaiPan/nvitop · https://github.com/Syllo/nvtop |
 
 🧪 **Làm**
 1. `nvidia-smi -q`, `nvidia-smi topo -m`, `lspci -tv` → tự vẽ sơ đồ CPU–GPU–memory–NIC của máy bạn.
@@ -358,6 +367,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 |---|---|---|
 | ⭐ AI Infrastructure (Bojie Li) — ch.6 supernodes (§6.2 sáu chiến lược parallelism, §6.4 chi phí collective communication), ch.7 data-center networks (§7.2 traffic liên node, multi-NIC và multi-rail, §7.3 đường đi RDMA) | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 | NCCL user guide + biến môi trường (`NCCL_IB_HCA`, `NCCL_SOCKET_IFNAME`, `NCCL_IB_GID_INDEX`, `NCCL_NET_GDR_LEVEL`) + nccl-tests | 🆓📄🧪 | https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/index.html · https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html · https://github.com/NVIDIA/nccl-tests |
+| DeepSeek open-infra-index — những gì một frontier lab mở mã về chính cluster của họ: DeepEP (all-to-all expert-parallel qua NVLink và RDMA, đúng pattern traffic của MoE), DeepGEMM, FlashMLA, DualPipe, 3FS (parallel file system) | 🆓📄🧪 | https://github.com/deepseek-ai/open-infra-index · https://github.com/deepseek-ai/DeepEP |
 | vLLM docs — Parallelism and Scaling (TP/PP đa node, Ray vs multiprocessing, `NCCL_DEBUG=TRACE` để xác nhận RDMA hay TCP) | 🆓📄 | https://docs.vllm.ai/en/stable/serving/parallelism_scaling/ |
 | DGX Spark playbooks — Connect two Sparks, NCCL trên hai Spark, hướng dẫn benchmark hiệu năng (`ib_write_bw`, `vllm bench`) | 🆓📄🧪 | https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/connect-two-sparks/README.md · https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/nccl/README.md · https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/connect-two-sparks/assets/performance_benchmarking_guide.md |
 | Learning eBPF (Liz Rice) — free từ Isovalent | 🆓📕 | https://isovalent.com/books/learning-ebpf/ |
@@ -402,11 +412,30 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | Kyverno docs | 🆓📄 | https://kyverno.io/docs/ |
 | HashiCorp Vault tutorials | 🆓📄🧪 | https://developer.hashicorp.com/vault/tutorials |
 | Sigstore / cosign docs | 🆓📄 | https://docs.sigstore.dev/ |
-| ⭐ OWASP Top 10 for LLM Applications | 🆓📄 | https://genai.owasp.org/ |
-| MITRE ATLAS | 🆓📄 | https://atlas.mitre.org/ |
-| NVIDIA garak — scanner lỗ hổng LLM | 🆓🧪 | https://github.com/NVIDIA/garak |
-| NVIDIA NeMo Guardrails | 🆓🧪 | https://github.com/NVIDIA/NeMo-Guardrails |
 | roadmap.sh — Cyber Security | 🆓📄 | https://roadmap.sh/cyber-security |
+
+### Bảo mật LLM & agent: khoá học, lab, chuẩn, công cụ
+
+*Serving stack bạn dựng ở mục 7 tự nó là một bề mặt tấn công: prompt injection qua tài liệu RAG và output của tool, lộ system prompt, agent có tool được trao quá nhiều quyền (excessive agency), model và MCP server bị đầu độc trong supply chain, và unbounded consumption biến thành hoá đơn GPU. Học tấn công bằng tay trước, rồi đến chuẩn, rồi đến scanner có thể đưa vào CI.*
+
+| Tài nguyên | Loại | Link |
+|---|---|---|
+| ⭐ DeepLearning.AI × Giskard — Red Teaming LLM Applications (khoảng 1,5 h: prompt injection, red teaming ở quy mô lớn, dùng LLM để red-team LLM) | 🆓🎥🧪 | https://www.deeplearning.ai/short-courses/red-teaming-llm-applications/ |
+| ⭐ Microsoft — AI Red Teaming 101 (10 tập: direct và indirect prompt injection, tấn công single-turn và multi-turn như Crescendo, Skeleton Key, phòng thủ spotlighting, tự động hoá bằng PyRIT) + AI Red Teaming Playground Labs (12 thử thách chạy local bằng Docker) | 🆓🎥🧪 | https://learn.microsoft.com/en-us/security/ai-red-team/training · https://github.com/microsoft/AI-Red-Teaming-Playground-Labs |
+| ⭐ PortSwigger Web Security Academy — Web LLM attacks (lab miễn phí: excessive agency, insecure output handling, indirect prompt injection) | 🆓📄🧪 | https://portswigger.net/web-security/llm-attacks |
+| Lakera — Gandalf / Agent Breaker (game prompt injection, chơi free trên trình duyệt) và Prompt Injection Attacks Handbook | 🆓🧪📄 | https://gandalf.lakera.ai/ · https://www.lakera.ai/ai-security-guides/prompt-injection-attacks-handbook |
+| Red Team Leaders — CLLMSP → CLLMSE (Certified LLM Security Professional / Expert): khoá ôn và kỳ thi 6 giờ có lab thật (indirect prompt injection, RAG poisoning, MCP supply-chain rug pull). Đây là chứng chỉ tôi đang ôn | 🆓/💰🎥🧪 | https://courses.redteamleaders.com/courses/76172b63-32cd-4e3b-aaf9-6d3bf005348a · https://courses.redteamleaders.com/exams/73c286aa-2944-4f26-82ba-0ca14a05a4b7 |
+| Hack The Box Academy — AI Red Teamer path (hợp tác với Google; 12 module từ prompt injection đến AI evasion, privacy và defense) | 💰🧪 | https://academy.hackthebox.com/path/preview/ai-red-teamer |
+| OffSec — LLM Red Teaming learning path (30 h, 6 module) | 💰🎥🧪 | https://www.offsec.com/learning/paths/llm-red-teaming/ |
+| Practical DevSecOps — Certified AI Security Professional (CAISP): 50+ lab trên trình duyệt về OWASP LLM Top 10, MITRE ATLAS, AI supply chain, threat modeling STRIDE | 💰🧪 | https://www.practical-devsecops.com/certified-ai-security-professional/ |
+| LinkedIn Learning — Red Teaming for Generative AI (Rashim Mogha, 27 phút tổng quan) | 💰🎥 | https://www.linkedin.com/learning/red-teaming-for-generative-ai-building-robust-and-responsible-solutions |
+| ⭐ OWASP GenAI Security Project — Top 10 for LLM Applications (2025) và Top 10 for Agentic Applications (2026) | 🆓📄 | https://genai.owasp.org/llm-top-10/ · https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/ |
+| MITRE ATLAS — chiến thuật và kỹ thuật của kẻ tấn công nhắm vào hệ thống AI | 🆓📄 | https://atlas.mitre.org/ |
+| NIST AI 600-1 — Generative AI Profile của AI Risk Management Framework | 🆓📄 | https://doi.org/10.6028/NIST.AI.600-1 |
+| Scanner và tự động hoá red team: NVIDIA garak (scanner lỗ hổng LLM) · Microsoft PyRIT (Python Risk Identification Tool) · promptfoo red teaming (plugin map theo OWASP LLM Top 10, chạy được trong CI) | 🆓🧪 | https://github.com/NVIDIA/garak · https://github.com/microsoft/PyRIT · https://www.promptfoo.dev/docs/red-team/ |
+| Guardrails: NVIDIA NeMo Guardrails | 🆓🧪 | https://github.com/NVIDIA/NeMo-Guardrails |
+| Các control runtime cho agent và MCP mà bạn sẽ được yêu cầu triển khai: NVIDIA OpenShell (runtime sandbox cho agent tự hành) · NVIDIA SkillSpector (scanner bảo mật cho agent skill: prompt injection, pattern độc hại, rò rỉ dữ liệu) · agentgateway (proxy cho agent và MCP server) · Presidio (phát hiện và che PII ở input, output và log) | 🆓🧪 | https://github.com/NVIDIA/OpenShell · https://github.com/NVIDIA/SkillSpector · https://github.com/agentgateway/agentgateway · https://github.com/data-privacy-stack/presidio |
+| Roadmap pentest AI/ML và tài nguyên miễn phí (anmolksachan): CTF, app cố tình có lỗ hổng, lab MCP | 🆓📄 | https://github.com/anmolksachan/AI-ML-Free-Resources-for-Security-and-Prompt-Injection |
 
 🧪 **Làm**
 1. Threat model 1 trang (STRIDE) cho hệ thống ML của bạn.
@@ -415,14 +444,15 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 4. CI: Trivy scan → cosign ký → Kyverno `verifyImages`.
 5. mTLS STRICT (Istio hoặc Cilium); kiểm chứng bằng tcpdump.
 6. Falco runtime alert; garak scan endpoint LLM.
+7. Tự red-team serving stack của mình: làm hết Microsoft Playground Labs và lab LLM của PortSwigger, rồi chạy promptfoo (plugin OWASP LLM Top 10) và PyRIT vào endpoint vLLM cùng RAG hoặc agent đứng trước nó. Đưa một scan vào CI và sửa một finding bằng NeMo Guardrails hoặc lọc input/output.
 
-**Milestone**: một pull request được merge vào dự án của bạn, thêm Kyverno policy, secret quản lý bằng Vault, image đã ký và được kiểm tra khi admission, mTLS giữa các service, và một rule alert Falco — kèm tài liệu threat model 1 trang giải thích mỗi biện pháp chống lại rủi ro nào. Nếu muốn có chứng chỉ ở giai đoạn này, thi **KCSA** trước rồi **CKS**.
+**Milestone**: một pull request được merge vào dự án của bạn, thêm Kyverno policy, secret quản lý bằng Vault, image đã ký và được kiểm tra khi admission, mTLS giữa các service, và một rule alert Falco — kèm tài liệu threat model 1 trang giải thích mỗi biện pháp chống lại rủi ro nào, map theo OWASP LLM Top 10 và MITRE ATLAS, và một báo cáo red-team scan với finding bạn đã sửa. Nếu muốn có chứng chỉ ở giai đoạn này, thi **KCSA** trước rồi **CKS**; phía LLM thì **CLLMSP → CLLMSE** hoặc **CAISP**.
 
 ---
 
 ## 7. LLMOps & inference quy mô lớn
 
-*Vận hành LLM = MLOps + GPU memory là tài nguyên khan hiếm nhất + quantization là đòn bẩy để model vừa máy + evaluation kiểu mới (eval harness, LLM-as-judge) + latency không phải một con số (TTFT, TPOT) + cost per token.*
+*Vận hành LLM = MLOps + GPU memory là tài nguyên khan hiếm nhất + quantization là đòn bẩy để model vừa máy + evaluation kiểu mới (eval harness, LLM-as-judge) + latency không phải một con số (TTFT, TPOT) + cost per token + tầng ứng dụng mà các team xây phía trên (RAG, agent, MCP) mà ops phải dựng và test.*
 
 ### Video
 | Tài nguyên | Loại | Link |
@@ -431,6 +461,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | GPU MODE — Lecture 22 (speculative decoding trong vLLM), Lecture 35 (SGLang performance), Lecture 40 (FlashInfer) | 🆓🎥 | https://github.com/gpu-mode/lectures |
 | Stanford CS336 — Lecture 10 "Inference", Lecture 12 "Evaluation" (bản ghi và code Spring 2025) | 🆓🎥 | https://cs336.stanford.edu/ · https://github.com/stanford-cs336/spring2025-lectures |
 | Andrej Karpathy — Let's reproduce GPT-2 (124M): training loop làm gì ở tầng hệ thống (DDP, mixed precision, `torch.compile`) | 🆓🎥🧪 | https://youtu.be/l8pRSuU81PU · https://github.com/karpathy/build-nanogpt |
+| Tự xây một inference engine mini: SGLang × Datawhale "zero-to-sglang" (khoá chính thức: hiểu inference, dựng mini-SGLang, rồi đọc bản thật) · tiny-vllm (vLLM thu nhỏ bằng C++ và CUDA) · 100 days of inference engineering (thí nghiệm và biểu đồ mỗi ngày) | 🆓🧪 | https://github.com/datawhalechina/zero-to-sglang · https://github.com/jmaczan/tiny-vllm · https://github.com/elizabetht/100-days-of-inference |
 | DeepLearning.AI — Efficiently Serving LLMs (Travis Addair, Predibase): batching, continuous batching, quantization, multi-LoRA | 🆓🎥🧪 | https://www.deeplearning.ai/courses/efficiently-serving-llms |
 | NVIDIA DLI — Sizing LLM Inference Systems (miễn phí, tự học) | 🆓🎥🧪 | https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+S-FX-18+V1 |
 | NVIDIA DLI — Model Parallelism: Building and Deploying Large Neural Networks | 💰🎥🧪 | https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+C-FX-07+V1 |
@@ -443,10 +474,12 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | ⭐ The Ultra-Scale Playbook (Hugging Face) | 🆓📕 | https://huggingface.co/spaces/nanotron/ultrascale-playbook |
 | AI Infrastructure (Bojie Li) — ch.8 inference optimization (§8.1 vòng đời request và memory, §8.2 continuous batching, §8.3 KV cache, §8.4 compression và offloading, §8.5 speculative decoding), ch.9 distributed inference (§9.2 tách prefill–decode, §9.3–9.4 MoE và expert parallelism), ch.10 training systems, ch.11 scheduling | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 | AI Performance Engineering (Chris Fregly) — repo code | 🆓🧪 | https://github.com/cfregly/ai-performance-engineering |
+| AI Engineering from Scratch — Phase 17 "Infrastructure and Production": 29 bài về vLLM internals, EAGLE-3, SGLang RadixAttention, TensorRT-LLM trên Blackwell, goodput, quantization cho production, disaggregated prefill/decode, LMCache, load testing, SRE và FinOps cho LLM. Code là simulator viết bằng thư viện chuẩn với hằng số minh hoạ, nên dùng để nắm khái niệm rồi đo trên phần cứng thật | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production |
 | vLLM docs — bắt đầu từ Optimization & Tuning, Conserving memory, Engine args | 🆓📄 | https://docs.vllm.ai/ · https://docs.vllm.ai/en/stable/configuration/optimization/ · https://docs.vllm.ai/en/latest/configuration/conserving_memory/ |
 | vLLM Zero to Hero (Red Hat AI) — run → optimize → benchmark → scale | 🆓🧪 | https://github.com/red-hat-ai-dev/vLLM-zero-to-hero-overview |
 | Aleksa Gordić — Inside vLLM: Anatomy of a High-Throughput LLM Inference System | 🆓📄 | https://www.aleksagordic.com/blog/vllm |
 | Lilian Weng — Large Transformer Model Inference Optimization | 🆓📄 | https://lilianweng.github.io/posts/2023-01-10-inference-optimization/ |
+| Outcome School (Amit Shekhar) — LLM Inference Engineering: các bài blog viết dễ hiểu về prefill vs decode và TTFT/TPOT, KV cache và nén KV cache, PagedAttention, continuous batching, speculative decoding (n-gram, Medusa, EAGLE), vLLM, SGLang, TensorRT-LLM, GGUF, và cách GPU, TPU, LPU chạy inference. Đọc một bài trước khi vào paper hoặc docs tương ứng ở trên; không có lab | 🆓📄 | https://github.com/amitshekhariitbhu/llm-inference-engineering · https://outcomeschool.com/blog/prefill-vs-decode-llm-inference-optimization |
 | TensorRT-LLM docs | 🆓📄 | https://nvidia.github.io/TensorRT-LLM/ |
 | NVIDIA Dynamo docs | 🆓📄 | https://docs.nvidia.com/dynamo/latest/ |
 | gpu-perf-engineering-resources — danh sách paper (FlashAttention-3, PagedAttention, FlashInfer, MLA) | 🆓📄 | https://github.com/JINO-ROHIT/gpu-perf-engineering-resources |
@@ -506,6 +539,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | ⭐ vLLM docs — Speculative Decoding (draft model, n-gram, EAGLE-3, MTP, …) và "Per-request acceptance metrics": mean acceptance length = 1 + số token được chấp nhận / số draft; counter Prometheus `vllm:spec_decode_num_draft_tokens`, `vllm:spec_decode_num_accepted_tokens` | 🆓📄 | https://docs.vllm.ai/en/latest/features/speculative_decoding/ · https://docs.vllm.ai/en/latest/features/speculative_decoding/acceptance_metrics/ |
 | Paper gốc: Leviathan et al. (ICML 2023) · Chen et al. (DeepMind) · Hugging Face "Assisted Generation" (dẫn nhập nhẹ nhàng) | 🆓📄 | https://arxiv.org/abs/2211.17192 · https://arxiv.org/abs/2302.01318 · https://huggingface.co/blog/assisted-generation |
 | Medusa (thêm decoding head) · EAGLE-1/2/3 (draft ở tầng feature; EAGLE-3 là drafter phổ biến trong deployment vLLM và SGLang) | 🆓📄🧪 | https://arxiv.org/abs/2401.10774 · https://arxiv.org/abs/2401.15077 · https://arxiv.org/abs/2406.16858 · https://arxiv.org/abs/2503.01840 · https://github.com/SafeAILab/EAGLE |
+| DeepSeek DeepSpec — codebase full-stack để train và đánh giá drafter cho speculative decoding (MTP head bạn đang serve được tạo và đo như thế nào) | 🆓🧪 | https://github.com/deepseek-ai/DeepSpec |
 | Multi-token prediction (MTP), drafter tích hợp sẵn mà GLM và DeepSeek ship kèm: Gloeckle et al. (Meta) · DeepSeek-V3 report (module MTP làm draft, acceptance 85–90 % cho token thứ hai) · GLM-4.5 và GLM-5 report (các layer MTP thiết kế cho speculative decoding) | 🆓📄 | https://arxiv.org/abs/2404.19737 · https://arxiv.org/abs/2412.19437 · https://arxiv.org/abs/2508.06471 · https://arxiv.org/abs/2602.15763 |
 | vLLM blog — How Speculative Decoding Boosts vLLM Performance by up to 2.8x (và vì sao ở QPS cao nó có thể phản tác dụng) | 🆓📄 | https://vllm.ai/blog/2024-10-17-spec-decode |
 | Survey (Xia et al., ACL 2024) + Spec-Bench (EAGLE, Medusa, lookahead, prompt lookup trên cùng một harness) | 🆓📄🧪 | https://arxiv.org/abs/2401.07851 · https://github.com/hemingkx/Spec-Bench |
@@ -529,6 +563,30 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | MLPerf Inference (MLCommons) — bộ LLM cho datacenter (Llama 2 70B, Llama 3.1 405B, DeepSeek-R1, …) và cách vendor báo cáo | 🆓🧪 | https://github.com/mlcommons/inference |
 | Bojie Li — ch.3 §3.1.2 mục tiêu tác vụ và metric đánh giá; ch.8 §8.1.3 từ thời gian một request đến mục tiêu dịch vụ | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 
+### AI team xây gì phía trên: RAG, agent, MCP (hiểu để vận hành)
+
+*Ops không phải tự viết chatbot, nhưng phải vận hành mọi thứ chatbot cần: embedding server, vector database, endpoint OpenAI-compatible có tool calling, MCP server, gateway có key và quota, guardrail và tracing. Học mỗi pattern đủ để dựng được các thành phần nó phụ thuộc và test được chúng.*
+
+| Tài nguyên | Loại | Link |
+|---|---|---|
+| ⭐ AI Engineering from Scratch (Rohit Ghumare, MIT; mỗi bài có code chạy được và quiz) — Phase 11 "LLM Engineering" (embedding, RAG, function calling, evaluation, caching và chi phí, guardrail, MCP), Phase 13 "Tools and Protocols" (MCP server, client và transport, bảo mật MCP và OAuth 2.1, MCP gateway và registry, A2A, OpenTelemetry GenAI, LLM routing), Phase 14 "Agent Engineering" (agent loop, memory, workflow pattern, agent SDK, agent observability, chống prompt injection, runtime cho production) | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/11-llm-engineering · https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/13-tools-and-protocols · https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/14-agent-engineering |
+| AI Engineering from Scratch — Phase 16 "Multi-Agent and Swarms" và Phase 18 "Ethics, Safety, Alignment" (tool red-team: garak, Llama Guard, PyRIT; indirect prompt injection; CVE cho AI). Chọn đọc những bài khớp với thứ team bạn thực sự triển khai | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/16-multi-agent-and-swarms · https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/18-ethics-safety-alignment |
+| Outcome School — AI Engineering Course, Module 8–11 (prompt và context engineering, RAG và vector search, agent và MCP, agent framework) và Module 13–14 (evaluation, observability, guardrail, prompt injection): bài giải thích dễ hiểu | 🆓📄🎥 | https://github.com/amitshekhariitbhu/ai-engineering-course |
+| Anthropic — Building Effective Agents (workflow vs agent; phần lớn hệ thống production là workflow, và điều đó quyết định bạn phải vận hành những gì) | 🆓📄 | https://www.anthropic.com/engineering/building-effective-agents |
+| DeepLearning.AI × Anthropic — MCP: Build Rich-Context AI Apps (MCP server, client và triển khai remote) · đặc tả MCP | 🆓🎥🧪📄 | https://www.deeplearning.ai/short-courses/mcp-build-rich-context-ai-apps-with-anthropic/ · https://modelcontextprotocol.io/specification/2026-07-28 |
+| AI Engineering (Chip Huyen, O'Reilly) — RAG, agent, evaluation và tối ưu inference nhìn từ phía ứng dụng | 💰📕 | https://github.com/chiphuyen/aie-book |
+
+**Bảng tra nhanh cho ops: dựng gì và test thế nào**
+
+| Pattern | Ops dựng gì | Test thế nào | Link |
+|---|---|---|---|
+| RAG | embedding và reranker server, vector database, job ingest dữ liệu | recall@k của bước retrieval trên một golden set nhỏ; điểm faithfulness và context precision của Ragas; p99 latency tách riêng retrieval và generation | https://github.com/huggingface/text-embeddings-inference · https://github.com/pgvector/pgvector · https://github.com/qdrant/qdrant · https://github.com/milvus-io/milvus · https://github.com/explodinggradients/ragas |
+| Tool calling và agent | endpoint vLLM chạy với `--enable-auto-tool-choice --tool-call-parser <parser>`, sandbox để chạy tool, giới hạn số bước và số token | tỷ lệ gọi tool thành công trên bộ task cố định; giới hạn vòng lặp và timeout có hiệu lực; token và chi phí mỗi task | https://docs.vllm.ai/en/latest/features/tool_calling/ |
+| MCP server | MCP server chạy như service, có OAuth 2.1, NetworkPolicy và registry hoặc gateway phía trước | MCP Inspector chế độ `--cli` trong CI; contract test cho schema của tool | https://github.com/modelcontextprotocol/inspector |
+| AI gateway | LiteLLM proxy, hoặc Agent Router (tên cũ Envoy AI Gateway) trên Kubernetes: virtual key, quota, rate limit theo token, fallback | diễn tập failover (tắt một backend); test quota và rate limit; báo cáo chi phí theo team | https://docs.litellm.ai/docs/ · https://github.com/envoyproxy/ai-gateway |
+| Guardrail và red team | Llama Guard và Prompt Guard, hoặc NeMo Guardrails (mục 6), đặt trước model | chạy promptfoo red-team, garak và PyRIT trong CI; theo dõi tỷ lệ chặn và false positive | https://github.com/meta-llama/PurpleLlama · https://github.com/promptfoo/promptfoo · https://github.com/microsoft/PyRIT |
+| Observability | OpenTelemetry GenAI semantic conventions đẩy vào Langfuse hoặc backend tracing của bạn | mỗi request có trace ghi model, token, latency và tool call; alert khi chi phí hoặc lỗi tăng vọt | https://github.com/open-telemetry/semantic-conventions-genai · https://github.com/langfuse/langfuse |
+
 ### Nhìn về phía trước: disaggregated serving (tách prefill/decode)
 
 *Prefill bị compute-bound, decode bị memory-bound. Frontier chạy hai pha trên hai pool riêng, chuyển KV cache qua RDMA, và route request theo prefix-cache hit. Đọc phần này sau khi bạn đã giải thích được TTFT và TPOT trên một máy.*
@@ -538,7 +596,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | ⭐ DistServe (OSDI 2024) · Splitwise (ISCA 2024) · Mooncake (best paper FAST 2025; thiết kế lấy KV làm trung tâm đứng sau Kimi) | 🆓📄🧪 | https://arxiv.org/abs/2401.09670 · https://arxiv.org/abs/2311.18677 · https://arxiv.org/abs/2407.00079 · https://github.com/kvcache-ai/Mooncake |
 | Hao AI Lab — "Disaggregated Inference: 18 Months Later" (Dynamo, llm-d, SGLang và vLLM đã áp dụng gì) · "Beyond the Buzz: A Pragmatic Take on Inference Disaggregation" (khi nào không đáng) | 🆓📄 | https://haoailab.com/blogs/distserve-retro/ · https://arxiv.org/abs/2506.05508 |
 | ⭐ llm-d (Red Hat, Google, IBM, CoreWeave, NVIDIA) — stack Kubernetes-native: well-lit paths, guide P/D disaggregation, routing theo prefix cache | 🆓📄🧪 | https://llm-d.ai/ · https://llm-d.ai/docs/well-lit-paths · https://github.com/llm-d/llm-d/tree/main/guides/pd-disaggregation |
-| NVIDIA Dynamo — Disaggregated serving, KV-cache-aware routing, và bài ra mắt "Introducing NVIDIA Dynamo" (GTC 2025) | 🆓📄 | https://docs.nvidia.com/dynamo/dev/cli/disaggregated-serving/overview · https://docs.nvidia.com/dynamo/latest/user-guides/kv-cache-aware-routing · https://developer.nvidia.com/blog/introducing-nvidia-dynamo-a-low-latency-distributed-inference-framework-for-scaling-reasoning-ai-models |
+| NVIDIA Dynamo — Disaggregated serving, KV-cache-aware routing, và bài ra mắt "Introducing NVIDIA Dynamo" (GTC 2025) | 🆓📄 | https://docs.nvidia.com/dynamo/dev/cli/disaggregated-serving/overview · https://docs.nvidia.com/dynamo/user-guides/kv-cache-aware-routing · https://developer.nvidia.com/blog/introducing-nvidia-dynamo-a-low-latency-distributed-inference-framework-for-scaling-reasoning-ai-models |
 | vLLM docs — Disaggregated Prefilling (KV connector: NIXL, LMCache, Mooncake; docs nói rõ nó *không* tăng throughput, mà tách việc tune TTFT và ITL) · SGLang — PD Disaggregation | 🆓📄 | https://docs.vllm.ai/en/latest/features/disagg_prefill/ · https://docs.sglang.ai/advanced_features/pd_disaggregation.html |
 | Phần "ống nước": NIXL (NVIDIA Inference Xfer Library, chuyển KV qua RDMA và NVLink) · LMCache (các tầng KV cache: GPU → CPU → disk → remote) | 🆓🧪 | https://github.com/ai-dynamo/nixl · https://github.com/LMCache/LMCache |
 | BentoML LLM Inference Handbook — Prefill-decode disaggregation · Prefix-aware routing (giải thích kiểu practitioner) | 🆓📕 | https://bentoml.com/llm/inference-optimization/prefill-decode-disaggregation · https://bentoml.com/llm/inference-optimization/prefix-aware-routing |
@@ -552,8 +610,9 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 5. Kueue + GPU Operator: 2 team submit job; xem quota và preemption.
 6. LoRA fine-tune qua 2 node (DDP/FSDP) trên RDMA; đo scaling efficiency.
 7. Retrain loop: Evidently → Alertmanager → Argo Events → job → MLflow → canary.
+8. Test bench cho ứng dụng AI trên cluster của bạn: một embedding server và Qdrant (hoặc pgvector), endpoint vLLM có tool calling đặt sau LiteLLM, một app RAG nhỏ và một MCP server. Trace mọi thứ bằng OpenTelemetry vào Langfuse, và gate mọi thay đổi trong CI bằng điểm Ragas, một lượt red-team của promptfoo và MCP Inspector.
 
-**Milestone**: một báo cáo benchmark cho một LLM trên phần cứng của bạn (throughput vs TTFT/TPOT theo batch size; FP8 vs NVFP4 kèm số eval cho thấy quantization mất gì; acceptance của speculative decoding vs tốc độ tăng thêm; 1 node vs tensor parallel 2 node) và một vòng lặp retrain tự động chạy được. Nếu muốn có chứng chỉ ở giai đoạn này, thi **NCP-AII** (nếu bạn build cluster) hoặc **NCP-AIO** (nếu bạn vận hành).
+**Milestone**: một báo cáo benchmark cho một LLM trên phần cứng của bạn (throughput vs TTFT/TPOT theo batch size; FP8 vs NVFP4 kèm số eval cho thấy quantization mất gì; acceptance của speculative decoding vs tốc độ tăng thêm; 1 node vs tensor parallel 2 node), một vòng lặp retrain tự động chạy được, và một test bench cho ứng dụng AI (RAG, tool calling, MCP) có kiểm tra trong CI để các team khác dùng lại. Nếu muốn có chứng chỉ ở giai đoạn này, thi **NCP-AII** (nếu bạn build cluster) hoặc **NCP-AIO** (nếu bạn vận hành).
 
 ---
 
@@ -590,6 +649,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | 2 | KCSA → CKS — Kubernetes security | https://www.cncf.io/certification/cks/ |
 | 3 | NVIDIA NCP-AIN — AI Networking | https://www.nvidia.com/en-us/learn/certification/ |
 | 4 | NVIDIA NCP-AII / NCP-AIO — AI Infrastructure / AI Operations (Professional) | https://www.nvidia.com/en-us/learn/certification/ |
+| 5 | CLLMSP → CLLMSE (Red Team Leaders) hoặc CAISP (Practical DevSecOps) — bảo mật LLM / AI | https://courses.redteamleaders.com/exams/73c286aa-2944-4f26-82ba-0ca14a05a4b7 · https://www.practical-devsecops.com/certified-ai-security-professional/ |
 
 Simulator thi CKA/CKAD/CKS: https://killer.sh/
 
@@ -622,8 +682,11 @@ Simulator thi CKA/CKAD/CKS: https://killer.sh/
 | gpu-perf-engineering-resources | https://github.com/JINO-ROHIT/gpu-perf-engineering-resources |
 | MLOps Engineer Roadmap (100% free video resources) | https://github.com/harish303118/MLOps-Engineering-with-Roadmap-and-Free-Learning-Resources |
 | ml-roadmap | https://github.com/loganthorneloe/ml-roadmap |
+| AI Engineering from Scratch (20 phase, bài học chạy được bằng Python, TypeScript, Rust và Julia, MIT) | https://github.com/rohitg00/ai-engineering-from-scratch · https://aiengineeringfromscratch.com/ |
+| AI Engineering Course (Outcome School, 18 module: nền tảng ML → transformer → fine-tuning → RAG → agent → inference → system design). Mảng AI engineering phía ứng dụng, bổ sung cho roadmap hạ tầng này | https://github.com/amitshekhariitbhu/ai-engineering-course |
 | Machine Learning Systems (mlsysbook.ai) | https://mlsysbook.ai/ |
 | developer-roadmap (mã nguồn roadmap.sh) | https://github.com/kamranahmedse/developer-roadmap |
+| AI Engineering Hub (patchy631) — 90+ project tầng ứng dụng (RAG, agent, MCP, evaluation) kèm một roadmap AI Engineering ngắn. Đây là *mặt bên kia* của repo này: dạy xây app trên model, không dạy vận hành model. Dùng nó làm nguồn workload thực tế để đặt lên serving stack của bạn (một agentic RAG, một MCP server, một pipeline eval với Opik) và là tầng nơi phần lớn finding bảo mật LLM ở mục 6 xuất hiện | https://github.com/patchy631/ai-engineering-hub |
 
 > **Đam mê open-source về AI?** Tôi dùng https://goodailist.com/repos để tìm các repo AI đang hot.
 
@@ -640,10 +703,12 @@ Roadmap này đứng trên vai nhiều người và cộng đồng:
 - **Andrej Karpathy, Grant Sanderson (3Blue1Brown), Sebastian Raschka** và đội ngũ **Stanford CS336** (Percy Liang, Tatsunori Hashimoto) — video, code và bài giảng miễn phí làm nền cho mục 3.5.
 - **[Song Han / MIT HAN Lab](https://hanlab.mit.edu/)** — MIT 6.5940 (EfficientML.ai), AWQ, SmoothQuant và TinyChat, những kỹ thuật đứng sau phần lớn checkpoint quantized mà chúng ta chạy.
 - **[vLLM project](https://github.com/vllm-project), Red Hat AI và DeepLearning.AI** — vLLM, LLM Compressor, GuideLLM và khoá học miễn phí *Fast & Efficient LLM Inference with vLLM*.
+- **[Rohit Ghumare](https://github.com/rohitg00/ai-engineering-from-scratch)** (AI Engineering from Scratch) và **[Amit Shekhar](https://github.com/amitshekhariitbhu/ai-engineering-course)** (Outcome School) — giáo trình miễn phí làm nền cho phần ứng dụng AI ở mục 3.5 và mục 7.
 - **[EleutherAI](https://github.com/EleutherAI/lm-evaluation-harness)** — lm-evaluation-harness; **[Hao AI Lab (UCSD)](https://haoailab.com/)** — DistServe và các bài viết về disaggregated serving.
 - **Cộng đồng DGX Spark** — himorishige, tonyd2wild, Kdurazzo, natolambert, bidual (awesome-dgx-spark) và các thành viên diễn đàn NVIDIA đã ghi lại cách dựng GB10 đa node và các bẫy unified memory.
 - **Liz Rice / Isovalent** — *Container Security* và *Learning eBPF* phát hành miễn phí.
 - **Kim Wüstkamp / Killer Shell** — khoá CKS free trên YouTube, killer.sh và Killercoda.
+- **Giskard và DeepLearning.AI, Microsoft AI Red Team, PortSwigger, Lakera, OWASP GenAI Security Project, Red Team Leaders** — các khoá học, lab, game và chuẩn LLM red-teaming miễn phí ở mục 6.
 - **Luiz André Barroso, Urs Hölzle, Parthasarathy Ranganathan** — *The Datacenter as a Computer* open access; **Google SRE** — các sách SRE.
 - **Larry Peterson & Bruce Davie** — *Computer Networks: A Systems Approach*; **Jim Kurose** — video bài giảng free.
 - **Vijay Janapa Reddi** — *Machine Learning Systems*; **Goku Mohandas** — Made With ML.
