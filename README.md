@@ -46,6 +46,7 @@
   - [6. Security for AI platforms](#6-security-for-ai-platforms)
     - [Video](#video-2)
     - [Books \& docs](#books--docs-2)
+    - [LLM \& agent security: courses, labs, standards, tools](#llm--agent-security-courses-labs-standards-tools)
   - [7. LLMOps \& large-scale inference](#7-llmops--large-scale-inference)
     - [Video](#video-3)
     - [Books \& docs](#books--docs-3)
@@ -207,7 +208,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | Resource | Type | Link |
 |---|---|---|
 | ⭐ Made With ML (Goku Mohandas) | 🆓📕🧪 | https://madewithml.com/ |
-| ⭐ Machine Learning Systems (Vijay Janapa Reddi) | 🆓📕 | https://mlsysbook.ai/ |
+| ⭐ Machine Learning Systems (Vijay Janapa Reddi, Harvard CS249r) — four open-access volumes: I Introduction, II Scaling ML Systems (preview; the one closest to Sections 4–7), III Agentic and IV Physical AI (in preparation); source and Marimo labs on GitHub | 🆓📕🧪 | https://mlsysbook.ai/ · https://github.com/harvard-edge/cs249r_book |
 | ml-ops.org — principles & maturity model | 🆓📄 | https://ml-ops.org/ |
 | Google — Practitioners Guide to MLOps | 🆓📄 | https://cloud.google.com/resources/mlops-whitepaper |
 | Full Stack Deep Learning | 🆓🎥 | https://fullstackdeeplearning.com/ |
@@ -252,6 +253,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | Andrej Karpathy — Deep Dive into LLMs like ChatGPT (3.5 h, the whole stack: pretraining data, tokenization, the network, SFT, RL) | 🆓🎥 | https://www.youtube.com/watch?v=7xTGNNLPyMI |
 | ⭐ Andrej Karpathy — Neural Networks: Zero to Hero, Lecture 7 "Let's build GPT: from scratch, in code, spelled out" and Lecture 8 "Let's build the GPT Tokenizer" (start from Lecture 1 if backpropagation is new to you) | 🆓🎥🧪 | https://www.youtube.com/watch?v=kCc8FmEb1nY · https://www.youtube.com/watch?v=zduSFxRajkE · https://github.com/karpathy/nn-zero-to-hero |
 | Interactive: Transformer Explainer (a live GPT-2 in your browser) · LLM Visualization (Brendan Bycroft, a 3D walkthrough of one token of inference) | 🆓🧪 | https://poloclub.github.io/transformer-explainer/ · https://bbycroft.net/llm |
+| Exercises with auto-grading: TorchCode ("LeetCode for PyTorch": softmax, attention, GPT-2 from scratch) · Karpathy — nanochat (the whole ChatGPT pipeline, tokenizer → pretraining → SFT → inference, in one small codebase; read it after "Let's build GPT") | 🆓🧪 | https://github.com/duoan/TorchCode · https://github.com/karpathy/nanochat |
 | ⭐ Stanford CS336 — Lecture 1 "Overview and Tokenization", Lecture 2 "PyTorch, Resource Accounting", Lecture 3 "Architectures, Hyperparameters", Lecture 4 "Mixture of Experts", plus Assignment 1 "Basics" (BPE tokenizer, transformer and AdamW from scratch). This is the deep option, and the same course continues into Sections 4 and 7 | 🆓🎥🧪 | https://cs336.stanford.edu/ · https://www.youtube.com/watch?v=SQ3fZ1sAqXI · https://github.com/stanford-cs336/assignment1-basics |
 | Build a Large Language Model (From Scratch) (Sebastian Raschka) — the book is paid, the code is free. Bonus notebooks implement KV cache (`ch04/03_kv-cache`), GQA (`ch04/04_gqa`), MLA (`ch04/05_mla`), sliding-window attention, MoE (`ch04/07_moe`), a FLOPs analysis, and Llama 3 / Qwen3 / Gemma from scratch | 💰📕 · 🆓🧪 | https://github.com/rasbt/LLMs-from-scratch |
 | AI Engineering from Scratch (Rohit Ghumare) — Phase 7 "Transformers Deep Dive" and Phase 10 "LLMs from Scratch": build attention, a tokenizer, a mini-GPT, KV cache, quantization, speculative decoding and multi-token prediction by hand in plain Python and NumPy, with a quiz per lesson. Toy scale, so pair it with Karpathy or CS336 for PyTorch | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/07-transformers-deep-dive · https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/10-llms-from-scratch |
@@ -314,6 +316,9 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | NVIDIA Blackwell architecture | 🆓📄 | https://resources.nvidia.com/en-us-blackwell-architecture |
 | Horace He — Making Deep Learning Go Brrrr From First Principles (compute-bound vs memory-bound vs overhead-bound) | 🆓📄 | https://horace.io/brrr_intro.html |
 | Modal — GPU Glossary ("GPU documentation for humans": SM, warp, HBM, tensor cores, CUDA graphs) | 🆓📄 | https://modal.com/gpu-glossary |
+| Kernel libraries to read, not only use: FlashAttention · CUTLASS (CUDA templates and Python DSLs for GEMM) · FlashInfer (the attention and sampling kernels behind vLLM and SGLang) · DeepGEMM (FP8 GEMM in about 300 lines of CUDA) · ThunderKittens (tile primitives) | 🆓🧪 | https://github.com/Dao-AILab/flash-attention · https://github.com/NVIDIA/cutlass · https://github.com/flashinfer-ai/flashinfer · https://github.com/deepseek-ai/DeepGEMM · https://github.com/HazyResearch/ThunderKittens |
+| Anthropic — original performance take-home (a real performance-engineering interview exercise, now public: make a kernel-like workload faster and explain why) | 🆓🧪 | https://github.com/anthropics/original_performance_takehome |
+| Training and RL frameworks to know by name, because their jobs land on your cluster: Megatron-LM (tensor/pipeline parallel) · DeepSpeed (ZeRO) · torchtitan (PyTorch-native pretraining) · verl and slime (RL post-training: rollout engines plus training engines) | 🆓📄 | https://github.com/NVIDIA/Megatron-LM · https://github.com/deepspeedai/DeepSpeed · https://github.com/pytorch/torchtitan · https://github.com/verl-project/verl · https://github.com/THUDM/slime |
 
 ### Tools
 | Tool | Link |
@@ -323,6 +328,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | NVIDIA GPU Operator (driver, device plugin, MIG / time-slicing / MPS) | https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html |
 | Kueue (job queueing, GPU quotas) | https://kueue.sigs.k8s.io/ |
 | DGX Spark docs & playbooks (playbook sources on GitHub) | https://docs.nvidia.com/dgx/dgx-spark/ · https://build.nvidia.com/spark · https://github.com/NVIDIA/dgx-spark-playbooks |
+| nvitop · nvtop (interactive GPU process viewers; `nvidia-smi` for humans) | https://github.com/XuehaiPan/nvitop · https://github.com/Syllo/nvtop |
 
 🧪 **Do**
 1. `nvidia-smi -q`, `nvidia-smi topo -m`, `lspci -tv` → draw the CPU–GPU–memory–NIC diagram of your machine.
@@ -360,6 +366,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 |---|---|---|
 | ⭐ AI Infrastructure (Bojie Li) — ch.6 supernodes (§6.2 six parallelism strategies, §6.4 collective communication cost), ch.7 data-center networks (§7.2 cross-node traffic, multi-NIC and multi-rail, §7.3 RDMA paths) | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 | NCCL user guide + environment variables (`NCCL_IB_HCA`, `NCCL_SOCKET_IFNAME`, `NCCL_IB_GID_INDEX`, `NCCL_NET_GDR_LEVEL`) + nccl-tests | 🆓📄🧪 | https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/index.html · https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html · https://github.com/NVIDIA/nccl-tests |
+| DeepSeek open-infra-index — what a frontier lab open-sourced about its own cluster: DeepEP (expert-parallel all-to-all over NVLink and RDMA, the MoE traffic pattern), DeepGEMM, FlashMLA, DualPipe, 3FS (parallel file system) | 🆓📄🧪 | https://github.com/deepseek-ai/open-infra-index · https://github.com/deepseek-ai/DeepEP |
 | vLLM docs — Parallelism and Scaling (multi-node TP/PP, Ray vs multiprocessing, `NCCL_DEBUG=TRACE` to confirm RDMA vs TCP) | 🆓📄 | https://docs.vllm.ai/en/stable/serving/parallelism_scaling/ |
 | DGX Spark playbooks — Connect two Sparks, NCCL on two Sparks, performance benchmarking guide (`ib_write_bw`, `vllm bench`) | 🆓📄🧪 | https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/connect-two-sparks/README.md · https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/nccl/README.md · https://github.com/NVIDIA/dgx-spark-playbooks/blob/main/nvidia/connect-two-sparks/assets/performance_benchmarking_guide.md |
 | Learning eBPF (Liz Rice) — free from Isovalent | 🆓📕 | https://isovalent.com/books/learning-ebpf/ |
@@ -404,11 +411,30 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | Kyverno docs | 🆓📄 | https://kyverno.io/docs/ |
 | HashiCorp Vault tutorials | 🆓📄🧪 | https://developer.hashicorp.com/vault/tutorials |
 | Sigstore / cosign docs | 🆓📄 | https://docs.sigstore.dev/ |
-| ⭐ OWASP Top 10 for LLM Applications | 🆓📄 | https://genai.owasp.org/ |
-| MITRE ATLAS | 🆓📄 | https://atlas.mitre.org/ |
-| NVIDIA garak — LLM vulnerability scanner | 🆓🧪 | https://github.com/NVIDIA/garak |
-| NVIDIA NeMo Guardrails | 🆓🧪 | https://github.com/NVIDIA/NeMo-Guardrails |
 | roadmap.sh — Cyber Security | 🆓📄 | https://roadmap.sh/cyber-security |
+
+### LLM & agent security: courses, labs, standards, tools
+
+*The serving stack you build in Section 7 is an attack surface of its own: prompt injection through RAG documents and tool outputs, system-prompt leakage, excessive agency of agents with tools, poisoned models and MCP servers in the supply chain, and unbounded consumption that turns into a GPU bill. Learn the attacks hands-on first, then the standards, then the scanners you can put in CI.*
+
+| Resource | Type | Link |
+|---|---|---|
+| ⭐ DeepLearning.AI × Giskard — Red Teaming LLM Applications (about 1.5 h: prompt injection, red teaming at scale, red teaming LLMs with LLMs) | 🆓🎥🧪 | https://www.deeplearning.ai/short-courses/red-teaming-llm-applications/ |
+| ⭐ Microsoft — AI Red Teaming 101 (10 episodes: direct and indirect prompt injection, single- and multi-turn attacks such as Crescendo and Skeleton Key, spotlighting defenses, automation with PyRIT) + the AI Red Teaming Playground Labs (12 challenges you run locally with Docker) | 🆓🎥🧪 | https://learn.microsoft.com/en-us/security/ai-red-team/training · https://github.com/microsoft/AI-Red-Teaming-Playground-Labs |
+| ⭐ PortSwigger Web Security Academy — Web LLM attacks (free labs: excessive agency, insecure output handling, indirect prompt injection) | 🆓📄🧪 | https://portswigger.net/web-security/llm-attacks |
+| Lakera — Gandalf / Agent Breaker (prompt-injection games, free in the browser) and the Prompt Injection Attacks Handbook | 🆓🧪📄 | https://gandalf.lakera.ai/ · https://www.lakera.ai/ai-security-guides/prompt-injection-attacks-handbook |
+| Red Team Leaders — CLLMSP → CLLMSE (Certified LLM Security Professional / Expert): prep course and 6-hour exam with a live lab (indirect prompt injection, RAG poisoning, MCP supply-chain rug pull). This is the certification I am studying for | 🆓/💰🎥🧪 | https://courses.redteamleaders.com/courses/76172b63-32cd-4e3b-aaf9-6d3bf005348a · https://courses.redteamleaders.com/exams/73c286aa-2944-4f26-82ba-0ca14a05a4b7 |
+| Hack The Box Academy — AI Red Teamer path (with Google; 12 modules from prompt injection to AI evasion, privacy and defense) | 💰🧪 | https://academy.hackthebox.com/path/preview/ai-red-teamer |
+| OffSec — LLM Red Teaming learning path (30 h, 6 modules) | 💰🎥🧪 | https://www.offsec.com/learning/paths/llm-red-teaming/ |
+| Practical DevSecOps — Certified AI Security Professional (CAISP): 50+ browser labs on OWASP LLM Top 10, MITRE ATLAS, AI supply chain, STRIDE threat modeling | 💰🧪 | https://www.practical-devsecops.com/certified-ai-security-professional/ |
+| LinkedIn Learning — Red Teaming for Generative AI (Rashim Mogha, 27 min overview) | 💰🎥 | https://www.linkedin.com/learning/red-teaming-for-generative-ai-building-robust-and-responsible-solutions |
+| ⭐ OWASP GenAI Security Project — Top 10 for LLM Applications (2025) and Top 10 for Agentic Applications (2026) | 🆓📄 | https://genai.owasp.org/llm-top-10/ · https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/ |
+| MITRE ATLAS — adversary tactics and techniques against AI systems | 🆓📄 | https://atlas.mitre.org/ |
+| NIST AI 600-1 — Generative AI Profile of the AI Risk Management Framework | 🆓📄 | https://doi.org/10.6028/NIST.AI.600-1 |
+| Scanners and red-team automation: NVIDIA garak (LLM vulnerability scanner) · Microsoft PyRIT (Python Risk Identification Tool) · promptfoo red teaming (plugins mapped to the OWASP LLM Top 10, runs in CI) | 🆓🧪 | https://github.com/NVIDIA/garak · https://github.com/microsoft/PyRIT · https://www.promptfoo.dev/docs/red-team/ |
+| Guardrails: NVIDIA NeMo Guardrails | 🆓🧪 | https://github.com/NVIDIA/NeMo-Guardrails |
+| Agent and MCP runtime controls you will be asked to deploy: NVIDIA OpenShell (sandboxed runtime for autonomous agents) · NVIDIA SkillSpector (security scanner for agent skills: prompt injection, malicious patterns, data exfiltration) · agentgateway (proxy for agents and MCP servers) · Presidio (PII detection and redaction for inputs, outputs and logs) | 🆓🧪 | https://github.com/NVIDIA/OpenShell · https://github.com/NVIDIA/SkillSpector · https://github.com/agentgateway/agentgateway · https://github.com/data-privacy-stack/presidio |
+| AI/ML pentesting roadmap and free resources (anmolksachan): CTFs, vulnerable-by-design apps, MCP labs | 🆓📄 | https://github.com/anmolksachan/AI-ML-Free-Resources-for-Security-and-Prompt-Injection |
 
 🧪 **Do**
 1. One-page threat model (STRIDE) for your ML system.
@@ -417,8 +443,9 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 4. CI: Trivy scan → cosign sign → Kyverno `verifyImages`.
 5. mTLS STRICT (Istio or Cilium); verify with tcpdump.
 6. Falco runtime alerts; garak scan of an LLM endpoint.
+7. Red-team your own serving stack: finish the Microsoft Playground Labs and the PortSwigger LLM labs, then run promptfoo (OWASP LLM Top 10 plugins) and PyRIT against your vLLM endpoint and the RAG or agent in front of it. Put one scan in CI and fix one finding with NeMo Guardrails or input/output filtering.
 
-**Milestone**: a pull request merged into your project that adds Kyverno policies, Vault-managed secrets, signed images verified at admission, mTLS between services, and a Falco alert rule — plus a one-page threat-model document explaining what each control protects against. If you want a certificate at this stage, take **KCSA** first, then **CKS**.
+**Milestone**: a pull request merged into your project that adds Kyverno policies, Vault-managed secrets, signed images verified at admission, mTLS between services, and a Falco alert rule — plus a one-page threat-model document explaining what each control protects against, mapped to the OWASP LLM Top 10 and MITRE ATLAS, and one red-team scan report with the finding you fixed. If you want a certificate at this stage, take **KCSA** first, then **CKS**; for the LLM side, **CLLMSP → CLLMSE** or **CAISP**.
 
 ---
 
@@ -433,6 +460,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | GPU MODE — Lecture 22 (speculative decoding in vLLM), Lecture 35 (SGLang performance), Lecture 40 (FlashInfer) | 🆓🎥 | https://github.com/gpu-mode/lectures |
 | Stanford CS336 — Lecture 10 "Inference", Lecture 12 "Evaluation" (Spring 2025 recordings and code) | 🆓🎥 | https://cs336.stanford.edu/ · https://github.com/stanford-cs336/spring2025-lectures |
 | Andrej Karpathy — Let's reproduce GPT-2 (124M): what a training loop does at the systems level (DDP, mixed precision, `torch.compile`) | 🆓🎥🧪 | https://youtu.be/l8pRSuU81PU · https://github.com/karpathy/build-nanogpt |
+| Build a mini inference engine yourself: SGLang × Datawhale "zero-to-sglang" (official course: understand inference, build a mini-SGLang, then read the real one) · tiny-vllm (a smaller vLLM in C++ and CUDA) · 100 days of inference engineering (daily experiments and plots) | 🆓🧪 | https://github.com/datawhalechina/zero-to-sglang · https://github.com/jmaczan/tiny-vllm · https://github.com/elizabetht/100-days-of-inference |
 | DeepLearning.AI — Efficiently Serving LLMs (Travis Addair, Predibase): batching, continuous batching, quantization, multi-LoRA | 🆓🎥🧪 | https://www.deeplearning.ai/courses/efficiently-serving-llms |
 | NVIDIA DLI — Sizing LLM Inference Systems (free, self-paced) | 🆓🎥🧪 | https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+S-FX-18+V1 |
 | NVIDIA DLI — Model Parallelism: Building and Deploying Large Neural Networks | 💰🎥🧪 | https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+C-FX-07+V1 |
@@ -510,6 +538,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | ⭐ vLLM docs — Speculative Decoding (draft model, n-gram, EAGLE-3, MTP, …) and "Per-request acceptance metrics": mean acceptance length = 1 + accepted tokens / drafts; Prometheus counters `vllm:spec_decode_num_draft_tokens`, `vllm:spec_decode_num_accepted_tokens` | 🆓📄 | https://docs.vllm.ai/en/latest/features/speculative_decoding/ · https://docs.vllm.ai/en/latest/features/speculative_decoding/acceptance_metrics/ |
 | The original papers: Leviathan et al. (ICML 2023) · Chen et al. (DeepMind) · Hugging Face "Assisted Generation" (gentle introduction) | 🆓📄 | https://arxiv.org/abs/2211.17192 · https://arxiv.org/abs/2302.01318 · https://huggingface.co/blog/assisted-generation |
 | Medusa (extra decoding heads) · EAGLE-1/2/3 (feature-level drafting; EAGLE-3 is the usual drafter in vLLM and SGLang deployments) | 🆓📄🧪 | https://arxiv.org/abs/2401.10774 · https://arxiv.org/abs/2401.15077 · https://arxiv.org/abs/2406.16858 · https://arxiv.org/abs/2503.01840 · https://github.com/SafeAILab/EAGLE |
+| DeepSeek DeepSpec — full-stack codebase for training and evaluating speculative-decoding drafters (how the MTP heads you serve get made and measured) | 🆓🧪 | https://github.com/deepseek-ai/DeepSpec |
 | Multi-token prediction (MTP), the built-in drafter that GLM and DeepSeek ship: Gloeckle et al. (Meta) · DeepSeek-V3 report (MTP module as draft, 85–90 % acceptance of the second token) · GLM-4.5 and GLM-5 reports (MTP layers designed for speculative decoding) | 🆓📄 | https://arxiv.org/abs/2404.19737 · https://arxiv.org/abs/2412.19437 · https://arxiv.org/abs/2508.06471 · https://arxiv.org/abs/2602.15763 |
 | vLLM blog — How Speculative Decoding Boosts vLLM Performance by up to 2.8x (and why it can hurt at high QPS) | 🆓📄 | https://vllm.ai/blog/2024-10-17-spec-decode |
 | Survey (Xia et al., ACL 2024) + Spec-Bench (EAGLE, Medusa, lookahead, prompt lookup on one harness) | 🆓📄🧪 | https://arxiv.org/abs/2401.07851 · https://github.com/hemingkx/Spec-Bench |
@@ -566,7 +595,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | ⭐ DistServe (OSDI 2024) · Splitwise (ISCA 2024) · Mooncake (FAST 2025 best paper; the KV-centric design behind Kimi) | 🆓📄🧪 | https://arxiv.org/abs/2401.09670 · https://arxiv.org/abs/2311.18677 · https://arxiv.org/abs/2407.00079 · https://github.com/kvcache-ai/Mooncake |
 | Hao AI Lab — "Disaggregated Inference: 18 Months Later" (what Dynamo, llm-d, SGLang and vLLM adopted) · "Beyond the Buzz: A Pragmatic Take on Inference Disaggregation" (when it does not pay off) | 🆓📄 | https://haoailab.com/blogs/distserve-retro/ · https://arxiv.org/abs/2506.05508 |
 | ⭐ llm-d (Red Hat, Google, IBM, CoreWeave, NVIDIA) — Kubernetes-native stack: well-lit paths, P/D disaggregation guide, prefix-cache-aware routing | 🆓📄🧪 | https://llm-d.ai/ · https://llm-d.ai/docs/well-lit-paths · https://github.com/llm-d/llm-d/tree/main/guides/pd-disaggregation |
-| NVIDIA Dynamo — Disaggregated serving, KV-cache-aware routing, and the launch post "Introducing NVIDIA Dynamo" (GTC 2025) | 🆓📄 | https://docs.nvidia.com/dynamo/dev/cli/disaggregated-serving/overview · https://docs.nvidia.com/dynamo/latest/user-guides/kv-cache-aware-routing · https://developer.nvidia.com/blog/introducing-nvidia-dynamo-a-low-latency-distributed-inference-framework-for-scaling-reasoning-ai-models |
+| NVIDIA Dynamo — Disaggregated serving, KV-cache-aware routing, and the launch post "Introducing NVIDIA Dynamo" (GTC 2025) | 🆓📄 | https://docs.nvidia.com/dynamo/dev/cli/disaggregated-serving/overview · https://docs.nvidia.com/dynamo/user-guides/kv-cache-aware-routing · https://developer.nvidia.com/blog/introducing-nvidia-dynamo-a-low-latency-distributed-inference-framework-for-scaling-reasoning-ai-models |
 | vLLM docs — Disaggregated Prefilling (KV connectors: NIXL, LMCache, Mooncake; the docs say it does *not* raise throughput, it decouples TTFT and ITL tuning) · SGLang — PD Disaggregation | 🆓📄 | https://docs.vllm.ai/en/latest/features/disagg_prefill/ · https://docs.sglang.ai/advanced_features/pd_disaggregation.html |
 | The plumbing: NIXL (NVIDIA Inference Xfer Library, KV transfer over RDMA and NVLink) · LMCache (KV-cache tiers: GPU → CPU → disk → remote) | 🆓🧪 | https://github.com/ai-dynamo/nixl · https://github.com/LMCache/LMCache |
 | BentoML LLM Inference Handbook — Prefill-decode disaggregation · Prefix-aware routing (practitioner explainers) | 🆓📕 | https://bentoml.com/llm/inference-optimization/prefill-decode-disaggregation · https://bentoml.com/llm/inference-optimization/prefix-aware-routing |
@@ -619,6 +648,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | 2 | KCSA → CKS — Kubernetes security | https://www.cncf.io/certification/cks/ |
 | 3 | NVIDIA NCP-AIN — AI Networking | https://www.nvidia.com/en-us/learn/certification/ |
 | 4 | NVIDIA NCP-AII / NCP-AIO — AI Infrastructure / AI Operations (Professional) | https://www.nvidia.com/en-us/learn/certification/ |
+| 5 | CLLMSP → CLLMSE (Red Team Leaders) or CAISP (Practical DevSecOps) — LLM / AI security | https://courses.redteamleaders.com/exams/73c286aa-2944-4f26-82ba-0ca14a05a4b7 · https://www.practical-devsecops.com/certified-ai-security-professional/ |
 
 Exam simulator for CKA/CKAD/CKS: https://killer.sh/
 
@@ -655,6 +685,7 @@ Exam simulator for CKA/CKAD/CKS: https://killer.sh/
 | AI Engineering Course (Outcome School, 18 modules: ML foundations → transformers → fine-tuning → RAG → agents → inference → system design). Application-side AI engineering that complements this infrastructure roadmap | https://github.com/amitshekhariitbhu/ai-engineering-course |
 | Machine Learning Systems (mlsysbook.ai) | https://mlsysbook.ai/ |
 | developer-roadmap (roadmap.sh source) | https://github.com/kamranahmedse/developer-roadmap |
+| AI Engineering Hub (patchy631) — 90+ application-layer projects (RAG, agents, MCP, evaluation) plus a short AI Engineering roadmap. This is the *other side* of this repo: it teaches building apps on top of models, not running the models. Use it as a source of realistic workloads to put on your serving stack (an agentic RAG, an MCP server, an eval pipeline with Opik) and as the layer where most LLM-security findings from Section 6 show up | https://github.com/patchy631/ai-engineering-hub |
 
 > **Looking for AI open-source projects to learn from or contribute to?** I use https://goodailist.com/repos to find currently trending AI repositories.
 
@@ -676,6 +707,7 @@ This roadmap stands on the work of many people and communities:
 - **The DGX Spark community** — himorishige, tonyd2wild, Kdurazzo, natolambert, bidual (awesome-dgx-spark) and the NVIDIA forum members who documented GB10 multi-node setups and the unified-memory pitfalls.
 - **Liz Rice / Isovalent** — *Container Security* and *Learning eBPF*, released free.
 - **Kim Wüstkamp / Killer Shell** — the CKS course released free on YouTube, killer.sh and Killercoda.
+- **Giskard and DeepLearning.AI, Microsoft AI Red Team, PortSwigger, Lakera, OWASP GenAI Security Project, Red Team Leaders** — the free LLM red-teaming courses, labs, games and standards in Section 6.
 - **Luiz André Barroso, Urs Hölzle, Parthasarathy Ranganathan** — *The Datacenter as a Computer*, open access; **Google SRE** — the SRE books.
 - **Larry Peterson & Bruce Davie** — *Computer Networks: A Systems Approach*; **Jim Kurose** — free lecture videos.
 - **Vijay Janapa Reddi** — *Machine Learning Systems*; **Goku Mohandas** — Made With ML.
