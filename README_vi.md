@@ -675,7 +675,7 @@ Simulator thi CKA/CKAD/CKS: https://killer.sh/
 
 | Tên | Link |
 |---|---|
-| ai-infra-curriculum (Engineer / Performance / MLOps / Senior / Architect tracks) | https://github.com/ai-infra-curriculum/ai-infra-engineer-learning · https://ai-infra-curriculum.github.io/ |
+| ai-infra-curriculum (26 repo, 13 track theo vai trò từ junior tới principal; mỗi track = repo Learning + repo Solutions, MIT). Hợp nhất với roadmap này: [AI Inference Engineer](https://github.com/ai-infra-curriculum/ai-infra-inference-engineer-learning) (vLLM/TensorRT-LLM/SGLang, batching & KV cache, quantization, routing, GPU autoscaling) và [AI Reliability Engineer / AI SRE](https://github.com/ai-infra-curriculum/ai-infra-sre-learning) (SLO cho dịch vụ dùng model, observability LLM & GPU, xử lý sự cố) | https://ai-infra-curriculum.github.io/ · danh sách đầy đủ: https://github.com/ai-infra-curriculum . Lưu ý: nội dung AI-generated đang được review lại — nên cross-check trước khi tin chi tiết; dùng tốt nhất làm nguồn bài tập thực hành |
 | roadmap.sh — MLOps / Kubernetes / Cyber Security / DevOps | https://roadmap.sh/mlops · https://roadmap.sh/kubernetes · https://roadmap.sh/cyber-security |
 | AI/ML Platform Engineer — 6-Month Learning Roadmap (gist) | https://gist.github.com/piyushjajoo/51d72850754aabc06ef1f6d994a4d35f |
 | awesome-gpu-engineering | https://github.com/goabiaryan/awesome-gpu-engineering |

@@ -674,7 +674,7 @@ Exam simulator for CKA/CKAD/CKS: https://killer.sh/
 
 | Name | Link |
 |---|---|
-| ai-infra-curriculum (Engineer / Performance / MLOps / Senior / Architect tracks) | https://github.com/ai-infra-curriculum/ai-infra-engineer-learning · https://ai-infra-curriculum.github.io/ |
+| ai-infra-curriculum (26 repos, 13 role tracks from junior to principal; each track = Learning repo + Solutions repo, MIT). Most relevant here: [AI Inference Engineer](https://github.com/ai-infra-curriculum/ai-infra-inference-engineer-learning) (vLLM/TensorRT-LLM/SGLang, batching & KV cache, quantization, routing, GPU autoscaling) and [AI Reliability Engineer / AI SRE](https://github.com/ai-infra-curriculum/ai-infra-sre-learning) (SLOs for model-backed services, LLM & GPU observability, incident response) | https://ai-infra-curriculum.github.io/ · full list: https://github.com/ai-infra-curriculum . Note: content is AI-generated with ongoing human review — cross-check before trusting details; best used as a hands-on exercise source |
 | roadmap.sh — MLOps / Kubernetes / Cyber Security / DevOps | https://roadmap.sh/mlops · https://roadmap.sh/kubernetes · https://roadmap.sh/cyber-security |
 | AI/ML Platform Engineer — 6-Month Learning Roadmap (gist) | https://gist.github.com/piyushjajoo/51d72850754aabc06ef1f6d994a4d35f |
 | awesome-gpu-engineering | https://github.com/goabiaryan/awesome-gpu-engineering |
