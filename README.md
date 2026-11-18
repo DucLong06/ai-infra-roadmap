@@ -74,6 +74,7 @@
 3. Legend: 🆓 free · 💰 paid · 🎥 video · 📕 book · 📄 docs/paper · 🧪 lab · ⭐ start here.
 4. Keep an English-language engineering journal after each lab. It becomes your portfolio.
 5. Short on time? Do the **Minimum path** below first. Everything else is a reference library.
+6. Wondering if a resource is still current? See [roadmap-freshness.md](roadmap-freshness.md) — an audit of every repo and video with its last-update date and verified replacement notes (2026-11-18).
 
 ---
 

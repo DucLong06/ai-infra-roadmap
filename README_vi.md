@@ -75,6 +75,7 @@
 3. Ký hiệu: 🆓 miễn phí · 💰 trả phí · 🎥 video · 📕 sách · 📄 docs/paper · 🧪 lab · ⭐ bắt đầu từ đây.
 4. Viết journal bằng tiếng Anh sau mỗi lab. Đó chính là portfolio của bạn.
 5. Ít thời gian? Làm **Lộ trình tối thiểu** bên dưới trước. Phần còn lại là thư viện tra cứu.
+6. Băn khoăn tài nguyên còn cập nhật không? Xem [roadmap-freshness.md](roadmap-freshness.md) — audit từng repo và video kèm ngày cập nhật cuối và ghi chú thay thế đã kiểm chứng (18/11/2026).
 
 ---
 
