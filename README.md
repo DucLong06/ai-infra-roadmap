@@ -74,6 +74,7 @@
 3. Legend: 🆓 free · 💰 paid · 🎥 video · 📕 book · 📄 docs/paper · 🧪 lab · ⭐ start here.
 4. Keep an English-language engineering journal after each lab. It becomes your portfolio.
 5. Short on time? Do the **Minimum path** below first. Everything else is a reference library.
+6. Wondering if a resource is still current? See [roadmap-freshness.md](roadmap-freshness.md) — an audit of every repo and video with its last-update date and verified replacement notes (2026-11-18).
 
 ---
 
@@ -210,6 +211,7 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 | ⭐ Made With ML (Goku Mohandas) | 🆓📕🧪 | https://madewithml.com/ |
 | ⭐ Machine Learning Systems (Vijay Janapa Reddi, Harvard CS249r) — four open-access volumes: I Introduction, II Scaling ML Systems (preview; the one closest to Sections 4–7), III Agentic and IV Physical AI (in preparation); source and Marimo labs on GitHub | 🆓📕🧪 | https://mlsysbook.ai/ · https://github.com/harvard-edge/cs249r_book |
 | ml-ops.org — principles & maturity model | 🆓📄 | https://ml-ops.org/ |
+| The Production ML Blueprint (Manning free eBook, 4 chapters) — system design weaknesses before implementation, data prep, pipeline orchestration with Kubeflow Pipelines, testing inference under realistic conditions, release strategies for model updates. Free for a limited time (email required) | 🆓📕 | https://www.manning.com/free-ebooks/ |
 | Google — Practitioners Guide to MLOps | 🆓📄 | https://cloud.google.com/resources/mlops-whitepaper |
 | Full Stack Deep Learning | 🆓🎥 | https://fullstackdeeplearning.com/ |
 | DataTalks.Club — MLOps Zoomcamp (course + YouTube) | 🆓🎥🧪 | https://github.com/DataTalksClub/mlops-zoomcamp · https://www.youtube.com/@DataTalksClub |
@@ -471,6 +473,9 @@ After these, Section 8 (AI Data Center) and the certifications are the natural n
 |---|---|---|
 | ⭐ How to Scale Your Model (Google/JAX "Scaling Book") — read the roofline, sharding and inference chapters | 🆓📕 | https://jax-ml.github.io/scaling-book/ |
 | ⭐ The Ultra-Scale Playbook (Hugging Face) | 🆓📕 | https://huggingface.co/spaces/nanotron/ultrascale-playbook |
+| Inference Engineering (Manning free eBook, 187 pp.) — 5 chapters from Manning books: GPU + CUDA programming model, kernel fusion and Triton, quantization vs output quality, batching/streaming/rate limiting in a running LLM service. Free for a limited time (email required) | 🆓📕 | https://www.manning.com/free-ebooks/ |
+| LLM Fine-Tuning for Engineers (Manning free eBook, 178 pp.) — training data selection, experiment planning, Bayesian optimization, LLM judges, ONNX runtime profiling | 🆓📕 | https://www.manning.com/free-ebooks/ |
+| Local AI and Small Language Models (Manning free eBook, 97 pp.) — SLM selection, LoRA/DoRA specialization, GGUF + llama.cpp CPU inference, Ollama Python app dev | 🆓📕 | https://www.manning.com/free-ebooks/ |
 | AI Infrastructure (Bojie Li) — ch.8 inference optimization (§8.1 request lifecycle and memory, §8.2 continuous batching, §8.3 KV cache, §8.4 compression and offloading, §8.5 speculative decoding), ch.9 distributed inference (§9.2 prefill–decode separation, §9.3–9.4 MoE and expert parallelism), ch.10 training systems, ch.11 scheduling | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 | AI Performance Engineering (Chris Fregly) — code repo | 🆓🧪 | https://github.com/cfregly/ai-performance-engineering |
 | AI Engineering from Scratch — Phase 17 "Infrastructure and Production": 29 lessons on vLLM internals, EAGLE-3, SGLang RadixAttention, TensorRT-LLM on Blackwell, goodput, production quantization, disaggregated prefill/decode, LMCache, load testing, SRE and FinOps for LLMs. The code is a standard-library simulator with illustrative constants, so use it for concepts and then measure on real hardware | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production |
