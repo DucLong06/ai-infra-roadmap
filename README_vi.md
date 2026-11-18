@@ -211,6 +211,7 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 | ⭐ Made With ML (Goku Mohandas) | 🆓📕🧪 | https://madewithml.com/ |
 | ⭐ Machine Learning Systems (Vijay Janapa Reddi, Harvard CS249r) — bốn tập open access: I Introduction, II Scaling ML Systems (bản preview; tập sát nhất với mục 4–7), III Agentic và IV Physical AI (đang viết); mã nguồn và lab Marimo trên GitHub | 🆓📕🧪 | https://mlsysbook.ai/ · https://github.com/harvard-edge/cs249r_book |
 | ml-ops.org — nguyên lý & maturity model | 🆓📄 | https://ml-ops.org/ |
+| The Production ML Blueprint (Manning free eBook, 4 chương) — tìm điểm yếu thiết kế hệ thống trước khi triển khai, data preparation, orchestration pipeline bằng Kubeflow Pipelines, test inference trong điều kiện thực tế, chiến lược release cho model update. Free trong thời gian giới hạn (cần email) | 🆓📕 | https://www.manning.com/free-ebooks/ |
 | Google — Practitioners Guide to MLOps | 🆓📄 | https://cloud.google.com/resources/mlops-whitepaper |
 | Full Stack Deep Learning | 🆓🎥 | https://fullstackdeeplearning.com/ |
 | DataTalks.Club — MLOps Zoomcamp (khoá + YouTube) | 🆓🎥🧪 | https://github.com/DataTalksClub/mlops-zoomcamp · https://www.youtube.com/@DataTalksClub |
@@ -472,6 +473,9 @@ Sau 13 mục này, mục 8 (AI Data Center) và các chứng chỉ là bước t
 |---|---|---|
 | ⭐ How to Scale Your Model (Google/JAX "Scaling Book") — đọc các chương roofline, sharding và inference | 🆓📕 | https://jax-ml.github.io/scaling-book/ |
 | ⭐ The Ultra-Scale Playbook (Hugging Face) | 🆓📕 | https://huggingface.co/spaces/nanotron/ultrascale-playbook |
+| Inference Engineering (Manning free eBook, 187 trang) — 5 chương chọn từ các sách Manning: GPU + CUDA programming model, kernel fusion và Triton, quantization đổi với chất lượng đầu ra, batching/streaming/rate limiting khi vận hành LLM service. Free trong thời gian giới hạn (cần email) | 🆓📕 | https://www.manning.com/free-ebooks/ |
+| LLM Fine-Tuning for Engineers (Manning free eBook, 178 trang) — chọn training data, lập kế hoạch thí nghiệm, Bayesian optimization, LLM judges, ONNX runtime profiling | 🆓📕 | https://www.manning.com/free-ebooks/ |
+| Local AI and Small Language Models (Manning free eBook, 97 trang) — chọn SLM, chuyên biệt hoá bằng LoRA/DoRA, GGUF + llama.cpp chạy CPU, xây ứng dụng với Ollama Python | 🆓📕 | https://www.manning.com/free-ebooks/ |
 | AI Infrastructure (Bojie Li) — ch.8 inference optimization (§8.1 vòng đời request và memory, §8.2 continuous batching, §8.3 KV cache, §8.4 compression và offloading, §8.5 speculative decoding), ch.9 distributed inference (§9.2 tách prefill–decode, §9.3–9.4 MoE và expert parallelism), ch.10 training systems, ch.11 scheduling | 🆓📕 | https://bojieli.github.io/ai-infra-book/en/ |
 | AI Performance Engineering (Chris Fregly) — repo code | 🆓🧪 | https://github.com/cfregly/ai-performance-engineering |
 | AI Engineering from Scratch — Phase 17 "Infrastructure and Production": 29 bài về vLLM internals, EAGLE-3, SGLang RadixAttention, TensorRT-LLM trên Blackwell, goodput, quantization cho production, disaggregated prefill/decode, LMCache, load testing, SRE và FinOps cho LLM. Code là simulator viết bằng thư viện chuẩn với hằng số minh hoạ, nên dùng để nắm khái niệm rồi đo trên phần cứng thật | 🆓📄🧪 | https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production |
